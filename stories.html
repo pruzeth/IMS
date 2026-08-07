@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stories — Insurance Made Simple by Engr. Suzeth A. Malit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  section.section{padding:78px 0;}
+  .page-hero{padding:52px 0 56px 0;}
+  .page-hero h1{font-size:38px;margin-bottom:14px;}
+  .page-hero p{color:var(--ink-soft);max-width:60ch;font-size:15.5px;}
+  .eyebrow-pill{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--tan-deep);background:var(--card);
+    border:1.5px solid var(--tan-deep);padding:7px 14px;border-radius:4px;
+    margin-bottom:22px;
+  }
+  .stories-nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+  .stories-nav a{
+    font-size:13px;font-weight:600;color:var(--ink-soft);
+    background:var(--card);border:1.5px solid var(--line);
+    padding:9px 16px;border-radius:100px;
+  }
+  .stories-nav a:hover{border-color:var(--tan-deep);color:var(--tan-deep);}
+
+  .win-story-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+  .win-story{
+    background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;box-shadow:0 10px 30px rgba(20,20,20,0.06);
+  }
+  .win-carousel-wrap{display:flex;align-items:center;gap:8px;padding:12px;}
+  .win-stage{
+    flex:1;aspect-ratio:4/3;background:var(--cream-2);border-radius:10px;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .win-stage img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in;transition:opacity .2s ease;}
+  .win-mini-arrow{
+    flex-shrink:0;width:32px;height:32px;border-radius:50%;
+    background:var(--white);border:1.5px solid var(--line);color:var(--ink);
+    font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .win-mini-arrow:hover{border-color:var(--tan-deep);color:var(--tan-deep);}
+  .win-mini-arrow:disabled{opacity:0.3;cursor:default;}
+  .win-dots{display:flex;gap:6px;justify-content:center;padding-bottom:12px;}
+  .win-dot{width:5px;height:5px;border-radius:50%;background:var(--line);}
+  .win-dot.active{background:var(--tan-deep);}
+  .win-body{padding:6px 20px 20px;}
+  .win-title{font-size:15.5px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+  .win-desc{font-size:13.5px;color:var(--slate);line-height:1.6;}
+  @media (max-width:760px){.win-story-grid{grid-template-columns:1fr;}}
+
+  .single-carousel-wrap{display:flex;align-items:center;gap:16px;justify-content:center;}
+  .single-carousel-wrap .gallery-stage{
+    flex:1;max-width:400px;height:420px;
+    background:var(--white);border-radius:16px;border:1.5px solid var(--line);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .single-carousel-wrap .gallery-stage img{max-width:100%;max-height:100%;object-fit:contain;transition:opacity .2s ease;}
+  @media (max-width:640px){.single-carousel-wrap .gallery-stage{height:340px;}}
+
+  .gallery-arrow{
+    flex-shrink:0;width:44px;height:44px;border-radius:50%;
+    background:var(--white);border:1.5px solid var(--line);color:var(--ink);
+    font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .gallery-arrow:hover{border-color:var(--tan-deep);color:var(--tan-deep);}
+  .gallery-dots{display:flex;gap:7px;justify-content:center;margin-top:18px;}
+  .gallery-dot{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:background .15s ease,transform .15s ease;}
+  .gallery-dot.active{background:var(--tan-deep);transform:scale(1.3);}
+
+  .video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .video-card{
+    display:block;text-decoration:none;
+    border:1.5px solid var(--line);border-radius:var(--radius);overflow:hidden;
+    background:var(--card);box-shadow:0 10px 30px rgba(20,20,20,0.06);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .video-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(20,20,20,0.1);}
+  .video-card .vc-frame{
+    aspect-ratio:4/5;background:#141414;position:relative;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .video-card .vc-frame img{width:100%;height:100%;object-fit:contain;display:block;}
+  .video-card .vc-frame-fb{background:linear-gradient(160deg,#1a1a1a,#000);}
+  .video-card .vc-frame img.vc-fb-bg{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0.55;filter:grayscale(0.3);
+  }
+  .video-card .vc-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.18);}
+  .video-card .vc-play span{width:54px;height:54px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;}
+  .video-card .vc-body{padding:14px 16px;}
+  .video-card .vc-title{font-size:13.5px;font-weight:600;color:var(--ink);}
+  .video-card .vc-desc{font-size:12px;color:var(--slate);}
+  .video-channel-card{
+    border:1.5px dashed var(--line);border-radius:var(--radius);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:30px 20px;aspect-ratio:4/5;background:var(--cream-2);
+  }
+  .video-channel-card .vcc-icon{font-size:30px;margin-bottom:10px;}
+  .video-channel-card .vcc-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+  .video-channel-card .vcc-sub{font-size:12px;color:var(--slate);}
+  @media (max-width:760px){.video-grid{grid-template-columns:1fr 1fr;}}
+
+  .cta-band{
+    background:linear-gradient(135deg, var(--ink), var(--maroon));
+    color:#fff;padding:56px 0;text-align:center;border-radius:12px;
+  }
+  .cta-band h2{color:#fff;font-size:28px;margin-bottom:12px;}
+  .cta-band p{color:#D9D9D9;margin-bottom:26px;}
+
+  .lightbox-overlay{
+    position:fixed;inset:0;z-index:9999;
+    background:rgba(255,255,255,0.97);
+    display:none;align-items:center;justify-content:center;
+    padding:32px;cursor:zoom-out;
+    opacity:0;transition:opacity .25s ease;
+  }
+  .lightbox-overlay.open{display:flex;opacity:1;}
+  .lightbox-overlay img{
+    max-width:min(88vw,720px);max-height:82vh;
+    width:auto;height:auto;
+    border-radius:12px;border:1.5px solid var(--line);box-shadow:0 30px 70px rgba(20,20,20,0.18);
+    transform:scale(0.92);transition:transform .25s cubic-bezier(.16,.84,.44,1);
+  }
+  .lightbox-overlay.open img{transform:scale(1);}
+  .lightbox-close{
+    position:absolute;top:20px;right:24px;
+    width:40px;height:40px;border-radius:50%;
+    background:var(--card);border:1.5px solid var(--line);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-transition-wrap" id="pageWrap">
+
+<div class="top-accent"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand-mark">
+      <span class="brand-avatar"><img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit"></span>
+      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em></span>
+    </a>
+    <button class="nav-toggle" id="siteNavToggle" aria-label="Menu">&#9776;</button>
+    <div class="nav-links" id="siteNavLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="assessment.html">Assessment</a>
+      <a href="stories.html" class="current">Stories</a>
+      <a href="booking.html" class="nav-cta">Book a Clarity Call</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero blob-bg">
+  <div class="wrap">
+    <div class="eyebrow-pill">Stories</div>
+    <h1>Real clients. <span class="grad-heading">Real proof.</span></h1>
+    <p>Wins, reviews, and videos from people Engr. Suzeth A. Malit has worked with — no stock photos, no scripts.</p>
+    <div class="stories-nav">
+      <a href="#wins">Client Wins</a>
+      <a href="#reviews">Reviews &amp; Feedback</a>
+      <a href="#videos">Video Stories</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ CLIENT WINS ============ -->
+<section class="section" id="wins" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Client wins</h2>
+      <p>What happened when it actually mattered.</p>
+    </div>
+    <div class="win-story-grid" id="winStoryGrid"></div>
+  </div>
+</section>
+
+<section class="section" id="withdrawals" style="background:var(--cream-2);">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Successful withdrawals</h2>
+      <p>Cash when clients needed it — policies stayed protected.</p>
+    </div>
+    <div class="single-carousel-wrap">
+      <button class="gallery-arrow gallery-prev" id="withdrawPrev" aria-label="Previous">‹</button>
+      <div class="gallery-stage" id="withdrawStage"><img id="withdrawImg" src="images/withdrawal-1.jpg" alt="Partial withdrawal proof"></div>
+      <button class="gallery-arrow gallery-next" id="withdrawNext" aria-label="Next">›</button>
+    </div>
+    <div class="gallery-dots" id="withdrawDots"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Client meetups</h2>
+      <p>Consultations and check-ins, wherever clients are.</p>
+    </div>
+    <div class="single-carousel-wrap">
+      <button class="gallery-arrow gallery-prev" id="meetupPrev" aria-label="Previous">‹</button>
+      <div class="gallery-stage" id="meetupStage"><img id="meetupImg" src="images/client-meetups-1.jpg" alt="Client meetup photos"></div>
+      <button class="gallery-arrow gallery-next" id="meetupNext" aria-label="Next">›</button>
+    </div>
+    <div class="gallery-dots" id="meetupDots"></div>
+  </div>
+</section>
+
+<!-- ============ VIDEO STORIES ============ -->
+<section class="section" id="videos">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Video stories</h2>
+      <p>Clients, in their own words.</p>
+    </div>
+    <div class="video-grid">
+      <a href="https://www.youtube.com/watch?v=NbH19_7Bv4Q" target="_blank" class="video-card">
+        <div class="vc-frame">
+          <img src="https://img.youtube.com/vi/NbH19_7Bv4Q/hqdefault.jpg" alt="Client video story thumbnail">
+          <div class="vc-play"><span>▶</span></div>
+        </div>
+        <div class="vc-body">
+          <div class="vc-title">Bakit mo naisipang kumuha ng insurance at age 23?</div>
+          <div class="vc-desc">Watch on YouTube</div>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=7KtoPoY2-qw" target="_blank" class="video-card">
+        <div class="vc-frame">
+          <img src="https://img.youtube.com/vi/7KtoPoY2-qw/hqdefault.jpg" alt="Client video story thumbnail">
+          <div class="vc-play"><span>▶</span></div>
+        </div>
+        <div class="vc-body">
+          <div class="vc-title">Akala ko expenses siya, Asset pala talaga</div>
+          <div class="vc-desc">Watch on YouTube</div>
+        </div>
+      </a>
+      <a href="https://www.facebook.com/share/r/18uGkeMY31/" target="_blank" class="video-card">
+        <div class="vc-frame vc-frame-fb">
+          <img src="images/headshot.jpg" alt="Client video story" class="vc-fb-bg">
+          <div class="vc-play"><span>▶</span></div>
+        </div>
+        <div class="vc-body">
+          <div class="vc-title">Financial Literacy should be taught to students</div>
+          <div class="vc-desc">Watch on Facebook</div>
+        </div>
+      </a>
+      <a href="https://www.facebook.com/share/v/1C75rZfiSo/" target="_blank" class="video-card">
+        <div class="vc-frame vc-frame-fb">
+          <img src="images/headshot.jpg" alt="Client video story" class="vc-fb-bg">
+          <div class="vc-play"><span>▶</span></div>
+        </div>
+        <div class="vc-body">
+          <div class="vc-title">Regrets of not starting early</div>
+          <div class="vc-desc">Watch on Facebook</div>
+        </div>
+      </a>
+      <a href="https://www.facebook.com/share/r/1Ei7NsNACE/" target="_blank" class="video-card">
+        <div class="vc-frame vc-frame-fb">
+          <img src="images/headshot.jpg" alt="Client video story" class="vc-fb-bg">
+          <div class="vc-play"><span>▶</span></div>
+        </div>
+        <div class="vc-body">
+          <div class="vc-title">Ginhawa | Story of a Beneficiary</div>
+          <div class="vc-desc">Watch on Facebook</div>
+        </div>
+      </a>
+      <!-- Update this link to your actual YouTube channel URL -->
+      <a href="https://www.youtube.com/@FinancewithSuzeth" target="_blank" class="video-channel-card">
+        <div class="vcc-icon">▶️</div>
+        <div class="vcc-title">Watch more on YouTube</div>
+        <div class="vcc-sub">More client stories &amp; explainers</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--cream-2);">
+  <div class="wrap">
+    <div class="cta-band">
+      <div class="wrap" style="padding:0 24px;">
+        <h2>Want to be next?</h2>
+        <p>Start with the free assessment, or book a call directly.</p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+          <a href="assessment.html" class="btn btn-gold">Take the Free Assessment →</a>
+          <a href="booking.html" class="btn btn-outline">Book a Free Clarity Call</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="title-block">
+  <div class="wrap">
+    <div class="footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">Engr. Suzeth A. Malit</div>
+        <div class="footer-role">Insurance Made Simple &middot; Top Global Summit LIA, Pru Life UK</div>
+        <p class="footer-blurb">Clear, honest financial planning for breadwinners, seamen, OFWs, engineers, virtual assistants, families, and business owners.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Explore</div>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Suzeth</a>
+        <a href="assessment.html">Free Assessment</a>
+        <a href="stories.html">Stories</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Contact &amp; Office</div>
+        <div class="footer-contact-line"><a href="mailto:plukferrysuzethmalit@gmail.com" style="margin:0;display:inline;color:#D9D9D9;">plukferrysuzethmalit@gmail.com</a></div>
+        <div class="footer-contact-line">Top Global Summit LIA, Icon Plaza, BGC, Philippines</div>
+        <div class="footer-contact-line"><a href="https://www.facebook.com/pruengrsuzeth/" target="_blank" style="margin:0;display:inline;color:#D9D9D9;">Facebook (Page)</a></div>
+        <div class="footer-contact-line"><a href="https://www.facebook.com/suzethmalit/" target="_blank" style="margin:0;display:inline;color:#D9D9D9;">Facebook (Personal)</a></div>
+      </div>
+    </div>
+    <div class="site-footer-bottom">
+      <span>© <span id="year"></span> Insurance Made Simple by Engr. Suzeth A. Malit</span>
+      <span>Shared with client permission. Figures shown are illustrative of past cases only.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('siteNavToggle').addEventListener('click', ()=>{
+  document.getElementById('siteNavLinks').classList.toggle('open');
+});
+
+(function initLightbox(){
+  const overlay = document.getElementById('lightboxOverlay');
+  const lbImg = document.getElementById('lightboxImg');
+  document.addEventListener('click', (e)=>{
+    const img = e.target.closest('.win-stage img, .single-carousel-wrap img');
+    if (!img) return;
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    overlay.classList.add('open');
+  });
+  function closeLightbox(){ overlay.classList.remove('open'); }
+  overlay.addEventListener('click', closeLightbox);
+  document.getElementById('lightboxClose').addEventListener('click', (e)=>{ e.stopPropagation(); closeLightbox(); });
+  document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeLightbox(); });
+})();
+
+(function initWinStories(){
+  const WIN_STORIES = [
+    {
+      images: ['win-anniversary-dhi.jpg','claim-hospital-allowance-1.jpg'],
+      title: 'A year in, and the coverage held up',
+      desc: 'From her first Pru anniversary to a real Daily Hospital Income claim for a dengue confinement — proof the coverage works exactly as promised.'
+    },
+    {
+      images: ['win-docs-submitted.jpg','claim-hospital-allowance-2.jpg'],
+      title: 'Documents in, funds out — in 7 days',
+      desc: "Submitted November 2nd, approved and credited to the client's account within a week."
+    },
+    {
+      images: ['claim-critical-illness-1.jpg','win-ci-diagnosis-chat.jpg','claim-critical-illness-2.jpg','win-ci-thankyou-chat.jpg','claim-life-insurance.jpg'],
+      title: 'Diagnosed, claimed, and paid — twice',
+      desc: 'A critical illness claim approved in just 2 days, and a death benefit claim delivered to the family who needed it most.'
+    },
+    {
+      images: ['win-adopted-6lives.jpg'],
+      title: 'Adopted 6 lives in one day',
+      desc: 'Six policies transferred under her care in a single day — six more families protected.'
+    },
+    {
+      images: ['oldest-policyholder.jpg'],
+      title: 'Insured since 2007, still protected today',
+      desc: "This client's policy has been active for over 18 years — a reminder that the plans put in place today can last a lifetime."
+    }
+  ];
+
+  const grid = document.getElementById('winStoryGrid');
+  if (!grid) return;
+
+  WIN_STORIES.forEach((story, idx)=>{
+    const multi = story.images.length > 1;
+    const el = document.createElement('div');
+    el.className = 'win-story';
+    el.innerHTML = `
+      <div class="win-carousel-wrap">
+        ${multi ? `<button class="win-mini-arrow win-prev" aria-label="Previous">‹</button>` : ''}
+        <div class="win-stage"><img src="images/${story.images[0]}" alt="${story.title}"></div>
+        ${multi ? `<button class="win-mini-arrow win-next" aria-label="Next">›</button>` : ''}
+      </div>
+      ${multi ? `<div class="win-dots"></div>` : ''}
+      <div class="win-body">
+        <div class="win-title">${story.title}</div>
+        <div class="win-desc">${story.desc}</div>
+      </div>
+    `;
+    grid.appendChild(el);
+
+    if (multi){
+      let current = 0;
+      const img = el.querySelector('.win-stage img');
+      const dotsWrap = el.querySelector('.win-dots');
+      story.images.forEach((_, i)=>{
+        const dot = document.createElement('div');
+        dot.className = 'win-dot' + (i===0 ? ' active' : '');
+        dotsWrap.appendChild(dot);
+      });
+      function show(i){
+        current = (i + story.images.length) % story.images.length;
+        img.style.opacity = '0';
+        setTimeout(()=>{
+          img.src = `images/${story.images[current]}`;
+          img.style.opacity = '1';
+        }, 120);
+        dotsWrap.querySelectorAll('.win-dot').forEach((d,di)=> d.classList.toggle('active', di===current));
+      }
+      el.querySelector('.win-next').addEventListener('click', ()=> show(current+1));
+      el.querySelector('.win-prev').addEventListener('click', ()=> show(current-1));
+    }
+  });
+})();
+
+function initSingleCarousel(prefix, images){
+  let current = 0;
+  const img = document.getElementById(prefix + 'Img');
+  const dotsWrap = document.getElementById(prefix + 'Dots');
+  if (!img || !dotsWrap) return;
+  images.forEach((_, i)=>{
+    const dot = document.createElement('div');
+    dot.className = 'gallery-dot' + (i===0 ? ' active' : '');
+    dot.addEventListener('click', ()=> show(i));
+    dotsWrap.appendChild(dot);
+  });
+  function show(i){
+    current = (i + images.length) % images.length;
+    img.style.opacity = '0';
+    setTimeout(()=>{
+      img.src = `images/${images[current]}`;
+      img.style.opacity = '1';
+    }, 150);
+    dotsWrap.querySelectorAll('.gallery-dot').forEach((d,di)=> d.classList.toggle('active', di===current));
+  }
+  document.getElementById(prefix + 'Next').addEventListener('click', ()=> show(current+1));
+  document.getElementById(prefix + 'Prev').addEventListener('click', ()=> show(current-1));
+}
+initSingleCarousel('withdraw', ['withdrawal-1.jpg','withdrawal-2.jpg','withdrawal-3.jpg']);
+initSingleCarousel('meetup', ['client-meetups-1.jpg','client-meetups-2.jpg','client-meetups-3.jpg','client-meetups-4.jpg']);
+
+(function pageTransitions(){
+  const wrap = document.getElementById('pageWrap');
+  if (!wrap) return;
+  requestAnimationFrame(()=>{ wrap.classList.add('page-in'); });
+
+  document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(link=>{
+    link.addEventListener('click', function(e){
+      if (e.defaultPrevented) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (link.target === '_blank') return;
+      const href = link.getAttribute('href');
+      if (!href || href.indexOf('http') === 0) return;
+      e.preventDefault();
+      wrap.classList.remove('page-in');
+      wrap.classList.add('page-out');
+      setTimeout(()=>{ window.location.href = href; }, 220);
+    });
+  });
+})();
+
+});
+</script>
+
+</div>
+
+<div class="lightbox-overlay" id="lightboxOverlay">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<!-- Floating live-chat button. Default links to the booking page;
+     replace href below with a Messenger/WhatsApp/Tawk.to link once you have one. -->
+<a href="assessment.html" class="assessment-float">Take Free Assessment →</a>
+
+<a href="booking.html" class="chat-float">
+  <span class="cf-avatar"><img src="images/headshot.jpg" alt="Suzeth"><span class="cf-dot"></span></span>
+  Talk to Suzeth Live
+</a>
+
+</body>
+</html>

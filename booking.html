@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Clarity Call — Insurance Made Simple by Engr. Suzeth A. Malit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  section.section{padding:78px 0;}
+  .page-hero{padding:52px 0 60px 0;}
+  .page-hero h1{font-size:38px;margin-bottom:14px;}
+  .page-hero p{color:var(--ink-soft);max-width:56ch;font-size:15.5px;}
+  .eyebrow-pill{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--tan-deep);
+    background:var(--card);
+    border:1.5px solid var(--tan-deep);
+    padding:7px 14px;border-radius:4px;
+    margin-bottom:22px;
+  }
+
+  .booking-layout{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:40px;
+    padding-bottom:80px;
+    align-items:flex-start;
+  }
+
+  .calendly-card{
+    border:1.5px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--card);
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(20,20,20,0.06);
+  }
+  .calendly-card .cc-head{
+    padding:20px 24px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .calendly-card .cc-head h3{font-size:17px;}
+  .calendly-frame-wrap{min-height:640px;position:relative;}
+  .calendly-frame-wrap iframe{width:100%;height:640px;border:none;display:block;}
+  .calendly-placeholder{
+    padding:60px 30px;
+    text-align:center;
+    color:var(--slate);
+    font-size:14px;
+    line-height:1.7;
+  }
+  .calendly-placeholder .cp-icon{font-size:34px;margin-bottom:14px;}
+
+  .side-card{
+    border:1.5px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--card);
+    padding:24px;
+    margin-bottom:20px;
+    box-shadow:0 10px 30px rgba(20,20,20,0.06);
+  }
+  .side-card h3{font-size:16px;margin-bottom:12px;}
+  .side-card ul{margin:0;padding-left:18px;}
+  .side-card li{font-size:14px;color:var(--charcoal);margin-bottom:8px;line-height:1.5;}
+
+  .form-card{
+    border:1.5px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--card);
+    padding:26px;
+    box-shadow:0 10px 30px rgba(20,20,20,0.06);
+  }
+  .form-card h3{font-size:16px;margin-bottom:4px;}
+  .form-card .fc-hint{font-size:13px;color:var(--slate);margin-bottom:20px;}
+  .field-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:14px;}
+  .field-col{flex:1;min-width:180px;}
+  .field-col label{font-size:12.5px;font-weight:600;color:var(--ink);display:block;margin-bottom:6px;}
+  input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="time"], textarea{
+    width:100%;
+    border:1.5px solid var(--line);
+    background:#fff;
+    border-radius:6px;
+    padding:11px 13px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+    color:var(--charcoal);
+  }
+  input:focus, textarea:focus{outline:none;border-color:var(--tan-deep);box-shadow:0 0 0 3px rgba(184,17,44,0.1);}
+  textarea{resize:vertical;min-height:80px;}
+  .send-status{font-size:12.5px;margin-top:12px;}
+  .send-status.ok{color:var(--tan-deep);font-weight:600;}
+  .send-status.err{color:var(--danger);}
+  .send-status.pending{color:var(--slate);}
+
+  .divider-row{display:flex;align-items:center;gap:14px;margin:26px 0;color:var(--slate);font-size:12.5px;text-transform:uppercase;letter-spacing:0.08em;}
+  .divider-row .rule{flex:1;height:1px;background:var(--line);}
+
+  @media (max-width:900px){
+    .booking-layout{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="page-transition-wrap" id="pageWrap">
+
+<div class="top-accent"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand-mark">
+      <span class="brand-avatar"><img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit"></span>
+      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em></span>
+    </a>
+    <button class="nav-toggle" id="siteNavToggle" aria-label="Menu">&#9776;</button>
+    <div class="nav-links" id="siteNavLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="assessment.html">Assessment</a>
+      <a href="stories.html">Stories</a>
+      <a href="booking.html" class="nav-cta current">Book a Clarity Call</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero blob-bg">
+  <div class="wrap">
+    <div class="eyebrow-pill">Free Clarity Call · 30 Minutes · No Obligation</div>
+    <h1>Book your <span class="grad-heading">Clarity Call.</span></h1>
+    <p>Whether you've just finished your assessment, built a draft proposal, or just have questions — book a free 30-minute Zoom session with Engr. Suzeth A. Malit. Pick a slot below, or send a request and we'll confirm a time by email.</p>
+  </div>
+</header>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+
+    <div class="calendly-card" style="margin-bottom:24px;">
+      <div class="cc-head">
+        <h3>Pick a time that works for you</h3>
+      </div>
+      <div class="calendly-frame-wrap" id="calendlyWrap">
+        <div class="calendly-placeholder">
+          <div class="cp-icon">📅</div>
+          <div><strong>Booking calendar not yet connected.</strong></div>
+          <div style="margin-top:8px;">Once a Calendly link is added to this page's configuration, your live availability will appear right here.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-card" style="max-width:640px;">
+      <h3>What to expect</h3>
+      <ul>
+        <li>A walkthrough of your assessment or proposal results, in plain language.</li>
+        <li>Straight answers on coverage gaps, premiums, and what fits your budget.</li>
+        <li>No pressure to decide on the call — this is about clarity first.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<footer class="title-block">
+  <div class="wrap">
+    <div class="footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">Engr. Suzeth A. Malit</div>
+        <div class="footer-role">Insurance Made Simple &middot; Pru Life UK</div>
+        <p class="footer-blurb">Providing clear, honest, jargon-free financial planning for breadwinners, seamen, OFWs, engineers, virtual assistants, families, and business owners &mdash; no pressure, no 40-page proposals.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Quick Links</div>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Suzeth</a>
+        <a href="assessment.html">Free Assessment</a>
+        <a href="stories.html">Stories</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Contact &amp; Office</div>
+        <div class="footer-contact-line"><a href="mailto:plukferrysuzethmalit@gmail.com" style="margin:0;display:inline;color:#D9D9D9;">plukferrysuzethmalit@gmail.com</a></div>
+        <div class="footer-contact-line">Top Global Summit LIA, Icon Plaza, BGC, Philippines</div>
+        <div class="footer-contact-line"><a href="https://www.facebook.com/pruengrsuzeth/" target="_blank" style="margin:0;display:inline;color:#D9D9D9;">Facebook (Page)</a></div>
+        <div class="footer-contact-line"><a href="https://www.facebook.com/suzethmalit/" target="_blank" style="margin:0;display:inline;color:#D9D9D9;">Facebook (Personal)</a></div>
+      </div>
+    </div>
+    <div class="tb-grid">
+      <div class="tb-cell"><div class="tb-k">Adviser</div><div class="tb-v">Engr. Suzeth A. Malit</div></div>
+      <div class="tb-cell"><div class="tb-k">Partner Firm</div><div class="tb-v">Top Global Summit LIA, Pru Life UK</div></div>
+      <div class="tb-cell"><div class="tb-k">License</div><div class="tb-v">Insurance Commission</div></div>
+      <div class="tb-cell"><div class="tb-k">Clients Served</div><div class="tb-v">150+ Nationwide</div></div>
+    </div>
+    <div class="site-footer-bottom">
+      <span>© <span id="year"></span> Insurance Made Simple by Engr. Suzeth A. Malit</span>
+      <span>Sessions are informational and do not constitute a final insurance recommendation.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+/* ============================================================
+   CONFIG — your Calendly link
+   ============================================================ */
+const CONFIG = {
+  bookingUrl:         'https://calendly.com/yourpruengineersuzethmalit/free-clarity-call',
+  adviserName:        'Engr. Suzeth A. Malit'
+};
+
+/* If a real Calendly link has been set, embed it as an inline iframe */
+(function renderCalendly(){
+  if (CONFIG.bookingUrl && CONFIG.bookingUrl.indexOf('your-link') === -1){
+    const wrap = document.getElementById('calendlyWrap');
+    const iframe = document.createElement('iframe');
+    iframe.src = CONFIG.bookingUrl;
+    wrap.innerHTML = '';
+    wrap.appendChild(iframe);
+  }
+})();
+
+/* ============================================================
+   SEND booking request — mirrors the assessment/proposal pattern
+   ============================================================ */
+
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('siteNavToggle').addEventListener('click', ()=>{
+  document.getElementById('siteNavLinks').classList.toggle('open');
+});
+
+(function pageTransitions(){
+  const wrap = document.getElementById('pageWrap');
+  if (!wrap) return;
+  requestAnimationFrame(()=>{ wrap.classList.add('page-in'); });
+
+  document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(link=>{
+    link.addEventListener('click', function(e){
+      if (e.defaultPrevented) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (link.target === '_blank') return;
+      const href = link.getAttribute('href');
+      if (!href || href.indexOf('http') === 0) return;
+      e.preventDefault();
+      wrap.classList.remove('page-in');
+      wrap.classList.add('page-out');
+      setTimeout(()=>{ window.location.href = href; }, 220);
+    });
+  });
+})();
+
+});
+</script>
+
+</div>
+
+<!-- Floating live-chat button. Default links to the booking page;
+     replace href below with a Messenger/WhatsApp/Tawk.to link once you have one. -->
+<a href="assessment.html" class="assessment-float">Take Free Assessment →</a>
+
+<a href="booking.html" class="chat-float">
+  <span class="cf-avatar"><img src="images/headshot.jpg" alt="Suzeth"><span class="cf-dot"></span></span>
+  Talk to Suzeth Live
+</a>
+
+</body>
+</html>

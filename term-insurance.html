@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pru Life Your Term — Sample Quotation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+:root{
+  --bg:#ffffff;
+  --panel:#ffffff;
+  --panel-dim:#faf7f7;
+  --black:#141414;
+  --text:#1b1b1b;
+  --muted:#6b6b6b;
+  --rule:#e4e0e0;
+  --red:#b8112c;
+  --red-dark:#7d0c1f;
+  --red-tint:#fbe9ec;
+  --radius:2px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Public Sans', sans-serif;
+  min-height:100vh;
+  padding:0 0 80px;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
+a{color:var(--red);}
+
+/* ---------- Masthead ---------- */
+.masthead{
+  text-align:center;
+  padding:44px 0 0;
+}
+.masthead .eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  font-size:11.5px;
+  color:var(--red);
+  margin-bottom:14px;
+}
+.masthead h1{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:clamp(30px, 4.6vw, 48px);
+  margin:0 0 10px;
+  letter-spacing:-.01em;
+  color:var(--black);
+}
+.masthead p{
+  font-family:'Public Sans', sans-serif;
+  color:var(--muted);
+  font-size:15px;
+  max-width:560px;
+  margin:0 auto;
+  line-height:1.55;
+}
+
+/* ---------- Disclaimer banner ---------- */
+.disclaimer{
+  max-width:1180px;margin:28px auto 0;padding:0 20px;
+}
+.disclaimer .box{
+  border:1px solid var(--red);
+  background:var(--red-tint);
+  color:var(--red-dark);
+  font-size:12.5px;
+  line-height:1.55;
+  padding:12px 16px;
+  border-radius:var(--radius);
+}
+.disclaimer .box strong{color:var(--red-dark);}
+
+/* ---------- Layout ---------- */
+.desk{
+  max-width:1180px;margin:36px auto 0;padding:0 20px;
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:28px;
+  align-items:start;
+}
+@media (max-width:920px){
+  .desk{grid-template-columns:1fr;}
+}
+
+/* ---------- Panel (worksheet, left) ---------- */
+.panel{
+  background:var(--panel);
+  border:1px solid var(--rule);
+  border-radius:var(--radius);
+  padding:28px 26px 30px;
+}
+.panel-title{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--red);
+  border-bottom:1px solid var(--rule);
+  padding-bottom:12px;
+  margin-bottom:20px;
+}
+
+.field{margin-bottom:22px;}
+.field label{
+  display:block;
+  font-size:11.5px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:8px;
+  font-weight:600;
+}
+.field .hint{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:6px;
+  line-height:1.4;
+}
+.field .hint.warn{color:var(--red-dark);font-weight:600;}
+
+.plan-note{
+  font-size:11.5px;color:var(--muted);line-height:1.5;margin:-8px 0 18px;
+  padding:8px 10px;background:var(--panel-dim);border-left:2px solid var(--red);
+}
+
+.plan-grid{display:flex;flex-direction:column;gap:8px;}
+.plan-option{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  border:1px solid var(--rule);
+  background:#fff;
+  padding:12px 14px;
+  cursor:pointer;
+  transition:border-color .15s ease, background .15s ease;
+}
+.plan-option:hover{border-color:var(--red);}
+.plan-option.active{
+  border-color:var(--red);
+  background:var(--red-tint);
+}
+.plan-option .name{font-weight:600;font-size:14.5px;color:var(--black);}
+.plan-option .desc{font-size:11.5px;color:var(--muted);}
+.plan-option .tick{
+  width:16px;height:16px;border-radius:50%;
+  border:1.5px solid var(--rule);
+  flex:none;
+  position:relative;
+}
+.plan-option.active .tick{border-color:var(--red);}
+.plan-option.active .tick::after{
+  content:'';
+  position:absolute;inset:3px;
+  background:var(--red);
+  border-radius:50%;
+}
+
+input[type=number]{
+  width:100%;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:20px;
+  padding:10px 12px;
+  border:1px solid var(--rule);
+  background:#fff;
+  color:var(--text);
+  border-radius:var(--radius);
+}
+input[type=number]:focus{outline:2px solid var(--red);outline-offset:1px;}
+
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.mode-option{
+  border:1px solid var(--rule);
+  background:#fff;
+  padding:9px 10px;
+  text-align:center;
+  font-size:12.5px;
+  font-weight:600;
+  letter-spacing:.03em;
+  cursor:pointer;
+  color:var(--black);
+}
+.mode-option.active{border-color:var(--red);background:var(--red-tint);color:var(--red-dark);}
+
+.tier-grid{display:flex;flex-direction:column;gap:8px;}
+.tier-option{
+  border:1px solid var(--rule);
+  background:#fff;
+  padding:11px 13px;
+  cursor:pointer;
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.tier-option.active{border-color:var(--red);background:var(--red-tint);}
+.tier-option .label{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.tier-option .val{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;color:var(--black);}
+
+.name-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+input[type=text], input[type=email]{
+  width:100%;
+  font-family:'Public Sans', sans-serif;
+  font-size:14px;
+  padding:9px 11px;
+  border:1px solid var(--rule);
+  background:#fff;
+  color:var(--text);
+  border-radius:var(--radius);
+}
+
+/* ---------- Certificate (right) ---------- */
+.certificate{
+  background:var(--panel);
+  border:1px solid var(--rule);
+  position:relative;
+  padding:0;
+  overflow:hidden;
+}
+.cert-edge{
+  height:14px;
+  background-image:radial-gradient(circle, var(--black) 3px, transparent 3.2px);
+  background-size:20px 20px;
+  background-position:-4px -7px;
+  background-color:transparent;
+}
+.cert-body{padding:8px 40px 36px;position:relative;}
+.cert-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  border-bottom:2px solid var(--black);
+  padding:18px 0 16px;
+  margin-bottom:22px;
+  gap:16px;
+}
+.cert-head h2{
+  font-family:'Fraunces',serif;
+  font-size:24px;
+  font-weight:600;
+  margin:0 0 4px;
+  color:var(--black);
+}
+.cert-head .sub{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:.05em;
+}
+.cert-no{
+  text-align:right;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  white-space:nowrap;
+}
+.cert-no .num{color:var(--black);font-weight:600;font-size:13px;}
+
+.stamp{
+  position:absolute;
+  top:26px; right:38px;
+  border:2px solid var(--red);
+  color:var(--red);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:6px 12px;
+  transform:rotate(6deg);
+  border-radius:3px;
+  background:var(--red-tint);
+}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:26px;}
+.datum .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px;}
+.datum .v{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--black);}
+
+.hero-figures{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--rule);
+  border:1px solid var(--rule);
+  margin-bottom:14px;
+}
+.hero-figures .box{background:#fff;padding:20px 22px;}
+.hero-figures .box.accent{background:var(--black);}
+.hero-figures .k{
+  font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px;
+}
+.hero-figures .box.accent .k{color:#d8d8d8;}
+.hero-figures .amt{
+  font-family:'Fraunces',serif;
+  font-size:clamp(24px,3vw,32px);
+  font-weight:600;
+  color:var(--red);
+}
+.hero-figures .box.accent .amt{color:#ff5c73;}
+.hero-figures .modelabel{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  margin-top:6px;
+}
+.hero-figures .box.accent .modelabel{color:#b8b8b8;}
+
+.figures-note{
+  font-size:11px;color:var(--muted);margin:0 0 26px;line-height:1.5;
+}
+
+.modes-table{width:100%;border-collapse:collapse;margin-bottom:26px;}
+.modes-table th, .modes-table td{
+  text-align:left;padding:9px 10px;font-size:13px;border-bottom:1px solid var(--rule);
+}
+.modes-table th{
+  font-family:'IBM Plex Mono',monospace;
+  text-transform:uppercase;letter-spacing:.06em;font-size:10.5px;color:var(--muted);
+  font-weight:600;
+}
+.modes-table td.amt{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--black);}
+.modes-table tr.selected td{background:var(--red-tint);}
+.modes-table tr.selected td:first-child{border-left:3px solid var(--red);padding-left:8px;}
+
+.section-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);
+  margin:0 0 12px;
+  padding-bottom:8px;
+  border-bottom:1px solid var(--rule);
+}
+
+.riders{border:1px solid var(--rule);margin-bottom:10px;}
+.rider-row{
+  display:flex;justify-content:space-between;gap:14px;
+  padding:11px 14px;border-bottom:1px solid var(--rule);font-size:12.5px;
+}
+.rider-row:last-child{border-bottom:none;}
+.rider-row .info{max-width:75%;}
+.rider-row .code{color:var(--black);font-weight:600;letter-spacing:.02em;}
+.rider-row .def{color:var(--muted);font-size:11.5px;display:block;margin-top:1px;}
+.rider-row .amt{font-family:'IBM Plex Mono',monospace;font-weight:600;text-align:right;white-space:nowrap;color:var(--black);}
+
+.foot-note{font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:6px;}
+.foot-note.strong{color:var(--red-dark);font-weight:600;}
+
+.actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap;}
+button.primary, button.ghost{
+  font-family:'Public Sans',sans-serif;
+  font-weight:600;
+  font-size:13px;
+  padding:12px 20px;
+  border-radius:100px;
+  cursor:pointer;
+  letter-spacing:.02em;
+}
+button.primary{background:var(--black);color:#fff;border:1px solid var(--black);}
+button.primary:hover{background:var(--red);border-color:var(--red);}
+button.ghost{background:transparent;color:var(--black);border:1px solid var(--rule);}
+button.ghost:hover{border-color:var(--black);}
+
+.placeholder-msg{
+  padding:60px 20px;text-align:center;color:var(--muted);font-size:14px;
+}
+.advisor-msg{
+  padding:40px 32px;text-align:left;
+}
+.advisor-msg .tag{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--red);margin-bottom:10px;
+}
+.advisor-msg h3{
+  font-family:'Fraunces',serif;font-size:22px;margin:0 0 10px;color:var(--black);
+}
+.advisor-msg p{font-size:14px;color:var(--muted);line-height:1.6;max-width:480px;}
+.advisor-msg .contact-line{
+  margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--black);
+  display:flex;gap:18px;flex-wrap:wrap;
+}
+
+/* ---------- Send panel ---------- */
+.send-panel{
+  margin-top:22px;
+  background:var(--panel);
+  border:1px solid var(--rule);
+  border-radius:var(--radius);
+  padding:26px;
+}
+.send-panel .send-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+@media (max-width:600px){.send-panel .send-row{grid-template-columns:1fr;}}
+.send-panel .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5;}
+
+/* ---------- Footer disclaimer ---------- */
+.footer-note{
+  max-width:1180px;margin:34px auto 0;padding:0 20px;
+  font-size:11.5px;color:var(--muted);line-height:1.6;text-align:center;
+}
+
+@media print{
+  .site-nav{display:none !important;}
+  .chat-float{display:none !important;}
+  body{background:#fff;padding:0;}
+  .masthead, .disclaimer, .panel, .actions, .send-panel, .footer-note{display:none !important;}
+  .desk{display:block;margin:0;padding:0;max-width:none;}
+  .certificate{border:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-transition-wrap" id="pageWrap">
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand-mark">
+      <span class="brand-avatar"><img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit"></span>
+      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em></span>
+    </a>
+    <button class="nav-toggle" id="siteNavToggle" aria-label="Menu">&#9776;</button>
+    <div class="nav-links" id="siteNavLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="assessment.html">Assessment</a>
+      <a href="stories.html">Stories</a>
+      <a href="booking.html" class="nav-cta">Book a Clarity Call</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="eyebrow">Pru Life Your Term &nbsp;·&nbsp; Sample Quotation</div>
+    <h1>Draw up the numbers.</h1>
+    <p>Pick a plan and enter your age — get a ready-to-share sample quotation with premium, coverage, and benefits included.</p>
+  </div>
+</div>
+
+<div class="disclaimer">
+  <div class="box">
+    <strong>For reference and guide only.</strong> This worksheet generates a sample quotation. Actual premium and coverage amounts may change upon underwriting and issuance — please confirm the final figures in the official quotation from your advisor.
+  </div>
+</div>
+
+<div class="desk">
+    <!-- LEFT: Worksheet -->
+    <div class="panel">
+      <div class="panel-title">01 &nbsp;— &nbsp;Worksheet</div>
+
+      <div class="field">
+        <label>Plan</label>
+        <div class="plan-grid" id="planGrid"></div>
+      </div>
+      <div class="plan-note">This is a yearly renewable term. Premium shown reflects the rate at the entered age — it increases every year based on attained age.</div>
+
+      <div class="field">
+        <label for="ageInput">Age Next Birthday</label>
+        <input type="number" id="ageInput" min="0" max="79" placeholder="e.g. 30">
+        <div class="hint" id="ageHint">Choose a plan to see its eligible age range.</div>
+      </div>
+
+      <div class="field" id="tierField" style="display:none;">
+        <label>Coverage Tier</label>
+        <div class="tier-grid" id="tierGrid"></div>
+      </div>
+
+      <div class="field">
+        <label>Payment Mode</label>
+        <div class="mode-grid" id="modeGrid"></div>
+      </div>
+
+      <div class="field">
+        <label>Prepared For / By <span style="text-transform:none;font-weight:400;">(optional, appears on certificate)</span></label>
+        <div class="name-row">
+          <input type="text" id="clientName" placeholder="Client name">
+          <input type="text" id="agentName" placeholder="Agent name" value="Engr. Suzeth A. Malit">
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Certificate -->
+    <div>
+      <div class="certificate" id="certificate">
+        <div class="cert-edge"></div>
+        <div class="placeholder-msg" id="placeholderMsg">
+          Select a plan and enter an age to generate the sample quotation.
+        </div>
+        <div id="certBody" style="display:none;"></div>
+      </div>
+
+      <div class="send-panel" id="sendPanel" style="display:none;">
+        <div class="panel-title" style="margin-bottom:16px;">02 &nbsp;— &nbsp;Send This Quotation</div>
+        <div class="send-row">
+          <div>
+            <label style="display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:8px;">Your Email</label>
+            <input type="email" id="yourEmail" placeholder="you@email.com">
+          </div>
+          <div>
+            <label style="display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:8px;">Your Advisor's Email</label>
+            <input type="email" id="advisorEmail" value="plukferrysuzethmalit@gmail.com" readonly style="background:var(--paper-alt);color:var(--muted);cursor:not-allowed;">
+          </div>
+        </div>
+        <div class="actions" style="margin-top:0;">
+          <button class="primary" onclick="sendQuotation()">Send to Your Email &amp; Advisor</button>
+        </div>
+        <div class="hint">Opens your default email app with this quotation's details pre-filled — nothing is sent automatically from this page.</div>
+      </div>
+    </div>
+  </div>
+
+<div class="footer-note">
+  Amounts, coverage, and included benefits shown here are illustrative and may change in the actual quotation issued by Pru Life UK. This tool is a reference and guide only and does not constitute a policy contract.
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+/* ===== DATA (injected) ===== */
+
+const SA_ONLY = {"0": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "1": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "2": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "3": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "4": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "5": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "6": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "7": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "8": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "9": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "10": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "11": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "12": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "13": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "14": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "15": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "16": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "17": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "18": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2714286.0}, {"annual": 8800.0, "semi": 4620, "quarterly": 2508, "monthly": 858, "sa": 3000000.0}, {"annual": 11600.0, "semi": 6090, "quarterly": 3306, "monthly": 1131, "sa": 4000000.0}, {"annual": 14400.0, "semi": 7560, "quarterly": 4104, "monthly": 1404, "sa": 5000000.0}, {"annual": 17200.0, "semi": 9030, "quarterly": 4902, "monthly": 1677, "sa": 6000000.0}], "19": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2704626.0}, {"annual": 8830.0, "semi": 4635.75, "quarterly": 2516.55, "monthly": 860.925, "sa": 3000000.0}, {"annual": 11640.0, "semi": 6111, "quarterly": 3317.4, "monthly": 1134.9, "sa": 4000000.0}, {"annual": 14450.0, "semi": 7586.25, "quarterly": 4118.25, "monthly": 1408.875, "sa": 5000000.0}, {"annual": 17260.0, "semi": 9061.5, "quarterly": 4919.1, "monthly": 1682.85, "sa": 6000000.0}], "20": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2695035.0}, {"annual": 8860.0, "semi": 4651.5, "quarterly": 2525.1, "monthly": 863.85, "sa": 3000000.0}, {"annual": 11690.0, "semi": 6137.25, "quarterly": 3331.65, "monthly": 1139.775, "sa": 4000000.0}, {"annual": 14500.0, "semi": 7612.5, "quarterly": 4132.5, "monthly": 1413.75, "sa": 5000000.0}, {"annual": 17320.0, "semi": 9093, "quarterly": 4936.2, "monthly": 1688.7, "sa": 6000000.0}], "21": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2676056.0}, {"annual": 8920.0, "semi": 4683, "quarterly": 2542.2, "monthly": 869.7, "sa": 3000000.0}, {"annual": 11760.0, "semi": 6174, "quarterly": 3351.6, "monthly": 1146.6, "sa": 4000000.0}, {"annual": 14600.0, "semi": 7665, "quarterly": 4161, "monthly": 1423.5, "sa": 5000000.0}, {"annual": 17440.0, "semi": 9156, "quarterly": 4970.4, "monthly": 1700.4, "sa": 6000000.0}], "22": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2657343.0}, {"annual": 8980.0, "semi": 4714.5, "quarterly": 2559.3, "monthly": 875.55, "sa": 3000000.0}, {"annual": 11840.0, "semi": 6216, "quarterly": 3374.4, "monthly": 1154.4, "sa": 4000000.0}, {"annual": 14700.0, "semi": 7717.5, "quarterly": 4189.5, "monthly": 1433.25, "sa": 5000000.0}, {"annual": 17560.0, "semi": 9219, "quarterly": 5004.6, "monthly": 1712.1, "sa": 6000000.0}], "23": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2638889.0}, {"annual": 9040.0, "semi": 4746, "quarterly": 2576.4, "monthly": 881.4, "sa": 3000000.0}, {"annual": 11920.0, "semi": 6258, "quarterly": 3397.2, "monthly": 1162.2, "sa": 4000000.0}, {"annual": 14800.0, "semi": 7770, "quarterly": 4218, "monthly": 1443, "sa": 5000000.0}, {"annual": 17680.0, "semi": 9282, "quarterly": 5038.8, "monthly": 1723.8, "sa": 6000000.0}], "24": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2620690.0}, {"annual": 9100.0, "semi": 4777.5, "quarterly": 2593.5, "monthly": 887.25, "sa": 3000000.0}, {"annual": 12000.0, "semi": 6300, "quarterly": 3420, "monthly": 1170, "sa": 4000000.0}, {"annual": 14900.0, "semi": 7822.5, "quarterly": 4246.5, "monthly": 1452.75, "sa": 5000000.0}, {"annual": 17800.0, "semi": 9345, "quarterly": 5073, "monthly": 1735.5, "sa": 6000000.0}], "25": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2593857.0}, {"annual": 9190.0, "semi": 4824.75, "quarterly": 2619.15, "monthly": 896.025, "sa": 3000000.0}, {"annual": 12120.0, "semi": 6363, "quarterly": 3454.2, "monthly": 1181.7, "sa": 4000000.0}, {"annual": 15050.0, "semi": 7901.25, "quarterly": 4289.25, "monthly": 1467.375, "sa": 5000000.0}, {"annual": 17980.0, "semi": 9439.5, "quarterly": 5124.3, "monthly": 1753.05, "sa": 6000000.0}], "26": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2576271.0}, {"annual": 9250.0, "semi": 4856.25, "quarterly": 2636.25, "monthly": 901.875, "sa": 3000000.0}, {"annual": 12200.0, "semi": 6405, "quarterly": 3477, "monthly": 1189.5, "sa": 4000000.0}, {"annual": 15150.0, "semi": 7953.75, "quarterly": 4317.75, "monthly": 1477.125, "sa": 5000000.0}, {"annual": 18100.0, "semi": 9502.5, "quarterly": 5158.5, "monthly": 1764.75, "sa": 6000000.0}], "27": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2558923.0}, {"annual": 9310.0, "semi": 4887.75, "quarterly": 2653.35, "monthly": 907.725, "sa": 3000000.0}, {"annual": 12280.0, "semi": 6447, "quarterly": 3499.8, "monthly": 1197.3, "sa": 4000000.0}, {"annual": 15250.0, "semi": 8006.25, "quarterly": 4346.25, "monthly": 1486.875, "sa": 5000000.0}, {"annual": 18220.0, "semi": 9565.5, "quarterly": 5192.7, "monthly": 1776.45, "sa": 6000000.0}], "28": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2533333.0}, {"annual": 9400.0, "semi": 4935, "quarterly": 2679, "monthly": 916.5, "sa": 3000000.0}, {"annual": 12400.0, "semi": 6510, "quarterly": 3534, "monthly": 1209, "sa": 4000000.0}, {"annual": 15400.0, "semi": 8085, "quarterly": 4389, "monthly": 1501.5, "sa": 5000000.0}, {"annual": 18400.0, "semi": 9660, "quarterly": 5244, "monthly": 1794, "sa": 6000000.0}], "29": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2516556.0}, {"annual": 9460.0, "semi": 4966.5, "quarterly": 2696.1, "monthly": 922.35, "sa": 3000000.0}, {"annual": 12480.0, "semi": 6552, "quarterly": 3556.8, "monthly": 1216.8, "sa": 4000000.0}, {"annual": 15500.0, "semi": 8137.5, "quarterly": 4417.5, "monthly": 1511.25, "sa": 5000000.0}, {"annual": 18520.0, "semi": 9723, "quarterly": 5278.2, "monthly": 1805.7, "sa": 6000000.0}], "30": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2500000.0}, {"annual": 9520.0, "semi": 4998, "quarterly": 2713.2, "monthly": 928.2, "sa": 3000000.0}, {"annual": 12560.0, "semi": 6594, "quarterly": 3579.6, "monthly": 1224.6, "sa": 4000000.0}, {"annual": 15600.0, "semi": 8190, "quarterly": 4446, "monthly": 1521, "sa": 5000000.0}, {"annual": 18640.0, "semi": 9786, "quarterly": 5312.4, "monthly": 1817.4, "sa": 6000000.0}], "31": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2500000.0}, {"annual": 9520.0, "semi": 4998, "quarterly": 2713.2, "monthly": 928.2, "sa": 3000000.0}, {"annual": 12560.0, "semi": 6594, "quarterly": 3579.6, "monthly": 1224.6, "sa": 4000000.0}, {"annual": 15600.0, "semi": 8190, "quarterly": 4446, "monthly": 1521, "sa": 5000000.0}, {"annual": 18640.0, "semi": 9786, "quarterly": 5312.4, "monthly": 1817.4, "sa": 6000000.0}], "32": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2475570.0}, {"annual": 9610.0, "semi": 5045.25, "quarterly": 2738.85, "monthly": 936.975, "sa": 3000000.0}, {"annual": 12680.0, "semi": 6657, "quarterly": 3613.8, "monthly": 1236.3, "sa": 4000000.0}, {"annual": 15750.0, "semi": 8268.75, "quarterly": 4488.75, "monthly": 1535.625, "sa": 5000000.0}, {"annual": 18820.0, "semi": 9880.5, "quarterly": 5363.7, "monthly": 1834.95, "sa": 6000000.0}], "33": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2443730.0}, {"annual": 9730.0, "semi": 5108.25, "quarterly": 2773.05, "monthly": 948.675, "sa": 3000000.0}, {"annual": 12840.0, "semi": 6741, "quarterly": 3659.4, "monthly": 1251.9, "sa": 4000000.0}, {"annual": 15950.0, "semi": 8373.75, "quarterly": 4545.75, "monthly": 1555.125, "sa": 5000000.0}, {"annual": 19060.0, "semi": 10006.5, "quarterly": 5432.1, "monthly": 1858.35, "sa": 6000000.0}], "34": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2400000.0}, {"annual": 9910.0, "semi": 5202.75, "quarterly": 2824.35, "monthly": 966.225, "sa": 3000000.0}, {"annual": 13080.0, "semi": 6867, "quarterly": 3727.8, "monthly": 1275.3, "sa": 4000000.0}, {"annual": 16250.0, "semi": 8531.25, "quarterly": 4631.25, "monthly": 1584.375, "sa": 5000000.0}, {"annual": 19420.0, "semi": 10195.5, "quarterly": 5534.7, "monthly": 1893.45, "sa": 6000000.0}], "35": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2338462.0}, {"annual": 10150.0, "semi": 5328.75, "quarterly": 2892.75, "monthly": 989.625, "sa": 3000000.0}, {"annual": 13400.0, "semi": 7035, "quarterly": 3819, "monthly": 1306.5, "sa": 4000000.0}, {"annual": 16650.0, "semi": 8741.25, "quarterly": 4745.25, "monthly": 1623.375, "sa": 5000000.0}, {"annual": 19900.0, "semi": 10447.5, "quarterly": 5671.5, "monthly": 1940.25, "sa": 6000000.0}], "36": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2282282.0}, {"annual": 10390.0, "semi": 5454.75, "quarterly": 2961.15, "monthly": 1013.025, "sa": 3000000.0}, {"annual": 13720.0, "semi": 7203, "quarterly": 3910.2, "monthly": 1337.7, "sa": 4000000.0}, {"annual": 17050.0, "semi": 8951.25, "quarterly": 4859.25, "monthly": 1662.375, "sa": 5000000.0}, {"annual": 20380.0, "semi": 10699.5, "quarterly": 5808.3, "monthly": 1987.05, "sa": 6000000.0}], "37": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2209302.0}, {"annual": 10720.0, "semi": 5628, "quarterly": 3055.2, "monthly": 1045.2, "sa": 3000000.0}, {"annual": 14160.0, "semi": 7434, "quarterly": 4035.6, "monthly": 1380.6, "sa": 4000000.0}, {"annual": 17600.0, "semi": 9240, "quarterly": 5016, "monthly": 1716, "sa": 5000000.0}, {"annual": 21040.0, "semi": 11046, "quarterly": 5996.4, "monthly": 2051.4, "sa": 6000000.0}], "38": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2152975.0}, {"annual": 10990.0, "semi": 5769.75, "quarterly": 3132.15, "monthly": 1071.525, "sa": 3000000.0}, {"annual": 14520.0, "semi": 7623, "quarterly": 4138.2, "monthly": 1415.7, "sa": 4000000.0}, {"annual": 18050.0, "semi": 9476.25, "quarterly": 5144.25, "monthly": 1759.875, "sa": 5000000.0}, {"annual": 21580.0, "semi": 11329.5, "quarterly": 6150.3, "monthly": 2104.05, "sa": 6000000.0}], "39": [{"annual": 8000.0, "semi": 4200.0, "quarterly": 2280.0, "monthly": 780.0, "sa": 2087912.0}, {"annual": 11320.0, "semi": 5943, "quarterly": 3226.2, "monthly": 1103.7, "sa": 3000000.0}, {"annual": 14960.0, "semi": 7854, "quarterly": 4263.6, "monthly": 1458.6, "sa": 4000000.0}, {"annual": 18600.0, "semi": 9765, "quarterly": 5301, "monthly": 1813.5, "sa": 5000000.0}, {"annual": 22240.0, "semi": 11676, "quarterly": 6338.4, "monthly": 2168.4, "sa": 6000000.0}], "40": [{"annual": 15000.0, "semi": 7875, "quarterly": 4275, "monthly": 1462.5, "sa": 3852243.0}, {"annual": 15560.0, "semi": 8169, "quarterly": 4434.6, "monthly": 1517.1, "sa": 4000000.0}, {"annual": 19350.0, "semi": 10158.75, "quarterly": 5514.75, "monthly": 1886.625, "sa": 5000000.0}, {"annual": 23140.0, "semi": 12148.5, "quarterly": 6594.9, "monthly": 2256.15, "sa": 6000000.0}, {"annual": 26930.0, "semi": 14138.25, "quarterly": 7675.05, "monthly": 2625.675, "sa": 7000000.0}], "41": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 3696203.0}, {"annual": 16200.0, "semi": 8505, "quarterly": 4617, "monthly": 1579.5, "sa": 4000000.0}, {"annual": 20150.0, "semi": 10578.75, "quarterly": 5742.75, "monthly": 1964.625, "sa": 5000000.0}, {"annual": 24100.0, "semi": 12652.5, "quarterly": 6868.5, "monthly": 2349.75, "sa": 6000000.0}, {"annual": 28050.0, "semi": 14726.25, "quarterly": 7994.25, "monthly": 2734.875, "sa": 7000000.0}], "42": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 3518072.0}, {"annual": 17000.0, "semi": 8925, "quarterly": 4845, "monthly": 1657.5, "sa": 4000000.0}, {"annual": 21150.0, "semi": 11103.75, "quarterly": 6027.75, "monthly": 2062.125, "sa": 5000000.0}, {"annual": 25300.0, "semi": 13282.5, "quarterly": 7210.5, "monthly": 2466.75, "sa": 6000000.0}, {"annual": 29450.0, "semi": 15461.25, "quarterly": 8393.25, "monthly": 2871.375, "sa": 7000000.0}], "43": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 3333333.0}, {"annual": 17920.0, "semi": 9408, "quarterly": 5107.2, "monthly": 1747.2, "sa": 4000000.0}, {"annual": 22300.0, "semi": 11707.5, "quarterly": 6355.5, "monthly": 2174.25, "sa": 5000000.0}, {"annual": 26680.0, "semi": 14007, "quarterly": 7603.8, "monthly": 2601.3, "sa": 6000000.0}, {"annual": 31060.0, "semi": 16306.5, "quarterly": 8852.1, "monthly": 3028.35, "sa": 7000000.0}], "44": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 3139785.0}, {"annual": 19000.0, "semi": 9975, "quarterly": 5415, "monthly": 1852.5, "sa": 4000000.0}, {"annual": 23650.0, "semi": 12416.25, "quarterly": 6740.25, "monthly": 2305.875, "sa": 5000000.0}, {"annual": 28300.0, "semi": 14857.5, "quarterly": 8065.5, "monthly": 2759.25, "sa": 6000000.0}, {"annual": 32950.0, "semi": 17298.75, "quarterly": 9390.75, "monthly": 3212.625, "sa": 7000000.0}], "45": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 2961460.0}, {"annual": 15190.0, "semi": 7974.75, "quarterly": 4329.15, "monthly": 1481.025, "sa": 3000000.0}, {"annual": 20120.0, "semi": 10563, "quarterly": 5734.2, "monthly": 1961.7, "sa": 4000000.0}, {"annual": 25050.0, "semi": 13151.25, "quarterly": 7139.25, "monthly": 2442.375, "sa": 5000000.0}, {"annual": 29980.0, "semi": 15739.5, "quarterly": 8544.3, "monthly": 2923.05, "sa": 6000000.0}], "46": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 2770398.0}, {"annual": 16210.0, "semi": 8510.25, "quarterly": 4619.85, "monthly": 1580.475, "sa": 3000000.0}, {"annual": 21480.0, "semi": 11277, "quarterly": 6121.8, "monthly": 2094.3, "sa": 4000000.0}, {"annual": 26750.0, "semi": 14043.75, "quarterly": 7623.75, "monthly": 2608.125, "sa": 5000000.0}, {"annual": 32020.0, "semi": 16810.5, "quarterly": 9125.7, "monthly": 3121.95, "sa": 6000000.0}], "47": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 2584071.0}, {"annual": 17350.0, "semi": 9108.75, "quarterly": 4944.75, "monthly": 1691.625, "sa": 3000000.0}, {"annual": 23000.0, "semi": 12075, "quarterly": 6555, "monthly": 2242.5, "sa": 4000000.0}, {"annual": 28650.0, "semi": 15041.25, "quarterly": 8165.25, "monthly": 2793.375, "sa": 5000000.0}, {"annual": 34300.0, "semi": 18007.5, "quarterly": 9775.5, "monthly": 3344.25, "sa": 6000000.0}], "48": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 2421227.0}, {"annual": 18490.0, "semi": 9707.25, "quarterly": 5269.65, "monthly": 1802.775, "sa": 3000000.0}, {"annual": 24520.0, "semi": 12873, "quarterly": 6988.2, "monthly": 2390.7, "sa": 4000000.0}, {"annual": 30550.0, "semi": 16038.75, "quarterly": 8706.75, "monthly": 2978.625, "sa": 5000000.0}, {"annual": 36580.0, "semi": 19204.5, "quarterly": 10425.3, "monthly": 3566.55, "sa": 6000000.0}], "49": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 2263566.0}, {"annual": 19750.0, "semi": 10368.75, "quarterly": 5628.75, "monthly": 1925.625, "sa": 3000000.0}, {"annual": 26200.0, "semi": 13755, "quarterly": 7467, "monthly": 2554.5, "sa": 4000000.0}, {"annual": 32650.0, "semi": 17141.25, "quarterly": 9305.25, "monthly": 3183.375, "sa": 5000000.0}, {"annual": 39100.0, "semi": 20527.5, "quarterly": 11143.5, "monthly": 3812.25, "sa": 6000000.0}], "50": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 2085714.0}, {"annual": 21400.0, "semi": 11235, "quarterly": 6099, "monthly": 2086.5, "sa": 3000000.0}, {"annual": 28400.0, "semi": 14910, "quarterly": 8094, "monthly": 2769, "sa": 4000000.0}, {"annual": 35400.0, "semi": 18585, "quarterly": 10089, "monthly": 3451.5, "sa": 5000000.0}, {"annual": 42400.0, "semi": 22260, "quarterly": 12084, "monthly": 4134, "sa": 6000000.0}], "51": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 1946667.0}, {"annual": 15400.0, "semi": 8085, "quarterly": 4389, "monthly": 1501.5, "sa": 2000000.0}, {"annual": 22900.0, "semi": 12022.5, "quarterly": 6526.5, "monthly": 2232.75, "sa": 3000000.0}, {"annual": 30400.0, "semi": 15960, "quarterly": 8664, "monthly": 2964, "sa": 4000000.0}, {"annual": 37900.0, "semi": 19897.5, "quarterly": 10801.5, "monthly": 3695.25, "sa": 5000000.0}], "52": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 1802469.0}, {"annual": 16600.0, "semi": 8715, "quarterly": 4731, "monthly": 1618.5, "sa": 2000000.0}, {"annual": 24700.0, "semi": 12967.5, "quarterly": 7039.5, "monthly": 2408.25, "sa": 3000000.0}, {"annual": 32800.0, "semi": 17220, "quarterly": 9348, "monthly": 3198, "sa": 4000000.0}, {"annual": 40900.0, "semi": 21472.5, "quarterly": 11656.5, "monthly": 3987.75, "sa": 5000000.0}], "53": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 1680092.0}, {"annual": 17780.0, "semi": 9334.5, "quarterly": 5067.3, "monthly": 1733.55, "sa": 2000000.0}, {"annual": 26470.0, "semi": 13896.75, "quarterly": 7543.95, "monthly": 2580.825, "sa": 3000000.0}, {"annual": 35160.0, "semi": 18459, "quarterly": 10020.6, "monthly": 3428.1, "sa": 4000000.0}, {"annual": 43850.0, "semi": 23021.25, "quarterly": 12497.25, "monthly": 4275.375, "sa": 5000000.0}], "54": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 1554846.0}, {"annual": 19180.0, "semi": 10069.5, "quarterly": 5466.3, "monthly": 1870.05, "sa": 2000000.0}, {"annual": 28570.0, "semi": 14999.25, "quarterly": 8142.45, "monthly": 2785.575, "sa": 3000000.0}, {"annual": 37960.0, "semi": 19929, "quarterly": 10818.6, "monthly": 3701.1, "sa": 4000000.0}, {"annual": 47350.0, "semi": 24858.75, "quarterly": 13494.75, "monthly": 4616.625, "sa": 5000000.0}], "55": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 1364486.0}, {"annual": 21800.0, "semi": 11445, "quarterly": 6213, "monthly": 2125.5, "sa": 2000000.0}, {"annual": 32500.0, "semi": 17062.5, "quarterly": 9262.5, "monthly": 3168.75, "sa": 3000000.0}, {"annual": 43200.0, "semi": 22680, "quarterly": 12312, "monthly": 4212, "sa": 4000000.0}, {"annual": 53900.0, "semi": 28297.5, "quarterly": 15361.5, "monthly": 5255.25, "sa": 5000000.0}], "56": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 1222781.0}, {"annual": 24280.0, "semi": 12747, "quarterly": 6919.8, "monthly": 2367.3, "sa": 2000000.0}, {"annual": 36220.0, "semi": 19015.5, "quarterly": 10322.7, "monthly": 3531.45, "sa": 3000000.0}, {"annual": 48160.0, "semi": 25284, "quarterly": 13725.6, "monthly": 4695.6, "sa": 4000000.0}, {"annual": 60100.0, "semi": 31552.5, "quarterly": 17128.5, "monthly": 5859.75, "sa": 5000000.0}], "57": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 1146897.0}, {"annual": 25860.0, "semi": 13576.5, "quarterly": 7370.1, "monthly": 2521.35, "sa": 2000000.0}, {"annual": 38590.0, "semi": 20259.75, "quarterly": 10998.15, "monthly": 3762.525, "sa": 3000000.0}, {"annual": 51320.0, "semi": 26943, "quarterly": 14626.2, "monthly": 5003.7, "sa": 4000000.0}, {"annual": 64050.0, "semi": 33626.25, "quarterly": 18254.25, "monthly": 6244.875, "sa": 5000000.0}], "58": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 1081481.0}, {"annual": 27400.0, "semi": 14385, "quarterly": 7809, "monthly": 2671.5, "sa": 2000000.0}, {"annual": 40900.0, "semi": 21472.5, "quarterly": 11656.5, "monthly": 3987.75, "sa": 3000000.0}, {"annual": 54400.0, "semi": 28560, "quarterly": 15504, "monthly": 5304, "sa": 4000000.0}, {"annual": 67900.0, "semi": 35647.5, "quarterly": 19351.5, "monthly": 6620.25, "sa": 5000000.0}], "59": [{"annual": 15000.0, "semi": 7875.0, "quarterly": 4275.0, "monthly": 1462.5, "sa": 1021693.0}, {"annual": 28980.0, "semi": 15214.5, "quarterly": 8259.3, "monthly": 2825.55, "sa": 2000000.0}, {"annual": 43720.0, "semi": 22953, "quarterly": 12460.2, "monthly": 4262.7, "sa": 3000000.0}, {"annual": 57560.0, "semi": 30219, "quarterly": 16404.6, "monthly": 5612.1, "sa": 4000000.0}, {"annual": 71850.0, "semi": 37721.25, "quarterly": 20477.25, "monthly": 7005.375, "sa": 5000000.0}], "60": [{"annual": 35000.0, "semi": 18375, "quarterly": 9975, "monthly": 3412.5, "sa": 2104623.0}, {"annual": 49720.0, "semi": 26103, "quarterly": 14170.2, "monthly": 4847.7, "sa": 4000000.0}, {"annual": 82600.0, "semi": 43365, "quarterly": 23541, "monthly": 8053.5, "sa": 5000000.0}, {"annual": 66160.0, "semi": 34734, "quarterly": 18855.6, "monthly": 6450.6, "sa": 6000000.0}, {"annual": 115480.0, "semi": 60627, "quarterly": 32911.8, "monthly": 11259.3, "sa": 7000000.0}], "61": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 1969266.0}, {"annual": 35540.0, "semi": 18658.5, "quarterly": 10128.9, "monthly": 3465.15, "sa": 2000000.0}, {"annual": 70680.0, "semi": 37107, "quarterly": 20143.8, "monthly": 6891.3, "sa": 4000000.0}, {"annual": 53110.0, "semi": 27882.75, "quarterly": 15136.35, "monthly": 5178.225, "sa": 3000000.0}, {"annual": 88250.0, "semi": 46331.25, "quarterly": 25151.25, "monthly": 8604.375, "sa": 5000000.0}], "62": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 1825858.0}, {"annual": 38300.0, "semi": 20107.5, "quarterly": 10915.5, "monthly": 3734.25, "sa": 2000000.0}, {"annual": 57250.0, "semi": 30056.25, "quarterly": 16316.25, "monthly": 5581.875, "sa": 3000000.0}, {"annual": 76200.0, "semi": 40005, "quarterly": 21717, "monthly": 7429.5, "sa": 4000000.0}, {"annual": 95150.0, "semi": 49953.75, "quarterly": 27117.75, "monthly": 9277.125, "sa": 5000000.0}], "63": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 1685339.0}, {"annual": 41460.0, "semi": 21766.5, "quarterly": 11816.1, "monthly": 4042.35, "sa": 2000000.0}, {"annual": 61990.0, "semi": 32544.75, "quarterly": 17667.15, "monthly": 6044.025, "sa": 3000000.0}, {"annual": 82520.0, "semi": 43323, "quarterly": 23518.2, "monthly": 8045.7, "sa": 4000000.0}, {"annual": 103050.0, "semi": 54101.25, "quarterly": 29369.25, "monthly": 10047.375, "sa": 5000000.0}], "64": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 1550874.0}, {"annual": 45020.0, "semi": 23635.5, "quarterly": 12830.7, "monthly": 4389.45, "sa": 2000000.0}, {"annual": 67330.0, "semi": 35348.25, "quarterly": 19189.05, "monthly": 6564.675, "sa": 3000000.0}, {"annual": 89640.0, "semi": 47061, "quarterly": 25547.4, "monthly": 8739.9, "sa": 4000000.0}, {"annual": 111950.0, "semi": 58773.75, "quarterly": 31905.75, "monthly": 10915.125, "sa": 5000000.0}], "65": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 1423868.0}, {"annual": 49000.0, "semi": 25725, "quarterly": 13965, "monthly": 4777.5, "sa": 2000000.0}, {"annual": 73300.0, "semi": 38482.5, "quarterly": 20890.5, "monthly": 7146.75, "sa": 3000000.0}, {"annual": 97600.0, "semi": 51240, "quarterly": 27816, "monthly": 9516, "sa": 4000000.0}, {"annual": 121900.0, "semi": 63997.5, "quarterly": 34741.5, "monthly": 11885.25, "sa": 5000000.0}], "66": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 1294426.0}, {"annual": 53860.0, "semi": 28276.5, "quarterly": 15350.1, "monthly": 5251.35, "sa": 2000000.0}, {"annual": 80590.0, "semi": 42309.75, "quarterly": 22968.15, "monthly": 7857.525, "sa": 3000000.0}, {"annual": 107320.0, "semi": 56343, "quarterly": 30586.2, "monthly": 10463.7, "sa": 4000000.0}, {"annual": 134050.0, "semi": 70376.25, "quarterly": 38204.25, "monthly": 13069.875, "sa": 5000000.0}], "67": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 1189821.0}, {"annual": 58560.0, "semi": 30744, "quarterly": 16689.6, "monthly": 5709.6, "sa": 2000000.0}, {"annual": 87640.0, "semi": 46011, "quarterly": 24977.4, "monthly": 8544.9, "sa": 3000000.0}, {"annual": 116720.0, "semi": 61278, "quarterly": 33265.2, "monthly": 11380.2, "sa": 4000000.0}, {"annual": 145800.0, "semi": 76545, "quarterly": 41553, "monthly": 14215.5, "sa": 5000000.0}], "68": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 1088050.0}, {"annual": 64000.0, "semi": 33600, "quarterly": 18240, "monthly": 6240, "sa": 2000000.0}, {"annual": 95800.0, "semi": 50295, "quarterly": 27303, "monthly": 9340.5, "sa": 3000000.0}, {"annual": 127600.0, "semi": 66990, "quarterly": 36366, "monthly": 12441, "sa": 4000000.0}, {"annual": 159400.0, "semi": 83685, "quarterly": 45429, "monthly": 15541.5, "sa": 5000000.0}], "69": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 994539.0}, {"annual": 35190.0, "semi": 18474.75, "quarterly": 10029.15, "monthly": 3431.025, "sa": 1000000.0}, {"annual": 69980.0, "semi": 36739.5, "quarterly": 19944.3, "monthly": 6823.05, "sa": 2000000.0}, {"annual": 104770.0, "semi": 55004.25, "quarterly": 29859.45, "monthly": 10215.075, "sa": 3000000.0}, {"annual": 139560.0, "semi": 73269, "quarterly": 39774.6, "monthly": 13607.1, "sa": 4000000.0}], "70": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 841849.0}, {"annual": 41500.0, "semi": 21787.5, "quarterly": 11827.5, "monthly": 4046.25, "sa": 1000000.0}, {"annual": 82600.0, "semi": 43365, "quarterly": 23541, "monthly": 8053.5, "sa": 2000000.0}, {"annual": 123700.0, "semi": 64942.5, "quarterly": 35254.5, "monthly": 12060.75, "sa": 3000000.0}, {"annual": 164800.0, "semi": 86520, "quarterly": 46968, "monthly": 16068, "sa": 4000000.0}], "71": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 771805.0}, {"annual": 45230.0, "semi": 23745.75, "quarterly": 12890.55, "monthly": 4409.925, "sa": 1000000.0}, {"annual": 90060.0, "semi": 47281.5, "quarterly": 25667.1, "monthly": 8780.85, "sa": 2000000.0}, {"annual": 134890.0, "semi": 70817.25, "quarterly": 38443.65, "monthly": 13151.775, "sa": 3000000.0}, {"annual": 179720.0, "semi": 94353, "quarterly": 51220.2, "monthly": 17522.7, "sa": 4000000.0}], "72": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 705978.0}, {"annual": 49410.0, "semi": 25940.25, "quarterly": 14081.85, "monthly": 4817.475, "sa": 1000000.0}, {"annual": 98420.0, "semi": 51670.5, "quarterly": 28049.7, "monthly": 9595.95, "sa": 2000000.0}, {"annual": 147430.0, "semi": 77400.75, "quarterly": 42017.55, "monthly": 14374.425, "sa": 3000000.0}, {"annual": 196440.0, "semi": 103131, "quarterly": 55985.4, "monthly": 19152.9, "sa": 4000000.0}], "73": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 646125.0}, {"annual": 53950.0, "semi": 28323.75, "quarterly": 15375.75, "monthly": 5260.125, "sa": 1000000.0}, {"annual": 107500.0, "semi": 56437.5, "quarterly": 30637.5, "monthly": 10481.25, "sa": 2000000.0}, {"annual": 161050.0, "semi": 84551.25, "quarterly": 45899.25, "monthly": 15702.375, "sa": 3000000.0}, {"annual": 214600.0, "semi": 112665, "quarterly": 61161, "monthly": 20923.5, "sa": 4000000.0}], "74": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 591150.0}, {"annual": 58930.0, "semi": 30938.25, "quarterly": 16795.05, "monthly": 5745.675, "sa": 1000000.0}, {"annual": 117460.0, "semi": 61666.5, "quarterly": 33476.1, "monthly": 11452.35, "sa": 2000000.0}, {"annual": 175990.0, "semi": 92394.75, "quarterly": 50157.15, "monthly": 17159.025, "sa": 3000000.0}, {"annual": 234520.0, "semi": 123123, "quarterly": 66838.2, "monthly": 22865.7, "sa": 4000000.0}], "75": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 501231.0}, {"annual": 69430.0, "semi": 36450.75, "quarterly": 19787.55, "monthly": 6769.425, "sa": 1000000.0}, {"annual": 138460.0, "semi": 72691.5, "quarterly": 39461.1, "monthly": 13499.85, "sa": 2000000.0}, {"annual": 207490.0, "semi": 108932.25, "quarterly": 59134.65, "monthly": 20230.275, "sa": 3000000.0}, {"annual": 276520.0, "semi": 145173, "quarterly": 78808.2, "monthly": 26960.7, "sa": 4000000.0}], "76": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 454247.0}, {"annual": 76570.0, "semi": 40199.25, "quarterly": 21822.45, "monthly": 7465.575, "sa": 1000000.0}, {"annual": 152740.0, "semi": 80188.5, "quarterly": 43530.9, "monthly": 14892.15, "sa": 2000000.0}, {"annual": 228910.0, "semi": 120177.75, "quarterly": 65239.35, "monthly": 22318.725, "sa": 3000000.0}, {"annual": 305080.0, "semi": 160167, "quarterly": 86947.8, "monthly": 29745.3, "sa": 4000000.0}], "77": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 416316.0}, {"annual": 83510.0, "semi": 43842.75, "quarterly": 23800.35, "monthly": 8142.225, "sa": 1000000.0}, {"annual": 166620.0, "semi": 87475.5, "quarterly": 47486.7, "monthly": 16245.45, "sa": 2000000.0}, {"annual": 249730.0, "semi": 131108.25, "quarterly": 71173.05, "monthly": 24348.675, "sa": 3000000.0}, {"annual": 332840.0, "semi": 174741, "quarterly": 94859.4, "monthly": 32451.9, "sa": 4000000.0}], "78": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 381646.0}, {"annual": 91060.0, "semi": 47806.5, "quarterly": 25952.1, "monthly": 8878.35, "sa": 1000000.0}, {"annual": 181720.0, "semi": 95403, "quarterly": 51790.2, "monthly": 17717.7, "sa": 2000000.0}, {"annual": 272380.0, "semi": 142999.5, "quarterly": 77628.3, "monthly": 26557.05, "sa": 3000000.0}, {"annual": 363040.0, "semi": 190596, "quarterly": 103466.4, "monthly": 35396.4, "sa": 4000000.0}], "79": [{"annual": 35000.0, "semi": 18375.0, "quarterly": 9975.0, "monthly": 3412.5, "sa": 343390.0}, {"annual": 101160.0, "semi": 53109, "quarterly": 28830.6, "monthly": 9863.1, "sa": 1000000.0}, {"annual": 201920.0, "semi": 106008, "quarterly": 57547.2, "monthly": 19687.2, "sa": 2000000.0}, {"annual": 302680.0, "semi": 158907, "quarterly": 86263.8, "monthly": 29511.3, "sa": 3000000.0}, {"annual": 403440.0, "semi": 211806, "quarterly": 114980.4, "monthly": 39335.4, "sa": 4000000.0}]};
+const MODAL_PLANS = {"1000": [{"age": 21, "annual": 12602.62, "semi": 6616.3755, "quarterly": 3591.7467, "monthly": 1228.75545, "sa": 2700000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 22, "annual": 12719.6, "semi": 6677.79, "quarterly": 3625.086, "monthly": 1240.161, "sa": 2700000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 23, "annual": 12844.15, "semi": 6743.17875, "quarterly": 3660.58275, "monthly": 1252.304625, "sa": 2700000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 24, "annual": 12971.76, "semi": 6810.174, "quarterly": 3696.9516, "monthly": 1264.7466, "sa": 2700000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 25, "annual": 12811.76, "semi": 6726.174, "quarterly": 3651.3516, "monthly": 1249.1466, "sa": 2700000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 26, "annual": 13066.75, "semi": 6860.04375, "quarterly": 3724.02375, "monthly": 1274.008125, "sa": 2600000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 27, "annual": 13206.66, "semi": 6933.4965, "quarterly": 3763.8981, "monthly": 1287.64935, "sa": 2600000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 28, "annual": 13399.38, "semi": 7034.6745, "quarterly": 3818.8233, "monthly": 1306.43955, "sa": 2600000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 29, "annual": 13557.35, "semi": 7117.60875, "quarterly": 3863.84475, "monthly": 1321.841625, "sa": 2600000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 30, "annual": 13379.01, "semi": 7023.98025, "quarterly": 3813.01785, "monthly": 1304.453475, "sa": 2500000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 31, "annual": 13640.3, "semi": 7161.1575, "quarterly": 3887.4855, "monthly": 1329.92925, "sa": 2500000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 32, "annual": 13912.8, "semi": 7304.22, "quarterly": 3965.148, "monthly": 1356.498, "sa": 2500000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 33, "annual": 14243.99, "semi": 7478.09475, "quarterly": 4059.53715, "monthly": 1388.789025, "sa": 2500000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 34, "annual": 14297.68, "semi": 7506.282, "quarterly": 4074.8388, "monthly": 1394.0238, "sa": 2400000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 35, "annual": 14816.43, "semi": 7778.62575, "quarterly": 4222.68255, "monthly": 1444.601925, "sa": 2400000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 36, "annual": 13895.91, "semi": 7295.35275, "quarterly": 3960.33435, "monthly": 1354.851225, "sa": 2300000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 37, "annual": 15859.14, "semi": 8326.0485, "quarterly": 4519.8549, "monthly": 1546.26615, "sa": 2300000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 38, "annual": 16088.56, "semi": 8446.494, "quarterly": 4585.2396, "monthly": 1568.6346, "sa": 2300000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 39, "annual": 16816.75, "semi": 8828.79375, "quarterly": 4792.77375, "monthly": 1639.633125, "sa": 2200000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 40, "annual": 16876.61, "semi": 8860.22025, "quarterly": 4809.83385, "monthly": 1645.469475, "sa": 3900000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 41, "annual": 16803.11, "semi": 8821.63275, "quarterly": 4788.88635, "monthly": 1638.303225, "sa": 3700000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 42, "annual": 17246.88, "semi": 9054.612, "quarterly": 4915.3608, "monthly": 1681.5708, "sa": 3600000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 43, "annual": 17292.72, "semi": 9078.678, "quarterly": 4928.4252, "monthly": 1686.0402, "sa": 3400000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 44, "annual": 17394.18, "semi": 9131.9445, "quarterly": 4957.3413, "monthly": 1695.93255, "sa": 3200000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 45, "annual": 17397.21, "semi": 9133.53525, "quarterly": 4958.20485, "monthly": 1696.227975, "sa": 3000000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 46, "annual": 17475.67, "semi": 9174.72675, "quarterly": 4980.56595, "monthly": 1703.877825, "sa": 2800000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 47, "annual": 17500.5, "semi": 9187.7625, "quarterly": 4987.6425, "monthly": 1706.29875, "sa": 2600000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 48, "annual": 18003.97, "semi": 9452.08425, "quarterly": 5131.13145, "monthly": 1755.387075, "sa": 2500000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 49, "annual": 17851.21, "semi": 9371.88525, "quarterly": 5087.59485, "monthly": 1740.492975, "sa": 2300000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 50, "annual": 17821.96, "semi": 9356.529, "quarterly": 5079.2586, "monthly": 1737.6411, "sa": 2100000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 500000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 51, "annual": 16965.0, "semi": 8906.625, "quarterly": 4835.025, "monthly": 1654.0875, "sa": 2000000.0, "riders": {"ALCB": "-", "ATPD": 500000.0, "ADD": 300000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 52, "annual": 17540.0, "semi": 9208.5, "quarterly": 4998.9, "monthly": 1710.15, "sa": 1900000.0, "riders": {"ALCB": "-", "ATPD": 500000.0, "ADD": 300000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 53, "annual": 17103.0, "semi": 8979.075, "quarterly": 4874.355, "monthly": 1667.5425, "sa": 1700000.0, "riders": {"ALCB": "-", "ATPD": 500000.0, "ADD": 300000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 54, "annual": 17539.0, "semi": 9207.975, "quarterly": 4998.615, "monthly": 1710.0525, "sa": 1600000.0, "riders": {"ALCB": "-", "ATPD": 500000.0, "ADD": 300000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 55, "annual": 17675.0, "semi": 9279.375, "quarterly": 5037.375, "monthly": 1723.3125, "sa": 1400000.0, "riders": {"ALCB": "-", "ATPD": 500000.0, "ADD": 300000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 56, "annual": 18277.0, "semi": 9595.425, "quarterly": 5208.945, "monthly": 1782.0075, "sa": 1300000.0, "riders": {"ALCB": "-", "ATPD": 500000.0, "ADD": 300000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 57, "annual": 18091.0, "semi": 9497.775, "quarterly": 5155.935, "monthly": 1763.8725, "sa": 1200000.0, "riders": {"ALCB": "-", "ATPD": 500000.0, "ADD": 300000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 58, "annual": 17725.0, "semi": 9305.625, "quarterly": 5051.625, "monthly": 1728.1875, "sa": 1100000.0, "riders": {"ALCB": "-", "ATPD": 500000.0, "ADD": 300000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 59, "annual": 18654.0, "semi": 9793.35, "quarterly": 5316.39, "monthly": 1818.765, "sa": 1100000.0, "riders": {"ALCB": "-", "ATPD": 500000.0, "ADD": 300000.0, "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}], "2500": [{"age": 21, "annual": 25730.97, "semi": 13508.75925, "quarterly": 7333.32645, "monthly": 2508.769575, "sa": 4500000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 22, "annual": 25964.35, "semi": 13631.28375, "quarterly": 7399.83975, "monthly": 2531.524125, "sa": 4500000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 23, "annual": 26217.61, "semi": 13764.24525, "quarterly": 7472.01885, "monthly": 2556.216975, "sa": 4500000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 24, "annual": 26476.05, "semi": 13899.92625, "quarterly": 7545.67425, "monthly": 2581.414875, "sa": 4500000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 25, "annual": 25828.84, "semi": 13560.141, "quarterly": 7361.2194, "monthly": 2518.3119, "sa": 4200000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 26, "annual": 26314.06, "semi": 13814.8815, "quarterly": 7499.5071, "monthly": 2565.62085, "sa": 4200000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 27, "annual": 25952.02, "semi": 13624.8105, "quarterly": 7396.3257, "monthly": 2530.32195, "sa": 4000000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 28, "annual": 26337.87, "semi": 13827.38175, "quarterly": 7506.29295, "monthly": 2567.942325, "sa": 4000000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 29, "annual": 26656.03, "semi": 13994.41575, "quarterly": 7596.96855, "monthly": 2598.962925, "sa": 4000000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 30, "annual": 25994.89, "semi": 13647.31725, "quarterly": 7408.54365, "monthly": 2534.501775, "sa": 4200000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1000.0, "ICU": 2000, "SR": 15000, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 31, "annual": 26464.65, "semi": 13893.94125, "quarterly": 7542.42525, "monthly": 2580.303375, "sa": 4200000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1000.0, "ICU": 2000, "SR": 15000, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 32, "annual": 26212.81, "semi": 13761.72525, "quarterly": 7470.65085, "monthly": 2555.748975, "sa": 4500000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 33, "annual": 26530.08, "semi": 13928.292, "quarterly": 7561.0728, "monthly": 2586.6828, "sa": 4500000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1000.0, "ICU": 2000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 34, "annual": 25950.1, "semi": 13623.8025, "quarterly": 7395.7785, "monthly": 2530.13475, "sa": 4100000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1000.0, "ICU": 2000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 35, "annual": 26054.67, "semi": 13678.70175, "quarterly": 7425.58095, "monthly": 2540.330325, "sa": 4000000.0, "riders": {"ALCB": 1300000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1000.0, "ICU": 2000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 36, "annual": 26201.7, "semi": 13755.8925, "quarterly": 7467.4845, "monthly": 2554.66575, "sa": 4300000.0, "riders": {"ALCB": 1300000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": 2000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 37, "annual": 26075.8, "semi": 13689.795, "quarterly": 7431.603, "monthly": 2542.3905, "sa": 4000000.0, "riders": {"ALCB": 1300000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": 2000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 38, "annual": 25953.91, "semi": 13625.80275, "quarterly": 7396.86435, "monthly": 2530.506225, "sa": 4000000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 39, "annual": 26365.82, "semi": 13842.0555, "quarterly": 7514.2587, "monthly": 2570.66745, "sa": 3800000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 40, "annual": 26599.44, "semi": 13964.706, "quarterly": 7580.8404, "monthly": 2593.4454, "sa": 3800000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 41, "annual": 26349.72, "semi": 13833.603, "quarterly": 7509.6702, "monthly": 2569.0977, "sa": 3900000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 42, "annual": 26445.95, "semi": 13884.12375, "quarterly": 7537.09575, "monthly": 2578.480125, "sa": 3900000.0, "riders": {"ALCB": 800000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 43, "annual": 26085.36, "semi": 13694.814, "quarterly": 7434.3276, "monthly": 2543.3226, "sa": 3900000.0, "riders": {"ALCB": 600000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 44, "annual": 26218.13, "semi": 13764.51825, "quarterly": 7472.16705, "monthly": 2556.267675, "sa": 3200000.0, "riders": {"ALCB": 800000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 45, "annual": 26083.29, "semi": 13693.72725, "quarterly": 7433.73765, "monthly": 2543.120775, "sa": 3200000.0, "riders": {"ALCB": 600000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 46, "annual": 26361.59, "semi": 13839.83475, "quarterly": 7513.05315, "monthly": 2570.255025, "sa": 2800000.0, "riders": {"ALCB": 800000.0, "ATPD": 800000.0, "ADD": 100000.0, "PA-ADD": 200000.0, "PA-ATPD": 200000, "PA-MA": 100000, "PA-AMR": 20000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 47, "annual": 25685.18, "semi": 13484.7195, "quarterly": 7320.2763, "monthly": 2504.30505, "sa": 2700000.0, "riders": {"ALCB": 600000.0, "ATPD": 800000.0, "ADD": 100000.0, "PA-ADD": 200000.0, "PA-ATPD": 200000, "PA-MA": 100000, "PA-AMR": 20000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 48, "annual": 26623.39, "semi": 13977.27975, "quarterly": 7587.66615, "monthly": 2595.780525, "sa": 2800000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 200000.0, "PA-ATPD": 200000, "PA-MA": 100000, "PA-AMR": 20000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 49, "annual": 26439.17, "semi": 13880.56425, "quarterly": 7535.16345, "monthly": 2577.819075, "sa": 2300000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 200000.0, "PA-ATPD": 200000, "PA-MA": 100000, "PA-AMR": 20000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 50, "annual": 26072.05, "semi": 13687.82625, "quarterly": 7430.53425, "monthly": 2542.024875, "sa": 2200000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 51, "annual": 26178.07, "semi": 13743.48675, "quarterly": 7460.74995, "monthly": 2552.361825, "sa": 2000000.0, "riders": {"ALCB": 450000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 52, "annual": 25811.92, "semi": 13551.258, "quarterly": 7356.3972, "monthly": 2516.6622, "sa": 1800000.0, "riders": {"ALCB": 300000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 53, "annual": 25797.94, "semi": 13543.9185, "quarterly": 7352.4129, "monthly": 2515.29915, "sa": 1800000.0, "riders": {"ALCB": 300000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 54, "annual": 25862.36, "semi": 13577.739, "quarterly": 7370.7726, "monthly": 2521.5801, "sa": 1800000.0, "riders": {"ALCB": 200000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 55, "annual": 26342.01, "semi": 13829.55525, "quarterly": 7507.47285, "monthly": 2568.345975, "sa": 1600000.0, "riders": {"ALCB": 350000.0, "ATPD": 300000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 56, "annual": 26657.73, "semi": 13995.30825, "quarterly": 7597.45305, "monthly": 2599.128675, "sa": 1500000.0, "riders": {"ALCB": 300000.0, "ATPD": 300000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 57, "annual": 25817.98, "semi": 13554.4395, "quarterly": 7358.1243, "monthly": 2517.25305, "sa": 1300000.0, "riders": {"ALCB": 300000.0, "ATPD": 300000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 58, "annual": 26269.31, "semi": 13791.38775, "quarterly": 7486.75335, "monthly": 2561.257725, "sa": 1300000.0, "riders": {"ALCB": 250000.0, "ATPD": 300000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 59, "annual": 26320.2, "semi": 13818.105, "quarterly": 7501.257, "monthly": 2566.2195, "sa": 1300000.0, "riders": {"ALCB": 230000.0, "ATPD": 300000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}], "3000": [{"age": 21, "annual": 30935.36, "semi": 16241.064, "quarterly": 8816.5776, "monthly": 3016.1976, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 2000.0, "ICU": 4000, "SR": 30000, "LTH": 2000, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 22, "annual": 30891.11, "semi": 16217.83275, "quarterly": 8803.96635, "monthly": 3011.883225, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 2000.0, "ICU": 4000, "SR": 30000, "LTH": 2000, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 23, "annual": 31082.44, "semi": 16318.281, "quarterly": 8858.4954, "monthly": 3030.5379, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 2000.0, "ICU": 4000, "SR": 30000, "LTH": 2000, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 24, "annual": 31497.92, "semi": 16536.408, "quarterly": 8976.9072, "monthly": 3071.0472, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 2000.0, "ICU": 4000, "SR": 30000, "LTH": 2000, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 25, "annual": 31680.15, "semi": 16632.07875, "quarterly": 9028.84275, "monthly": 3088.814625, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 2000.0, "ICU": 4000, "SR": 30000, "LTH": 2000, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 26, "annual": 30807.05, "semi": 16173.70125, "quarterly": 8780.00925, "monthly": 3003.687375, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": 1500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 27, "annual": 31150.37, "semi": 16353.94425, "quarterly": 8877.85545, "monthly": 3037.161075, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": 1500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 28, "annual": 31577.09, "semi": 16577.97225, "quarterly": 8999.47065, "monthly": 3078.766275, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": 1500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 29, "annual": 30989.89, "semi": 16269.69225, "quarterly": 8832.11865, "monthly": 3021.514275, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": 1500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 30, "annual": 31396.41, "semi": 16483.11525, "quarterly": 8947.97685, "monthly": 3061.149975, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 31, "annual": 31119.84, "semi": 16337.916, "quarterly": 8869.1544, "monthly": 3034.1844, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 800000.0, "PA-ATPD": 800000, "PA-MA": 400000, "PA-AMR": 80000, "DHI": 1500.0, "ICU": 3000, "SR": 22500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 32, "annual": 30964.21, "semi": 16256.21025, "quarterly": 8824.79985, "monthly": 3019.010475, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1000.0, "ICU": 2000, "SR": 15000, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 33, "annual": 30909.75, "semi": 16227.61875, "quarterly": 8809.27875, "monthly": 3013.700625, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 800000.0, "PA-ATPD": 800000, "PA-MA": 400000, "PA-AMR": 80000, "DHI": 1000.0, "ICU": 2000, "SR": 15000, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 34, "annual": 31479.42, "semi": 16526.6955, "quarterly": 8971.6347, "monthly": 3069.24345, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 700000.0, "PA-ATPD": 700000, "PA-MA": 350000, "PA-AMR": 70000, "DHI": 1000.0, "ICU": 2000, "SR": 15000, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 35, "annual": 31306.59, "semi": 16435.95975, "quarterly": 8922.37815, "monthly": 3052.392525, "sa": 5000000.0, "riders": {"ALCB": 1800000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": 2000, "SR": 15000, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 36, "annual": 31200.69, "semi": 16380.36225, "quarterly": 8892.19665, "monthly": 3042.067275, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": 2000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 37, "annual": 31743.19, "semi": 16665.17475, "quarterly": 9046.80915, "monthly": 3094.961025, "sa": 5000000.0, "riders": {"ALCB": 1300000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": 2000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 38, "annual": 31655.35, "semi": 16619.05875, "quarterly": 9021.77475, "monthly": 3086.396625, "sa": 5000000.0, "riders": {"ALCB": 1300000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 39, "annual": 31089.64, "semi": 16322.061, "quarterly": 8860.5474, "monthly": 3031.2399, "sa": 4800000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 40, "annual": 31452.38, "semi": 16512.4995, "quarterly": 8963.9283, "monthly": 3066.60705, "sa": 4800000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 41, "annual": 31150.6, "semi": 16354.065, "quarterly": 8877.921, "monthly": 3037.1835, "sa": 4000000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 42, "annual": 31759.97, "semi": 16673.98425, "quarterly": 9051.59145, "monthly": 3096.597075, "sa": 4300000.0, "riders": {"ALCB": 1300000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": 2000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 43, "annual": 31420.54, "semi": 16495.7835, "quarterly": 8954.8539, "monthly": 3063.50265, "sa": 4300000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": 2000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 44, "annual": 31504.04, "semi": 16539.621, "quarterly": 8978.6514, "monthly": 3071.6439, "sa": 4000000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 45, "annual": 30876.0, "semi": 16209.9, "quarterly": 8799.66, "monthly": 3010.41, "sa": 3500000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 46, "annual": 31153.49, "semi": 16355.58225, "quarterly": 8878.74465, "monthly": 3037.465275, "sa": 3100000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 47, "annual": 31354.27, "semi": 16460.99175, "quarterly": 8935.96695, "monthly": 3057.041325, "sa": 3100000.0, "riders": {"ALCB": 800000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 48, "annual": 31469.12, "semi": 16521.288, "quarterly": 8968.6992, "monthly": 3068.2392, "sa": 2900000.0, "riders": {"ALCB": 800000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 49, "annual": 31564.11, "semi": 16571.15775, "quarterly": 8995.77135, "monthly": 3077.500725, "sa": 2800000.0, "riders": {"ALCB": 600000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 50, "annual": 31412.53, "semi": 16491.57825, "quarterly": 8952.57105, "monthly": 3062.721675, "sa": 2800000.0, "riders": {"ALCB": 500000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 51, "annual": 31156.66, "semi": 16357.2465, "quarterly": 8879.6481, "monthly": 3037.77435, "sa": 2300000.0, "riders": {"ALCB": 500000.0, "ATPD": 700000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 52, "annual": 31384.91, "semi": 16477.07775, "quarterly": 8944.69935, "monthly": 3060.028725, "sa": 2100000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 53, "annual": 31751.74, "semi": 16669.6635, "quarterly": 9049.2459, "monthly": 3095.79465, "sa": 2000000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 300000.0, "PA-ATPD": 300000, "PA-MA": 150000, "PA-AMR": 30000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 54, "annual": 31171.3, "semi": 16364.9325, "quarterly": 8883.8205, "monthly": 3039.20175, "sa": 1700000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 300000.0, "PA-ATPD": 300000, "PA-MA": 150000, "PA-AMR": 30000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 55, "annual": 31528.01, "semi": 16552.20525, "quarterly": 8985.48285, "monthly": 3073.980975, "sa": 1700000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 56, "annual": 31369.79, "semi": 16469.13975, "quarterly": 8940.39015, "monthly": 3058.554525, "sa": 1700000.0, "riders": {"ALCB": 300000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 57, "annual": 31056.12, "semi": 16304.463, "quarterly": 8850.9942, "monthly": 3027.9717, "sa": 1700000.0, "riders": {"ALCB": 300000.0, "ATPD": 300000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 58, "annual": 31676.44, "semi": 16630.131, "quarterly": 9027.7854, "monthly": 3088.4529, "sa": 1600000.0, "riders": {"ALCB": 300000.0, "ATPD": 300000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 59, "annual": 31576.95, "semi": 16577.89875, "quarterly": 8999.43075, "monthly": 3078.752625, "sa": 1500000.0, "riders": {"ALCB": 280000.0, "ATPD": 250000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}], "5000": [{"age": 21, "annual": 51448.16, "semi": 27010.284, "quarterly": 14662.7256, "monthly": 5016.1956, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 2000000.0, "PA-ATPD": 2000000, "PA-MA": 1000000, "PA-AMR": 200000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": 4500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 22, "annual": 51872.78, "semi": 27233.2095, "quarterly": 14783.7423, "monthly": 5057.59605, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 2000000.0, "PA-ATPD": 2000000, "PA-MA": 1000000, "PA-AMR": 200000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": 4500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 23, "annual": 51477.53, "semi": 27025.70325, "quarterly": 14671.09605, "monthly": 5019.059175, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1800000.0, "PA-ATPD": 1800000, "PA-MA": 900000, "PA-AMR": 180000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": 4500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 24, "annual": 51948.29, "semi": 27272.85225, "quarterly": 14805.26265, "monthly": 5064.958275, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1800000.0, "PA-ATPD": 1800000, "PA-MA": 900000, "PA-AMR": 180000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": 4500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 25, "annual": 51608.55, "semi": 27094.48875, "quarterly": 14708.43675, "monthly": 5031.833625, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1600000.0, "PA-ATPD": 1600000, "PA-MA": 800000, "PA-AMR": 160000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": 4500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 26, "annual": 52069.85, "semi": 27336.67125, "quarterly": 14839.90725, "monthly": 5076.810375, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1500000.0, "PA-ATPD": 1500000, "PA-MA": 750000, "PA-AMR": 150000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": 4500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 27, "annual": 51306.87, "semi": 26936.10675, "quarterly": 14622.45795, "monthly": 5002.419825, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": 4500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 28, "annual": 52032.05, "semi": 27316.82625, "quarterly": 14829.13425, "monthly": 5073.124875, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": 4500, "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 29, "annual": 51866.34, "semi": 27229.8285, "quarterly": 14781.9069, "monthly": 5056.96815, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1500000.0, "PA-ATPD": 1500000, "PA-MA": 750000, "PA-AMR": 150000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 30, "annual": 51608.53, "semi": 27094.47825, "quarterly": 14708.43105, "monthly": 5031.831675, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1300000.0, "PA-ATPD": 1300000, "PA-MA": 650000, "PA-AMR": 130000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 31, "annual": 51466.92, "semi": 27020.133, "quarterly": 14668.0722, "monthly": 5018.0247, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 4500.0, "ICU": 9000, "SR": 67500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 32, "annual": 51676.59, "semi": 27130.20975, "quarterly": 14727.82815, "monthly": 5038.467525, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1200000.0, "PA-ATPD": 1200000, "PA-MA": 600000, "PA-AMR": 120000, "DHI": 4000.0, "ICU": 8000, "SR": 60000, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 33, "annual": 52068.01, "semi": 27335.70525, "quarterly": 14839.38285, "monthly": 5076.630975, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 4000.0, "ICU": 8000, "SR": 60000, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 34, "annual": 51846.23, "semi": 27219.27075, "quarterly": 14776.17555, "monthly": 5055.007425, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 3500.0, "ICU": 7000, "SR": 52500, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 35, "annual": 52060.06, "semi": 27331.5315, "quarterly": 14837.1171, "monthly": 5075.85585, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 3000.0, "ICU": 6000, "SR": 45000, "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 36, "annual": 51742.03, "semi": 27164.56575, "quarterly": 14746.47855, "monthly": 5044.847925, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1500000.0, "PA-ATPD": 1500000, "PA-MA": 750000, "PA-AMR": 150000, "DHI": 4000.0, "ICU": 8000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 37, "annual": 51906.57, "semi": 27250.94925, "quarterly": 14793.37245, "monthly": 5060.890575, "sa": 7000000.0, "riders": {"ALCB": 3000000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 4000.0, "ICU": 8000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 38, "annual": 51798.66, "semi": 27194.2965, "quarterly": 14762.6181, "monthly": 5050.36935, "sa": 7000000.0, "riders": {"ALCB": 2800000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 3000.0, "ICU": 6000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 39, "annual": 51698.73, "semi": 27141.83325, "quarterly": 14734.13805, "monthly": 5040.626175, "sa": 6600000.0, "riders": {"ALCB": 2500000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 3000.0, "ICU": 6000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 40, "annual": 52178.32, "semi": 27393.618, "quarterly": 14870.8212, "monthly": 5087.3862, "sa": 6000000.0, "riders": {"ALCB": 2500000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 3000.0, "ICU": 6000, "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 41, "annual": 51899.62, "semi": 27247.3005, "quarterly": 14791.3917, "monthly": 5060.21295, "sa": 5500000.0, "riders": {"ALCB": 2200000.0, "ATPD": 2000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 3000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 42, "annual": 51833.51, "semi": 27212.59275, "quarterly": 14772.55035, "monthly": 5053.767225, "sa": 5200000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 3000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 43, "annual": 51678.56, "semi": 27131.244, "quarterly": 14728.3896, "monthly": 5038.6596, "sa": 5000000.0, "riders": {"ALCB": 2000000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 2000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 44, "annual": 52040.44, "semi": 27321.231, "quarterly": 14831.5254, "monthly": 5073.9429, "sa": 5000000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 2000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 45, "annual": 52084.76, "semi": 27344.499, "quarterly": 14844.1566, "monthly": 5078.2641, "sa": 4500000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1500000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 2000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 46, "annual": 51641.66, "semi": 27111.8715, "quarterly": 14717.8731, "monthly": 5035.06185, "sa": 4000000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1300000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 47, "annual": 51844.29, "semi": 27218.25225, "quarterly": 14775.62265, "monthly": 5054.818275, "sa": 3600000.0, "riders": {"ALCB": 1500000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 48, "annual": 51564.2, "semi": 27071.205, "quarterly": 14695.797, "monthly": 5027.5095, "sa": 3500000.0, "riders": {"ALCB": 1100000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 1000000.0, "PA-ATPD": 1000000, "PA-MA": 500000, "PA-AMR": 100000, "DHI": 1500.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 49, "annual": 51776.3, "semi": 27182.5575, "quarterly": 14756.2455, "monthly": 5048.18925, "sa": 3500000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1500.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 50, "annual": 52061.04, "semi": 27332.046, "quarterly": 14837.3964, "monthly": 5075.9514, "sa": 3100000.0, "riders": {"ALCB": 1000000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1500.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 51, "annual": 52155.63, "semi": 27381.70575, "quarterly": 14864.35455, "monthly": 5085.173925, "sa": 2900000.0, "riders": {"ALCB": 900000.0, "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 52, "annual": 51505.16, "semi": 27040.209, "quarterly": 14678.9706, "monthly": 5021.7531, "sa": 2700000.0, "riders": {"ALCB": 800000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 53, "annual": 51679.19, "semi": 27131.57475, "quarterly": 14728.56915, "monthly": 5038.721025, "sa": 2600000.0, "riders": {"ALCB": 600000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 54, "annual": 51760.93, "semi": 27174.48825, "quarterly": 14751.86505, "monthly": 5046.690675, "sa": 2400000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": 1000.0, "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 55, "annual": 51776.33, "semi": 27182.57325, "quarterly": 14756.25405, "monthly": 5048.192175, "sa": 2300000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 400000.0, "PA-ATPD": 400000, "PA-MA": 200000, "PA-AMR": 40000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 56, "annual": 51857.23, "semi": 27225.04575, "quarterly": 14779.31055, "monthly": 5056.079925, "sa": 2200000.0, "riders": {"ALCB": 400000.0, "ATPD": 300000.0, "ADD": 100000.0, "PA-ADD": 200000.0, "PA-ATPD": 200000, "PA-MA": 100000, "PA-AMR": 20000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 57, "annual": 51610.79, "semi": 27095.66475, "quarterly": 14709.07515, "monthly": 5032.052025, "sa": 2000000.0, "riders": {"ALCB": 400000.0, "ATPD": 300000.0, "ADD": 100000.0, "PA-ADD": 150000.0, "PA-ATPD": 150000, "PA-MA": 75000, "PA-AMR": 15000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "INCLUDED", "WPTPD": "INCLUDED"}}, {"age": 58, "annual": 52237.97, "semi": 27424.93425, "quarterly": 14887.82145, "monthly": 5093.202075, "sa": 2500000.0, "riders": {"ALCB": 600000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 59, "annual": 51625.91, "semi": 27103.60275, "quarterly": 14713.38435, "monthly": 5033.526225, "sa": 2400000.0, "riders": {"ALCB": 500000.0, "ATPD": 500000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "INCLUDED"}}, {"age": 60, "annual": 51641.1, "semi": 27111.5775, "quarterly": 14717.7135, "monthly": 5035.00725, "sa": 2200000.0, "riders": {"ALCB": 500000.0, "ATPD": 300000.0, "ADD": 100000.0, "PA-ADD": 100000.0, "PA-ATPD": 100000, "PA-MA": 50000, "PA-AMR": 10000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 61, "annual": 51305.5, "semi": 26935.3875, "quarterly": 14622.0675, "monthly": 5002.28625, "sa": 2500000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 62, "annual": 51805.5, "semi": 27197.8875, "quarterly": 14764.5675, "monthly": 5051.03625, "sa": 2300000.0, "riders": {"ALCB": "-", "ATPD": 1000000.0, "ADD": 100000.0, "PA-ADD": 500000.0, "PA-ATPD": 500000, "PA-MA": 250000, "PA-AMR": 50000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 63, "annual": 52178.3, "semi": 27393.6075, "quarterly": 14870.8155, "monthly": 5087.38425, "sa": 2200000.0, "riders": {"ALCB": "-", "ATPD": 800000.0, "ADD": 100000.0, "PA-ADD": 300000.0, "PA-ATPD": 300000, "PA-MA": 150000, "PA-AMR": 30000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 64, "annual": 52220.8, "semi": 27415.92, "quarterly": 14882.928, "monthly": 5091.528, "sa": 1950000.0, "riders": {"ALCB": "-", "ATPD": 800000.0, "ADD": 100000.0, "PA-ADD": 300000.0, "PA-ATPD": 300000, "PA-MA": 150000, "PA-AMR": 30000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 65, "annual": 52201.3, "semi": 27405.6825, "quarterly": 14877.3705, "monthly": 5089.62675, "sa": 1800000.0, "riders": {"ALCB": "-", "ATPD": 700000.0, "ADD": 100000.0, "PA-ADD": 300000.0, "PA-ATPD": 300000, "PA-MA": 150000, "PA-AMR": 30000, "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 66, "annual": 51855.25, "semi": 27224.00625, "quarterly": 14778.74625, "monthly": 5055.886875, "sa": 1925000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 67, "annual": 51290.0, "semi": 26927.25, "quarterly": 14617.65, "monthly": 5000.775, "sa": 1750000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 68, "annual": 52075.0, "semi": 27339.375, "quarterly": 14841.375, "monthly": 5077.3125, "sa": 1625000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 69, "annual": 51715.25, "semi": 27150.50625, "quarterly": 14738.84625, "monthly": 5042.236875, "sa": 1475000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 70, "annual": 51775.0, "semi": 27181.875, "quarterly": 14755.875, "monthly": 5048.0625, "sa": 1250000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 71, "annual": 51954.5, "semi": 27276.1125, "quarterly": 14807.0325, "monthly": 5065.56375, "sa": 1150000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 72, "annual": 51860.5, "semi": 27226.7625, "quarterly": 14780.2425, "monthly": 5056.39875, "sa": 1050000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 73, "annual": 51808.0, "semi": 27199.2, "quarterly": 14765.28, "monthly": 5051.28, "sa": 960000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 74, "annual": 51613.75, "semi": 27097.21875, "quarterly": 14709.91875, "monthly": 5032.340625, "sa": 875000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 75, "annual": 52172.5, "semi": 27390.5625, "quarterly": 14869.1625, "monthly": 5086.81875, "sa": 750000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 76, "annual": 51814.75, "semi": 27202.74375, "quarterly": 14767.20375, "monthly": 5051.938125, "sa": 675000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 77, "annual": 51512.65, "semi": 27044.14125, "quarterly": 14681.10525, "monthly": 5022.483375, "sa": 615000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 78, "annual": 51622.9, "semi": 27102.0225, "quarterly": 14712.5265, "monthly": 5033.23275, "sa": 565000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}, {"age": 79, "annual": 52291.4, "semi": 27452.985, "quarterly": 14903.049, "monthly": 5098.4115, "sa": 515000.0, "riders": {"ALCB": "-", "ATPD": "-", "ADD": "-", "PA-ADD": "-", "PA-ATPD": "-", "PA-MA": "-", "PA-AMR": "-", "DHI": "-", "ICU": "-", "SR": "-", "LTH": "-", "LCW": "-", "WPTPD": "-"}}]};
+
+/* ===== APP LOGIC ===== */
+const PLANS = [
+  { id:'sa_only', name:'Life Insurance Only', desc:'Choose your own coverage amount, age 0–79', min:0, max:79 },
+  { id:'1000', name:'1,000 Premium Range', desc:'Premium starts around ₱1,000/mo, age 21–59', min:21, max:59 },
+  { id:'2500', name:'2,500 Premium Range', desc:'Premium starts around ₱2,500/mo, age 21–59', min:21, max:59 },
+  { id:'3000', name:'3,000 Premium Range', desc:'Premium starts around ₱3,000/mo, age 21–59', min:21, max:59 },
+  { id:'5000', name:'5,000 Premium Range', desc:'Premium starts around ₱5,000/mo, age 21–79', min:21, max:79 },
+];
+const MODES = [
+  { id:'annual', label:'Annual' },
+  { id:'semi', label:'Semi-Annual' },
+  { id:'quarterly', label:'Quarterly' },
+  { id:'monthly', label:'Monthly' },
+];
+
+const RIDER_DEFS = {
+  'ALCB': 'Critical Illness Benefit',
+  'ADD': 'Accidental Death and Disablement',
+  'ATPD': 'Accelerated Total and Permanent Disability',
+  'PA-ADD': 'Personal Accident – Accidental Death and Disablement',
+  'PA-ATPD': 'Personal Accident – Accelerated Total and Permanent Disability',
+  'PA-MA': 'Personal Accident – Murder and Assault',
+  'PA-AMR': 'Personal Accident – Accidental Medical Reimbursement',
+  'DHI': 'Daily Hospital Income',
+  'ICU': 'ICU Confinement',
+  'SR': 'Surgical Reimbursement',
+  'LTH': 'Long Term Hospitalization',
+  'LCW': 'Waiver of Premium for Critical Illness',
+  'WPTPD': 'Waiver of Premium for Total and Permanent Disability',
+};
+
+const MIN_QUOTABLE_AGE = 21;
+
+let state = { plan:null, age:null, tierIdx:0, mode:'monthly' };
+
+const peso = (n) => {
+  if (n === null || n === undefined || n === '' ) return '—';
+  if (typeof n === 'string') return n; // e.g. '-', 'INCLUDED'
+  return '₱' + n.toLocaleString('en-PH', {minimumFractionDigits:2, maximumFractionDigits:2});
+};
+const pesoWhole = (n) => {
+  if (n === null || n === undefined) return '—';
+  if (typeof n === 'string') return n;
+  return '₱' + n.toLocaleString('en-PH', {maximumFractionDigits:0});
+};
+
+function renderPlanGrid(){
+  const grid = document.getElementById('planGrid');
+  grid.innerHTML = '';
+  PLANS.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'plan-option' + (state.plan===p.id ? ' active':'');
+    el.innerHTML = `<div><div class="name">${p.name}</div><div class="desc">${p.desc}</div></div><div class="tick"></div>`;
+    el.addEventListener('click', () => {
+      state.plan = p.id;
+      state.tierIdx = 0;
+      const ageInput = document.getElementById('ageInput');
+      ageInput.min = p.min; ageInput.max = p.max;
+      document.getElementById('ageHint').textContent = `Eligible ages for this plan: ${p.min}–${p.max}.`;
+      document.getElementById('ageHint').classList.remove('warn');
+      renderPlanGrid();
+      recompute();
+    });
+    grid.appendChild(el);
+  });
+}
+
+function renderModeGrid(){
+  const grid = document.getElementById('modeGrid');
+  grid.innerHTML = '';
+  MODES.forEach(m => {
+    const el = document.createElement('div');
+    el.className = 'mode-option' + (state.mode===m.id ? ' active':'');
+    el.textContent = m.label;
+    el.addEventListener('click', () => { state.mode = m.id; renderModeGrid(); recompute(); });
+    grid.appendChild(el);
+  });
+}
+
+function getAgeRow(){
+  const age = state.age;
+  if (age === null || isNaN(age)) return null;
+  if (state.plan === 'sa_only'){
+    const tiers = SA_ONLY[String(age)];
+    if (!tiers) return null;
+    return tiers[state.tierIdx] || tiers[0];
+  } else {
+    const rows = MODAL_PLANS[state.plan];
+    if (!rows) return null;
+    return rows.find(r => r.age === age) || null;
+  }
+}
+
+function renderTierField(){
+  const field = document.getElementById('tierField');
+  const grid = document.getElementById('tierGrid');
+  if (state.plan !== 'sa_only' || state.age === null || isNaN(state.age) || !SA_ONLY[String(state.age)]){
+    field.style.display = 'none';
+    return;
+  }
+  const tiers = SA_ONLY[String(state.age)];
+  field.style.display = '';
+  grid.innerHTML = '';
+  tiers.forEach((t, i) => {
+    const el = document.createElement('div');
+    el.className = 'tier-option' + (state.tierIdx===i ? ' active':'');
+    const label = i === 0 ? 'Entry Premium' : 'Coverage';
+    el.innerHTML = `<span class="label">${label}</span><span class="val">${pesoWhole(t.sa)}</span>`;
+    el.addEventListener('click', () => { state.tierIdx = i; renderTierField(); recompute(); });
+    grid.appendChild(el);
+  });
+}
+
+function validAge(){
+  const plan = PLANS.find(p => p.id === state.plan);
+  if (!plan || state.age === null || isNaN(state.age)) return false;
+  return state.age >= plan.min && state.age <= plan.max;
+}
+
+function showAdvisorMessage(){
+  const cert = document.getElementById('certBody');
+  const placeholder = document.getElementById('placeholderMsg');
+  const sendPanel = document.getElementById('sendPanel');
+  placeholder.style.display='none';
+  sendPanel.style.display='none';
+  cert.style.display='';
+  cert.innerHTML = `
+    <div class="advisor-msg">
+      <div class="tag">Age Below 21</div>
+      <h3>Please consult your advisor.</h3>
+      <p>Quotations for individuals below 21 years old need extra guidance on eligibility, ownership, and underwriting requirements. Kindly reach out to your advisor to discuss the right plan for this age.</p>
+      <div class="contact-line">
+        <span>Engr. Suzeth A. Malit</span>
+        <span>plukferrysuzethmalit@gmail.com</span>
+      </div>
+    </div>
+  `;
+}
+
+function recompute(){
+  renderTierField();
+  const ageHint = document.getElementById('ageHint');
+  const plan = PLANS.find(p => p.id === state.plan);
+  const cert = document.getElementById('certBody');
+  const placeholder = document.getElementById('placeholderMsg');
+  const sendPanel = document.getElementById('sendPanel');
+
+  if (!plan){
+    placeholder.style.display='';
+    placeholder.textContent = 'Select a plan and enter an age to generate the sample quotation.';
+    cert.style.display='none';
+    sendPanel.style.display='none';
+    return;
+  }
+  if (state.age === null || isNaN(state.age)){
+    placeholder.style.display='';
+    placeholder.textContent = `Enter an age between ${plan.min} and ${plan.max} to generate the sample quotation.`;
+    cert.style.display='none';
+    sendPanel.style.display='none';
+    return;
+  }
+  if (state.age < MIN_QUOTABLE_AGE){
+    showAdvisorMessage();
+    return;
+  }
+  if (!validAge()){
+    ageHint.textContent = `Out of range — this plan covers ages ${plan.min}–${plan.max}.`;
+    ageHint.classList.add('warn');
+    placeholder.style.display='';
+    placeholder.textContent = `No rates available for age ${state.age} under ${plan.name}.`;
+    cert.style.display='none';
+    sendPanel.style.display='none';
+    return;
+  }
+  ageHint.classList.remove('warn');
+  ageHint.textContent = `Eligible ages for this plan: ${plan.min}–${plan.max}.`;
+
+  const row = getAgeRow();
+  if (!row){
+    placeholder.style.display='';
+    placeholder.textContent = `No rates available for age ${state.age} under ${plan.name}.`;
+    cert.style.display='none';
+    sendPanel.style.display='none';
+    return;
+  }
+
+  placeholder.style.display='none';
+  cert.style.display='';
+  sendPanel.style.display='';
+  renderCertificate(plan, row);
+}
+
+function certNumber(plan, age){
+  const d = new Date();
+  const stamp = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()+0).padStart(2,'0')}`;
+  return `TQ-${stamp}-${plan.id.toUpperCase()}-${age}`;
+}
+
+function renderCertificate(plan, row){
+  const cert = document.getElementById('certBody');
+  const clientName = document.getElementById('clientName').value.trim();
+  const agentName = document.getElementById('agentName').value.trim();
+  const today = new Date().toLocaleDateString('en-PH', { year:'numeric', month:'long', day:'numeric' });
+
+  const modeValues = { annual: row.annual, semi: row.semi, quarterly: row.quarterly, monthly: row.monthly };
+  const selectedAmt = modeValues[state.mode];
+  const sa = row.sa;
+
+  let modesRows = MODES.map(m => `
+    <tr class="${m.id===state.mode ? 'selected':''}">
+      <td>${m.label}</td>
+      <td class="amt">${peso(modeValues[m.id])}</td>
+    </tr>`).join('');
+
+  let ridersHtml = '';
+  if (row.riders){
+    const entries = Object.entries(row.riders);
+    ridersHtml = `
+      <div class="section-label">Included Benefits &amp; Riders</div>
+      <div class="riders">
+        ${entries.map(([code,val]) => `
+          <div class="rider-row">
+            <div class="info">
+              <span class="code">${code}</span>
+              <span class="def">${RIDER_DEFS[code] || ''}</span>
+            </div>
+            <span class="amt">${typeof val === 'number' ? pesoWhole(val) : (val ?? '—')}</span>
+          </div>`).join('')}
+      </div>
+    `;
+  }
+
+  cert.innerHTML = `
+    <div class="stamp">${plan.name}</div>
+    <div class="cert-head">
+      <div>
+        <h2>Term Life Sample Quotation</h2>
+        <div class="sub">Illustrative rate — not a policy contract</div>
+      </div>
+      <div class="cert-no">
+        <div>Certificate No.</div>
+        <div class="num">${certNumber(plan, state.age)}</div>
+        <div style="margin-top:6px;">${today}</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="datum"><div class="k">Prepared For</div><div class="v">${clientName || '—'}</div></div>
+      <div class="datum"><div class="k">Prepared By</div><div class="v">${agentName || '—'}</div></div>
+      <div class="datum"><div class="k">Age Next Birthday</div><div class="v">${state.age}</div></div>
+      <div class="datum"><div class="k">Plan</div><div class="v">${plan.name}</div></div>
+    </div>
+
+    <div class="hero-figures">
+      <div class="box">
+        <div class="k">Coverage Amount (SA)</div>
+        <div class="amt">${pesoWhole(sa)}</div>
+      </div>
+      <div class="box accent">
+        <div class="k">Premium Due</div>
+        <div class="amt">${peso(selectedAmt)}</div>
+        <div class="modelabel">${MODES.find(m=>m.id===state.mode).label}</div>
+      </div>
+    </div>
+    <div class="figures-note">Reflects the premium and coverage at the entered age only. As a yearly renewable term, premium increases every year based on attained age.</div>
+
+    <div class="section-label">Premium by Payment Mode</div>
+    <table class="modes-table">
+      <thead><tr><th>Mode</th><th>Amount</th></tr></thead>
+      <tbody>${modesRows}</tbody>
+    </table>
+
+    ${ridersHtml}
+
+    <div class="foot-note strong">Amounts and coverage shown are for reference and guide only. Actual figures in the final quotation may change upon underwriting and issuance.</div>
+
+    <div class="actions">
+      <button class="primary" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+  `;
+}
+
+function sendQuotation(){
+  const plan = PLANS.find(p => p.id === state.plan);
+  if (!plan || state.age === null || isNaN(state.age) || !validAge() || state.age < MIN_QUOTABLE_AGE){
+    alert('Generate a sample quotation first.');
+    return;
+  }
+  const row = getAgeRow();
+  if (!row) return;
+  const yourEmail = document.getElementById('yourEmail').value.trim();
+  const advisorEmail = document.getElementById('advisorEmail').value.trim();
+  const clientName = document.getElementById('clientName').value.trim() || 'Client';
+  const agentName = document.getElementById('agentName').value.trim() || 'Engr. Suzeth A. Malit';
+  const modeValues = { annual: row.annual, semi: row.semi, quarterly: row.quarterly, monthly: row.monthly };
+  const modeLabel = MODES.find(m=>m.id===state.mode).label;
+
+  const bodyLines = [
+    `Pru Life Your Term — Sample Quotation`,
+    ``,
+    `Prepared for: ${clientName}`,
+    `Prepared by: ${agentName}`,
+    `Age Next Birthday: ${state.age}`,
+    `Plan: ${plan.name}`,
+    ``,
+    `Coverage Amount (SA): ${pesoWhole(row.sa)}`,
+    `Premium Due (${modeLabel}): ${peso(modeValues[state.mode])}`,
+    ``,
+    `Annual: ${peso(row.annual)}`,
+    `Semi-Annual: ${peso(row.semi)}`,
+    `Quarterly: ${peso(row.quarterly)}`,
+    `Monthly: ${peso(row.monthly)}`,
+    ``,
+    `This is for reference and guide only. Amounts and coverage may change in the actual quotation.`,
+  ];
+  const subject = encodeURIComponent(`Term Insurance Sample Quotation - ${clientName}`);
+  const body = encodeURIComponent(bodyLines.join('\n'));
+  const to = yourEmail || '';
+  const cc = advisorEmail ? `&cc=${encodeURIComponent(advisorEmail)}` : '';
+  window.location.href = `mailto:${encodeURIComponent(to)}?subject=${subject}${cc}&body=${body}`;
+}
+window.sendQuotation = sendQuotation;
+
+document.getElementById('ageInput').addEventListener('input', (e) => {
+  const v = parseInt(e.target.value, 10);
+  state.age = isNaN(v) ? null : v;
+  state.tierIdx = 0;
+  recompute();
+});
+document.getElementById('clientName').addEventListener('input', recompute);
+document.getElementById('agentName').addEventListener('input', recompute);
+
+renderPlanGrid();
+renderModeGrid();
+recompute();
+document.getElementById('siteNavToggle').addEventListener('click', ()=>{
+  document.getElementById('siteNavLinks').classList.toggle('open');
+});
+
+
+(function pageTransitions(){
+  const wrap = document.getElementById('pageWrap');
+  if (!wrap) return;
+  requestAnimationFrame(()=>{ wrap.classList.add('page-in'); });
+
+  document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(link=>{
+    link.addEventListener('click', function(e){
+      if (e.defaultPrevented) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (link.target === '_blank') return;
+      const href = link.getAttribute('href');
+      if (!href || href.indexOf('http') === 0) return;
+      e.preventDefault();
+      wrap.classList.remove('page-in');
+      wrap.classList.add('page-out');
+      setTimeout(()=>{ window.location.href = href; }, 220);
+    });
+  });
+})();
+
+});
+</script>
+
+</div>
+
+<!-- Floating live-chat button. Default links to the booking page;
+     replace href below with a Messenger/WhatsApp/Tawk.to link once you have one. -->
+<a href="assessment.html" class="assessment-float">Take Free Assessment →</a>
+
+<a href="booking.html" class="chat-float">
+  <span class="cf-avatar"><img src="images/headshot.jpg" alt="Suzeth"><span class="cf-dot"></span></span>
+  Talk to Suzeth Live
+</a>
+
+</body>
+</html>
