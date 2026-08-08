@@ -1056,6 +1056,15 @@ function renderAdviserAssessment(main){
   main.appendChild(disclaimer);
 }
 
+function siteBase(){
+  // Returns the current folder URL, e.g. https://yoursite.com/
+  // Works regardless of whether the address bar shows assessment.html,
+  // /assessment, or has a trailing slash/query string.
+  const path = window.location.pathname;
+  const dir = path.substring(0, path.lastIndexOf('/') + 1);
+  return window.location.origin + dir;
+}
+
 function buildSnapshotLink(){
   const p = new URLSearchParams();
   if (answers.full_name) p.set('name', answers.full_name);
@@ -1080,8 +1089,8 @@ function buildSnapshotLink(){
   if (Array.isArray(answers.top_priorities) && answers.top_priorities.length){
     p.set('priorities', answers.top_priorities.join(','));
   }
-  const base = window.location.href.replace(/assessment\.html.*$/, 'snapshot.html');
-  return `${base}?${p.toString()}`;
+  const base = siteBase();
+  return `${base}snapshot.html?${p.toString()}`;
 }
 
 function buildAnswersLink(){
@@ -1098,8 +1107,8 @@ function buildAnswersLink(){
   });
   // encode as base64 (handles ₱ and other non-ASCII characters safely)
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(qa))));
-  const base = window.location.href.replace(/assessment\.html.*$/, 'answers.html');
-  return `${base}?data=${encoded}`;
+  const base = siteBase();
+  return `${base}answers.html?data=${encoded}`;
 }
 
 function renderSendEmailCard(c){
