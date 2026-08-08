@@ -853,24 +853,35 @@ function renderField(f){
 }
 
 function validateSection(section){
-  if (section.id !== 'personal') return null;
-  const email = (answers.email_address || '').trim();
-  const contact = (answers.contact_number || '').trim();
+  // Require every visible question in this section to be answered
+  for (const f of section.fields){
+    if (!isVisible(f)) continue;
+    const val = answers[f.id];
+    if (f.type === 'checkbox'){
+      if (!Array.isArray(val) || val.length === 0){
+        return `Please answer: "${f.q}"`;
+      }
+    } else {
+      if (val === undefined || val === null || String(val).trim() === ''){
+        return `Please answer: "${f.q}"`;
+      }
+    }
+  }
 
-  if (!email){
-    return 'Please enter your email address so we can send your results.';
+  // Extra format checks specific to the Personal Information section
+  if (section.id === 'personal'){
+    const email = (answers.email_address || '').trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailOk){
+      return 'That email address doesn\'t look right — please double-check it.';
+    }
+    const contact = (answers.contact_number || '').trim();
+    const digitsOnly = contact.replace(/[^0-9]/g, '');
+    if (digitsOnly.length < 10){
+      return 'That contact number looks incomplete — please double-check it.';
+    }
   }
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  if (!emailOk){
-    return 'That email address doesn\'t look right — please double-check it.';
-  }
-  if (!contact){
-    return 'Please enter your contact number.';
-  }
-  const digitsOnly = contact.replace(/[^0-9]/g, '');
-  if (digitsOnly.length < 10){
-    return 'That contact number looks incomplete — please double-check it.';
-  }
+
   return null;
 }
 
