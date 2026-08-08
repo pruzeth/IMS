@@ -87,6 +87,7 @@
     display:flex;align-items:center;justify-content:center;
   }
   .video-card .vc-frame img{width:100%;height:100%;object-fit:contain;display:block;}
+  .video-card .vc-frame iframe{width:100%;height:100%;border:none;display:block;}
   .video-card .vc-frame-fb{background:linear-gradient(160deg,#1a1a1a,#000);}
   .video-card .vc-frame img.vc-fb-bg{
     position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
@@ -224,7 +225,7 @@
       <p>Clients, in their own words.</p>
     </div>
     <div class="video-grid">
-      <a href="https://www.youtube.com/watch?v=NbH19_7Bv4Q" target="_blank" class="video-card">
+      <a href="https://www.youtube.com/watch?v=NbH19_7Bv4Q" target="_blank" class="video-card" onclick="return playVideo(event, this, 'youtube', 'NbH19_7Bv4Q')">
         <div class="vc-frame">
           <img src="https://img.youtube.com/vi/NbH19_7Bv4Q/hqdefault.jpg" alt="Client video story thumbnail">
           <div class="vc-play"><span>▶</span></div>
@@ -234,7 +235,7 @@
           <div class="vc-desc">Watch on YouTube</div>
         </div>
       </a>
-      <a href="https://www.youtube.com/watch?v=7KtoPoY2-qw" target="_blank" class="video-card">
+      <a href="https://www.youtube.com/watch?v=7KtoPoY2-qw" target="_blank" class="video-card" onclick="return playVideo(event, this, 'youtube', '7KtoPoY2-qw')">
         <div class="vc-frame">
           <img src="https://img.youtube.com/vi/7KtoPoY2-qw/hqdefault.jpg" alt="Client video story thumbnail">
           <div class="vc-play"><span>▶</span></div>
@@ -244,7 +245,7 @@
           <div class="vc-desc">Watch on YouTube</div>
         </div>
       </a>
-      <a href="https://www.facebook.com/share/r/18uGkeMY31/" target="_blank" class="video-card">
+      <a href="https://www.facebook.com/share/r/18uGkeMY31/" target="_blank" class="video-card" onclick="return playVideo(event, this, 'facebook', 'https://www.facebook.com/share/r/18uGkeMY31/')">
         <div class="vc-frame vc-frame-fb">
           <img src="images/headshot.jpg" alt="Client video story" class="vc-fb-bg">
           <div class="vc-play"><span>▶</span></div>
@@ -254,7 +255,7 @@
           <div class="vc-desc">Watch on Facebook</div>
         </div>
       </a>
-      <a href="https://www.facebook.com/share/v/1C75rZfiSo/" target="_blank" class="video-card">
+      <a href="https://www.facebook.com/share/v/1C75rZfiSo/" target="_blank" class="video-card" onclick="return playVideo(event, this, 'facebook', 'https://www.facebook.com/share/v/1C75rZfiSo/')">
         <div class="vc-frame vc-frame-fb">
           <img src="images/headshot.jpg" alt="Client video story" class="vc-fb-bg">
           <div class="vc-play"><span>▶</span></div>
@@ -264,7 +265,7 @@
           <div class="vc-desc">Watch on Facebook</div>
         </div>
       </a>
-      <a href="https://www.facebook.com/share/r/1Ei7NsNACE/" target="_blank" class="video-card">
+      <a href="https://www.facebook.com/share/r/1Ei7NsNACE/" target="_blank" class="video-card" onclick="return playVideo(event, this, 'facebook', 'https://www.facebook.com/share/r/1Ei7NsNACE/')">
         <div class="vc-frame vc-frame-fb">
           <img src="images/headshot.jpg" alt="Client video story" class="vc-fb-bg">
           <div class="vc-play"><span>▶</span></div>
@@ -330,6 +331,22 @@
 </footer>
 
 <script>
+/* Click-to-play video embeds — keeps the fast thumbnail on load,
+   swaps in a real embedded player only when the user clicks. */
+function playVideo(e, cardEl, type, idOrUrl){
+  e.preventDefault();
+  const frame = cardEl.querySelector('.vc-frame');
+  if (!frame) return false;
+
+  if (type === 'youtube'){
+    frame.innerHTML = `<iframe src="https://www.youtube.com/embed/${idOrUrl}?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  } else if (type === 'facebook'){
+    const encoded = encodeURIComponent(idOrUrl);
+    frame.innerHTML = `<iframe src="https://www.facebook.com/plugins/video.php?href=${encoded}&show_text=false&autoplay=1" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>`;
+  }
+  return false;
+}
+
 document.addEventListener('DOMContentLoaded', function(){
 
 document.getElementById('year').textContent = new Date().getFullYear();
