@@ -222,22 +222,11 @@ input[type=text], input[type=email]{
   padding:0;
   overflow:hidden;
 }
-.cert-edge{
-  height:14px;
-  background-image:radial-gradient(circle, var(--black) 3px, transparent 3.2px);
-  background-size:20px 20px;
-  background-position:-4px -7px;
-  background-color:transparent;
-}
-.cert-body{padding:8px 40px 36px;position:relative;}
+#certBody{padding:32px 44px 40px;position:relative;}
 .cert-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
   border-bottom:2px solid var(--black);
-  padding:18px 0 16px;
+  padding:0 0 16px;
   margin-bottom:22px;
-  gap:16px;
 }
 .cert-head h2{
   font-family:'Fraunces',serif;
@@ -251,30 +240,6 @@ input[type=text], input[type=email]{
   font-size:11px;
   color:var(--muted);
   letter-spacing:.05em;
-}
-.cert-no{
-  text-align:right;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  color:var(--muted);
-  white-space:nowrap;
-}
-.cert-no .num{color:var(--black);font-weight:600;font-size:13px;}
-
-.stamp{
-  position:absolute;
-  top:26px; right:38px;
-  border:2px solid var(--red);
-  color:var(--red);
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  padding:6px 12px;
-  transform:rotate(6deg);
-  border-radius:3px;
-  background:var(--red-tint);
 }
 
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:26px;}
@@ -337,13 +302,11 @@ input[type=text], input[type=email]{
 
 .riders{border:1px solid var(--rule);margin-bottom:10px;}
 .rider-row{
-  display:flex;justify-content:space-between;gap:14px;
-  padding:11px 14px;border-bottom:1px solid var(--rule);font-size:12.5px;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:11px 14px;border-bottom:1px solid var(--rule);font-size:13px;
 }
 .rider-row:last-child{border-bottom:none;}
-.rider-row .info{max-width:75%;}
-.rider-row .code{color:var(--black);font-weight:600;letter-spacing:.02em;}
-.rider-row .def{color:var(--muted);font-size:11.5px;display:block;margin-top:1px;}
+.rider-row .def{color:var(--black);}
 .rider-row .amt{font-family:'IBM Plex Mono',monospace;font-weight:600;text-align:right;white-space:nowrap;color:var(--black);}
 
 .foot-note{font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:6px;}
@@ -401,11 +364,25 @@ button.ghost:hover{border-color:var(--black);}
   font-size:11.5px;color:var(--muted);line-height:1.6;text-align:center;
 }
 
+.view-lock-controls{pointer-events:none;opacity:0.55;user-select:none;}
+.view-lock-banner{
+  background:var(--black);color:#fff;border-radius:14px;padding:18px 22px;margin-bottom:24px;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;
+}
+.view-lock-banner .vlb-text{font-size:13.5px;color:#D9D9D9;}
+.view-lock-banner .vlb-text b{color:#fff;}
+.view-lock-banner .vlb-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.view-lock-banner .vlb-actions a{
+  font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:100px;white-space:nowrap;
+}
+.view-lock-banner .vlb-actions a.primary{background:var(--red);color:#fff;}
+.view-lock-banner .vlb-actions a.secondary{background:rgba(255,255,255,0.1);color:#fff;}
+
 @media print{
   .site-nav{display:none !important;}
   .chat-float{display:none !important;}
   body{background:#fff;padding:0;}
-  .masthead, .disclaimer, .panel, .actions, .send-panel, .footer-note{display:none !important;}
+  .masthead, .disclaimer, .panel, .actions, .send-panel, .footer-note, .view-lock-banner{display:none !important;}
   .desk{display:block;margin:0;padding:0;max-width:none;}
   .certificate{border:none;}
 }
@@ -447,9 +424,11 @@ button.ghost:hover{border-color:var(--black);}
   </div>
 </div>
 
+<div id="viewLockBanner"></div>
+
 <div class="desk">
     <!-- LEFT: Worksheet -->
-    <div class="panel">
+    <div class="panel" id="worksheetPanel">
       <div class="panel-title">01 &nbsp;— &nbsp;Worksheet</div>
 
       <div class="field">
@@ -475,10 +454,10 @@ button.ghost:hover{border-color:var(--black);}
       </div>
 
       <div class="field">
-        <label>Prepared For / By <span style="text-transform:none;font-weight:400;">(optional, appears on certificate)</span></label>
+        <label>Prepared For <span style="text-transform:none;font-weight:400;">(optional, appears on certificate)</span></label>
         <div class="name-row">
           <input type="text" id="clientName" placeholder="Client name">
-          <input type="text" id="agentName" placeholder="Agent name" value="Engr. Suzeth A. Malit">
+          <input type="text" id="agentName" placeholder="Agent name" value="Engr. Suzeth A. Malit" style="display:none;">
         </div>
       </div>
     </div>
@@ -486,7 +465,6 @@ button.ghost:hover{border-color:var(--black);}
     <!-- RIGHT: Certificate -->
     <div>
       <div class="certificate" id="certificate">
-        <div class="cert-edge"></div>
         <div class="placeholder-msg" id="placeholderMsg">
           Select a plan and enter an age to generate the sample quotation.
         </div>
@@ -494,21 +472,11 @@ button.ghost:hover{border-color:var(--black);}
       </div>
 
       <div class="send-panel" id="sendPanel" style="display:none;">
-        <div class="panel-title" style="margin-bottom:16px;">02 &nbsp;— &nbsp;Send This Quotation</div>
-        <div class="send-row">
-          <div>
-            <label style="display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:8px;">Your Email</label>
-            <input type="email" id="yourEmail" placeholder="you@email.com">
-          </div>
-          <div>
-            <label style="display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:8px;">Your Advisor's Email</label>
-            <input type="email" id="advisorEmail" value="plukferrysuzethmalit@gmail.com" readonly style="background:var(--paper-alt);color:var(--muted);cursor:not-allowed;">
-          </div>
-        </div>
+        <div class="panel-title" style="margin-bottom:16px;">02 &nbsp;— &nbsp;Share This Quotation</div>
         <div class="actions" style="margin-top:0;">
-          <button class="primary" onclick="sendQuotation()">Send to Your Email &amp; Advisor</button>
+          <button class="primary" onclick="copyQuoteLink()">Get My Shareable Link</button>
         </div>
-        <div class="hint">Opens your default email app with this quotation's details pre-filled — nothing is sent automatically from this page.</div>
+        <div class="hint" id="linkHint">Copies a link to this exact quotation — open it anytime to see the same numbers.</div>
       </div>
     </div>
   </div>
@@ -726,7 +694,6 @@ function certNumber(plan, age){
 function renderCertificate(plan, row){
   const cert = document.getElementById('certBody');
   const clientName = document.getElementById('clientName').value.trim();
-  const agentName = document.getElementById('agentName').value.trim();
   const today = new Date().toLocaleDateString('en-PH', { year:'numeric', month:'long', day:'numeric' });
 
   const modeValues = { annual: row.annual, semi: row.semi, quarterly: row.quarterly, monthly: row.monthly };
@@ -741,46 +708,35 @@ function renderCertificate(plan, row){
 
   let ridersHtml = '';
   if (row.riders){
-    const entries = Object.entries(row.riders);
-    ridersHtml = `
-      <div class="section-label">Included Benefits &amp; Riders</div>
-      <div class="riders">
-        ${entries.map(([code,val]) => `
-          <div class="rider-row">
-            <div class="info">
-              <span class="code">${code}</span>
-              <span class="def">${RIDER_DEFS[code] || ''}</span>
-            </div>
-            <span class="amt">${typeof val === 'number' ? pesoWhole(val) : (val ?? '—')}</span>
-          </div>`).join('')}
-      </div>
-    `;
+    const entries = Object.entries(row.riders).filter(([code,val]) => val !== undefined && val !== null && val !== '-');
+    if (entries.length){
+      ridersHtml = `
+        <div class="section-label">What's Included</div>
+        <div class="riders">
+          ${entries.map(([code,val]) => `
+            <div class="rider-row">
+              <span class="def">${RIDER_DEFS[code] || code}</span>
+              <span class="amt">${typeof val === 'number' ? pesoWhole(val) : (val ?? '—')}</span>
+            </div>`).join('')}
+        </div>
+      `;
+    }
   }
 
   cert.innerHTML = `
-    <div class="stamp">${plan.name}</div>
     <div class="cert-head">
-      <div>
-        <h2>Term Life Sample Quotation</h2>
-        <div class="sub">Illustrative rate — not a policy contract</div>
-      </div>
-      <div class="cert-no">
-        <div>Certificate No.</div>
-        <div class="num">${certNumber(plan, state.age)}</div>
-        <div style="margin-top:6px;">${today}</div>
-      </div>
+      <h2>Term Life Sample Quotation</h2>
+      <div class="sub">${plan.name} · Prepared ${today}</div>
     </div>
 
     <div class="grid-2">
       <div class="datum"><div class="k">Prepared For</div><div class="v">${clientName || '—'}</div></div>
-      <div class="datum"><div class="k">Prepared By</div><div class="v">${agentName || '—'}</div></div>
       <div class="datum"><div class="k">Age Next Birthday</div><div class="v">${state.age}</div></div>
-      <div class="datum"><div class="k">Plan</div><div class="v">${plan.name}</div></div>
     </div>
 
     <div class="hero-figures">
       <div class="box">
-        <div class="k">Coverage Amount (SA)</div>
+        <div class="k">Coverage Amount</div>
         <div class="amt">${pesoWhole(sa)}</div>
       </div>
       <div class="box accent">
@@ -789,9 +745,9 @@ function renderCertificate(plan, row){
         <div class="modelabel">${MODES.find(m=>m.id===state.mode).label}</div>
       </div>
     </div>
-    <div class="figures-note">Reflects the premium and coverage at the entered age only. As a yearly renewable term, premium increases every year based on attained age.</div>
+    <div class="figures-note">As a yearly renewable term, this premium goes up each year as you get older.</div>
 
-    <div class="section-label">Premium by Payment Mode</div>
+    <div class="section-label">Other Payment Options</div>
     <table class="modes-table">
       <thead><tr><th>Mode</th><th>Amount</th></tr></thead>
       <tbody>${modesRows}</tbody>
@@ -799,7 +755,7 @@ function renderCertificate(plan, row){
 
     ${ridersHtml}
 
-    <div class="foot-note strong">Amounts and coverage shown are for reference and guide only. Actual figures in the final quotation may change upon underwriting and issuance.</div>
+    <div class="foot-note strong">For reference only. Actual figures may change once underwritten.</div>
 
     <div class="actions">
       <button class="primary" onclick="window.print()">Print / Save as PDF</button>
@@ -807,46 +763,58 @@ function renderCertificate(plan, row){
   `;
 }
 
-function sendQuotation(){
+function copyQuoteLink(){
   const plan = PLANS.find(p => p.id === state.plan);
   if (!plan || state.age === null || isNaN(state.age) || !validAge() || state.age < MIN_QUOTABLE_AGE){
     alert('Generate a sample quotation first.');
     return;
   }
-  const row = getAgeRow();
-  if (!row) return;
-  const yourEmail = document.getElementById('yourEmail').value.trim();
-  const advisorEmail = document.getElementById('advisorEmail').value.trim();
-  const clientName = document.getElementById('clientName').value.trim() || 'Client';
-  const agentName = document.getElementById('agentName').value.trim() || 'Engr. Suzeth A. Malit';
-  const modeValues = { annual: row.annual, semi: row.semi, quarterly: row.quarterly, monthly: row.monthly };
-  const modeLabel = MODES.find(m=>m.id===state.mode).label;
-
-  const bodyLines = [
-    `Pru Life Your Term — Sample Quotation`,
-    ``,
-    `Prepared for: ${clientName}`,
-    `Prepared by: ${agentName}`,
-    `Age Next Birthday: ${state.age}`,
-    `Plan: ${plan.name}`,
-    ``,
-    `Coverage Amount (SA): ${pesoWhole(row.sa)}`,
-    `Premium Due (${modeLabel}): ${peso(modeValues[state.mode])}`,
-    ``,
-    `Annual: ${peso(row.annual)}`,
-    `Semi-Annual: ${peso(row.semi)}`,
-    `Quarterly: ${peso(row.quarterly)}`,
-    `Monthly: ${peso(row.monthly)}`,
-    ``,
-    `This is for reference and guide only. Amounts and coverage may change in the actual quotation.`,
-  ];
-  const subject = encodeURIComponent(`Term Insurance Sample Quotation - ${clientName}`);
-  const body = encodeURIComponent(bodyLines.join('\n'));
-  const to = yourEmail || '';
-  const cc = advisorEmail ? `&cc=${encodeURIComponent(advisorEmail)}` : '';
-  window.location.href = `mailto:${encodeURIComponent(to)}?subject=${subject}${cc}&body=${body}`;
+  const clientName = document.getElementById('clientName').value.trim();
+  const agentName = document.getElementById('agentName').value.trim();
+  const p = new URLSearchParams();
+  p.set('plan', state.plan);
+  p.set('age', state.age);
+  p.set('tier', state.tierIdx);
+  p.set('mode', state.mode);
+  if (clientName) p.set('client', clientName);
+  if (agentName) p.set('agent', agentName);
+  const base = window.location.href.split('?')[0];
+  const link = `${base}?${p.toString()}`;
+  const hint = document.getElementById('linkHint');
+  navigator.clipboard.writeText(link).then(()=>{
+    hint.textContent = 'Link copied! Open it anytime to see this exact quotation.';
+  }).catch(()=>{
+    hint.textContent = 'Could not copy automatically — link: ' + link;
+  });
 }
-window.sendQuotation = sendQuotation;
+window.copyQuoteLink = copyQuoteLink;
+
+let isViewLocked = false;
+
+function loadFromLink(){
+  const qp = new URLSearchParams(window.location.search);
+  if (!qp.toString()) return;
+  isViewLocked = true;
+  if (qp.get('plan')) state.plan = qp.get('plan');
+  if (qp.get('age')) { document.getElementById('ageInput').value = qp.get('age'); state.age = parseInt(qp.get('age'), 10); }
+  if (qp.get('tier')) state.tierIdx = parseInt(qp.get('tier'), 10) || 0;
+  if (qp.get('mode')) state.mode = qp.get('mode');
+  if (qp.get('client')) document.getElementById('clientName').value = qp.get('client');
+  if (qp.get('agent')) document.getElementById('agentName').value = qp.get('agent');
+
+  document.querySelectorAll('#worksheetPanel input').forEach(el => el.disabled = true);
+  document.getElementById('worksheetPanel').classList.add('view-lock-controls');
+
+  document.getElementById('viewLockBanner').innerHTML = `
+    <div class="view-lock-banner">
+      <div class="vlb-text">🔒 <b>You're viewing a shared quotation.</b> These numbers are fixed and can't be edited here.</div>
+      <div class="vlb-actions">
+        <a href="assessment.html" class="primary">Take the Free Assessment →</a>
+        <a href="booking.html" class="secondary">Book a Free Clarity Call →</a>
+      </div>
+    </div>
+  `;
+}
 
 document.getElementById('ageInput').addEventListener('input', (e) => {
   const v = parseInt(e.target.value, 10);
@@ -857,6 +825,7 @@ document.getElementById('ageInput').addEventListener('input', (e) => {
 document.getElementById('clientName').addEventListener('input', recompute);
 document.getElementById('agentName').addEventListener('input', recompute);
 
+loadFromLink();
 renderPlanGrid();
 renderModeGrid();
 recompute();

@@ -127,23 +127,68 @@
   }
 
   .summary-panel{
-    background:var(--ink);color:#F2F2F2;border-radius:var(--radius);padding:26px;
+    background:var(--white);color:var(--ink);border:2px solid var(--tan-deep);border-radius:20px;padding:38px;
+    box-shadow:0 20px 50px rgba(184,17,44,0.12);border-top:6px solid var(--tan-deep);
+    margin-top:36px;
   }
-  .summary-panel h2{color:#fff;font-size:18px;margin-bottom:4px;}
-  .summary-panel .sp-hint{font-size:12.5px;color:#B8B8B8;margin-bottom:18px;}
-  .summary-line{display:flex;justify-content:space-between;font-size:13px;color:#D9D9D9;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);}
-  .summary-line:last-child{border-bottom:none;}
-  .summary-line b{color:#fff;}
+  .summary-panel h2{color:var(--ink);font-size:26px;margin-bottom:6px;}
+  .summary-panel .sp-hint{font-size:14px;color:var(--slate);margin-bottom:26px;}
+  .summary-meta{display:flex;flex-wrap:wrap;gap:24px;margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid var(--line);}
+  .summary-meta div{font-size:13.5px;color:var(--slate);}
+  .summary-meta b{color:var(--ink);display:block;font-size:17px;margin-top:3px;}
+  .summary-table{width:100%;border-collapse:collapse;margin-bottom:10px;}
+  .summary-table th{
+    text-align:right;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--slate);padding:12px 8px;border-bottom:2px solid var(--line);
+  }
+  .summary-table th:first-child{text-align:left;}
+  .summary-table td{
+    text-align:right;font-size:16px;color:var(--ink-soft);padding:16px 8px;border-bottom:1px solid var(--line);
+  }
+  .summary-table td:first-child{text-align:left;font-weight:700;color:var(--ink);font-size:15px;}
+  .summary-table tr:last-child td{border-bottom:none;}
+  .summary-table tr.best-fit{background:var(--red-tint);}
+  .summary-table tr.best-fit td:first-child{color:var(--tan-deep);}
+  .summary-table td.best-fit-cell{font-weight:800;color:var(--tan-deep);position:relative;font-size:19px;}
+  .best-fit-badge{
+    display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;
+    background:var(--tan-deep);color:#fff;padding:3px 9px;border-radius:100px;margin-top:5px;
+  }
+  .summary-empty{font-size:14px;color:var(--slate);padding:26px 0;text-align:center;}
   .adviser-strip{
-    margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.12);
-    font-size:12.5px;color:#C9C9C9;line-height:1.7;
+    margin-top:24px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:13.5px;color:var(--slate);line-height:1.8;
   }
-  .adviser-strip b{color:#fff;}
+  .adviser-strip b{color:var(--ink);}
+  .summary-disclaimer{
+    margin-top:18px;padding:14px 16px;background:var(--cream-2);border-radius:10px;
+    font-size:12.5px;color:var(--slate);line-height:1.6;
+  }
 
   @media (max-width:900px){
     .plan-select-grid{grid-template-columns:1fr;}
     .hmo-tier-grid{grid-template-columns:1fr;}
-  }
+  }.view-lock-controls{pointer-events:none;opacity:0.6;user-select:none;}
+.view-lock-banner{
+  background:var(--ink);color:#fff;border-radius:14px;padding:18px 22px;margin-bottom:24px;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;
+}
+.view-lock-banner .vlb-text{font-size:13.5px;color:#D9D9D9;}
+.view-lock-banner .vlb-text b{color:#fff;}
+.view-lock-banner .vlb-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.view-lock-banner .vlb-actions a{
+  font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:100px;white-space:nowrap;
+}
+.view-lock-banner .vlb-actions a.primary{background:linear-gradient(135deg,var(--tan),var(--tan-deep));color:#fff;}
+.view-lock-banner .vlb-actions a.secondary{background:rgba(255,255,255,0.1);color:#fff;}
+
+@media print{
+  .site-nav, .chat-float, .assessment-float, .top-accent{display:none !important;}
+  body{background:#fff;}
+  #updatePlanBtn, #copyLinkBtn, #printPlanBtn, #linkStatus, #assessmentLinkBlock, .view-lock-banner{display:none !important;}
+  .block:first-child{display:none !important;}
+  .summary-panel{border:none;box-shadow:none;}
+}
 </style>
 </head>
 <body>
@@ -178,7 +223,9 @@
   </div>
 </header>
 
-<div class="wrap" style="padding-bottom:80px;">
+<div class="wrap" style="padding-bottom:80px;" id="mainWrap">
+
+  <div id="viewLockBanner"></div>
 
   <div class="block">
     <div class="step-label">Step 1</div>
@@ -209,6 +256,7 @@
       </div>
     </div>
     <div id="monthlyHint" style="font-size:13px;color:var(--tan-deep);font-weight:600;"></div>
+    <button class="btn btn-gold" id="updatePlanBtn" style="margin-top:16px;">Update Plan →</button>
   </div>
 
   <div class="block">
@@ -219,19 +267,8 @@
     <div class="payyear-section" id="payYearSection" style="display:none;"></div>
   </div>
 
-  <div class="block" id="hmoBlock">
-    <div class="step-label">Step 3</div>
-    <h2>Would you like to add an HMO plan?</h2>
-    <div class="block-hint">Optional — day-to-day hospitalization coverage alongside your life insurance.</div>
-    <div class="hmo-toggle-row">
-      <div class="hmo-opt" id="hmoYes">Yes, add HMO</div>
-      <div class="hmo-opt" id="hmoNo">No, skip for now</div>
-    </div>
-    <div class="hmo-tier-grid" id="hmoTierGrid" style="display:none;"></div>
-  </div>
-
   <div class="block" id="compareBlock" style="display:none;">
-    <div class="step-label">Your Comparison</div>
+    <div class="step-label">Step 3</div>
     <h2>Side-by-side quotation</h2>
     <div class="block-hint">Term Insurance numbers are real, pulled from our actual rates. Traditional and Insuravest figures marked <span class="sample-badge">SAMPLE</span> are estimates for now, until we add their full rate tables.</div>
     <div class="compare-wrap">
@@ -250,16 +287,16 @@
     <h2>Quote Summary</h2>
     <div class="sp-hint">Updates as you build your plan above.</div>
     <div id="summaryLines"></div>
+    <div class="summary-disclaimer">For reference only — actual premiums and coverage may change upon underwriting. Your adviser will confirm the final numbers with you.</div>
     <div class="adviser-strip">
       <b>Engr. Suzeth A. Malit</b> — Licensed Financial Advisor, Pru Life UK<br>
       Top Global Summit LIA, Global District<br>
-      <a href="mailto:plukferrysuzethmalit@gmail.com" style="color:#F2A5AF;">plukferrysuzethmalit@gmail.com</a>
+      <a href="mailto:plukferrysuzethmalit@gmail.com" style="color:var(--tan-deep);">plukferrysuzethmalit@gmail.com</a>
     </div>
     <div style="margin-top:18px;">
-      <label style="font-size:12px;color:#D9C4A5;display:block;margin-bottom:6px;">Send this summary to your email</label>
-      <input type="email" id="sendEmail" placeholder="you@email.com" style="width:100%;border-radius:8px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;padding:10px 12px;font-size:13.5px;margin-bottom:10px;">
-      <button class="btn btn-gold" id="sendBtn" style="width:100%;justify-content:center;">Email Me This Summary</button>
-      <div id="sendStatus" style="font-size:12px;margin-top:8px;"></div>
+      <button class="btn btn-gold" id="copyLinkBtn" style="width:100%;justify-content:center;">Get My Shareable Link</button>
+      <button class="btn btn-outline" id="printPlanBtn" style="width:100%;justify-content:center;margin-top:10px;" onclick="window.print()">Print / Save as PDF</button>
+      <div id="linkStatus" style="font-size:12px;margin-top:8px;color:var(--slate);"></div>
     </div>
   </div>
 
@@ -525,32 +562,6 @@ function renderAmountSlider(planId, payYearId, age, budget){
 /* ============================================================
    STEP 3 — HMO
    ============================================================ */
-function renderHmo(){
-  document.getElementById('hmoYes').classList.toggle('selected', state.hmo !== null && state.hmo !== 'no');
-  document.getElementById('hmoNo').classList.toggle('selected', state.hmo === 'no');
-
-  const tierGrid = document.getElementById('hmoTierGrid');
-  if (state.hmo && state.hmo !== 'no'){
-    tierGrid.style.display = 'grid';
-    tierGrid.innerHTML = '';
-    HMO_TIERS.forEach(t=>{
-      const card = document.createElement('div');
-      card.className = 'hmo-tier-card' + (state.hmo === t.id ? ' selected' : '');
-      card.innerHTML = `
-        <div class="htc-title">${t.label}</div>
-        <div class="htc-mbl">MBL ${peso(t.mbl)}/yr <span class="sample-badge">SAMPLE</span></div>
-        <div class="htc-mbl" style="margin-top:4px;">+${peso(t.addAnnual)}/yr</div>
-      `;
-      card.onclick = ()=>{ state.hmo = t.id; renderAll(); };
-      tierGrid.appendChild(card);
-    });
-  } else {
-    tierGrid.style.display = 'none';
-  }
-}
-document.getElementById('hmoYes').addEventListener('click', ()=>{ if (state.hmo === 'no' || state.hmo === null) state.hmo = HMO_TIERS[0].id; renderAll(); });
-document.getElementById('hmoNo').addEventListener('click', ()=>{ state.hmo = 'no'; renderAll(); });
-
 /* ============================================================
    TERM (real data) lookup
    ============================================================ */
@@ -796,76 +807,136 @@ function renderSummary(){
   const results = computeSelections();
   const cols = Object.keys(results);
 
-  let lines = '';
-  lines += `<div class="summary-line"><span>Name</span><b>${name}</b></div>`;
-  if (age) lines += `<div class="summary-line"><span>Age</span><b>${age}</b></div>`;
-  if (budget) lines += `<div class="summary-line"><span>Max Annual Budget</span><b>${peso(budget)}</b></div>`;
-
-  const totals = { annual:0, semi:0, quarterly:0, monthly:0 };
+  let metaHtml = `<div class="summary-meta">`;
+  metaHtml += `<div>Name<b>${name}</b></div>`;
+  if (age) metaHtml += `<div>Age<b>${age}</b></div>`;
+  if (budget) metaHtml += `<div>Max Annual Budget<b>${peso(budget)}</b></div>`;
+  metaHtml += `</div>`;
 
   if (cols.length === 0){
-    lines += `<div class="summary-line"><span>Select a plan type above to see your summary.</span></div>`;
-  } else {
-    const colLabels = { term:'Term Insurance', traditional:'Traditional Whole Life', insuravest:'Insuravest (VUL)' };
+    wrap.innerHTML = metaHtml + `<div class="summary-empty">Select a plan type above to see your quote summary.</div>`;
+    return;
+  }
+
+  const colLabels = { term:'Term Insurance', traditional:'Traditional Whole Life', insuravest:'Insuravest (VUL)' };
+
+  // Determine which plan's annual premium best fits the stated budget (closest without exceeding, else closest overall)
+  let bestFitCol = null;
+  if (budget > 0){
+    let bestDiff = Infinity;
     cols.forEach(c=>{
       const r = results[c];
       const modal = c === 'term' ? r.quote : (r.quote ? r.quote.modal : null);
       if (!modal) return;
-      const productName = r.quote && r.quote.productName ? ` — ${r.quote.productName}` : '';
-      lines += `<div style="margin:12px 0 4px 0;font-size:12.5px;font-weight:600;color:#fff;">${colLabels[c]}${productName}</div>`;
-      ['annual','semi','quarterly','monthly'].forEach(mode=>{
-        totals[mode] += modal[mode] || 0;
-        lines += `<div class="summary-line" style="padding:4px 0;border-bottom:none;"><span style="text-transform:capitalize;">${mode}</span><span>${peso(modal[mode])}</span></div>`;
-      });
+      const diff = budget - modal.annual;
+      if (diff >= 0 && diff < bestDiff){ bestDiff = diff; bestFitCol = c; }
     });
-  }
-
-  if (state.hmo && state.hmo !== 'no'){
-    const tier = HMO_TIERS.find(t=>t.id===state.hmo);
-    if (tier){
-      const hmoModal = modalFromAnnual(tier.addAnnual);
-      lines += `<div style="margin:12px 0 4px 0;font-size:12.5px;font-weight:600;color:#fff;">HMO (${tier.label})</div>`;
-      ['annual','semi','quarterly','monthly'].forEach(mode=>{
-        totals[mode] += hmoModal[mode] || 0;
-        lines += `<div class="summary-line" style="padding:4px 0;border-bottom:none;"><span style="text-transform:capitalize;">${mode}</span><span>${peso(hmoModal[mode])}</span></div>`;
+    if (bestFitCol === null){
+      // nothing fits under budget — pick the cheapest instead
+      let cheapest = Infinity;
+      cols.forEach(c=>{
+        const r = results[c];
+        const modal = c === 'term' ? r.quote : (r.quote ? r.quote.modal : null);
+        if (!modal) return;
+        if (modal.annual < cheapest){ cheapest = modal.annual; bestFitCol = c; }
       });
     }
   }
 
-  if (cols.length > 0 || (state.hmo && state.hmo !== 'no')){
-    lines += `<div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.2);">`;
-    lines += `<div style="font-size:12.5px;font-weight:700;color:#F2A5AF;margin-bottom:6px;">TOTAL (all selected plans)</div>`;
+  let table = `<table class="summary-table"><thead><tr><th>Plan</th><th>Annual</th><th>Semi</th><th>Quarterly</th><th>Monthly</th></tr></thead><tbody>`;
+  cols.forEach(c=>{
+    const r = results[c];
+    const modal = c === 'term' ? r.quote : (r.quote ? r.quote.modal : null);
+    if (!modal) return;
+    const productName = r.quote && r.quote.productName ? ` — ${r.quote.productName}` : '';
+    const isBest = c === bestFitCol;
+    table += `<tr class="${isBest ? 'best-fit' : ''}">`;
+    table += `<td>${colLabels[c]}${productName}${isBest ? '<br><span class="best-fit-badge">Fits your budget</span>' : ''}</td>`;
     ['annual','semi','quarterly','monthly'].forEach(mode=>{
-      lines += `<div class="summary-line"><span style="text-transform:capitalize;">${mode}</span><b>${peso(totals[mode])}</b></div>`;
+      table += `<td class="${isBest && mode==='monthly' ? 'best-fit-cell' : ''}">${peso(modal[mode])}</td>`;
     });
-    lines += `</div>`;
-  }
+    table += `</tr>`;
+  });
+  table += `</tbody></table>`;
 
-  wrap.innerHTML = lines;
+  wrap.innerHTML = metaHtml + table;
 }
 
 /* ============================================================
-   SEND SUMMARY
+   SHAREABLE LINK
    ============================================================ */
-document.getElementById('sendBtn').addEventListener('click', ()=>{
-  const statusEl = document.getElementById('sendStatus');
-  const email = document.getElementById('sendEmail').value.trim() || document.getElementById('pEmail').value.trim();
-  const name = document.getElementById('pName').value.trim() || 'there';
+function buildPlanLink(){
+  const p = new URLSearchParams();
+  const nameVal = document.getElementById('pName').value.trim();
+  const ageVal = document.getElementById('pAge').value.trim();
+  const emailVal = document.getElementById('pEmail').value.trim();
+  const minVal = document.getElementById('pBudgetMin').value.trim();
+  const maxVal = document.getElementById('pBudgetMax').value.trim();
+  if (nameVal) p.set('name', nameVal);
+  if (ageVal) p.set('age', ageVal);
+  if (emailVal) p.set('email', emailVal);
+  if (minVal) p.set('bmin', minVal);
+  if (maxVal) p.set('bmax', maxVal);
+  Object.keys(state.selectedPlans).forEach(planId=>{
+    const payYearId = state.selectedPlans[planId];
+    if (payYearId) p.set('plan_' + planId, payYearId);
+  });
+  Object.keys(state.planAmount).forEach(planId=>{
+    p.set('amt_' + planId, state.planAmount[planId]);
+  });
+  if (state.hmo) p.set('hmo', state.hmo);
+  const base = window.location.href.split('?')[0];
+  return `${base}?${p.toString()}`;
+}
 
-  if (!email){
+document.getElementById('copyLinkBtn').addEventListener('click', ()=>{
+  const statusEl = document.getElementById('linkStatus');
+  const link = buildPlanLink();
+  navigator.clipboard.writeText(link).then(()=>{
+    statusEl.style.color = '#D9D9D9';
+    statusEl.textContent = 'Link copied! Paste it anywhere to share this exact plan.';
+  }).catch(()=>{
     statusEl.style.color = '#F2A5AF';
-    statusEl.textContent = 'Please enter an email address.';
-    return;
-  }
-  if (!window.emailjs || CONFIG.emailjsPublicKey.indexOf('YOUR_') === 0){
-    statusEl.style.color = '#F2A5AF';
-    statusEl.textContent = 'This is a prototype — email sending is not connected yet.';
-    return;
-  }
-  statusEl.style.color = '#D9D9D9';
-  statusEl.textContent = 'Sending...';
-  // Wiring would mirror the rest of the site's EmailJS pattern once connected.
+    statusEl.textContent = 'Could not copy automatically — link: ' + link;
+  });
 });
+
+let isViewLocked = false;
+
+function loadFromLink(){
+  const qp = new URLSearchParams(window.location.search);
+  if (!qp.toString()) return;
+  isViewLocked = true;
+  if (qp.get('name')) document.getElementById('pName').value = qp.get('name');
+  if (qp.get('age')) document.getElementById('pAge').value = qp.get('age');
+  if (qp.get('email')) document.getElementById('pEmail').value = qp.get('email');
+  if (qp.get('bmin')) document.getElementById('pBudgetMin').value = qp.get('bmin');
+  if (qp.get('bmax')) document.getElementById('pBudgetMax').value = qp.get('bmax');
+  PLAN_TYPES.forEach(pt=>{
+    const payYearId = qp.get('plan_' + pt.id);
+    if (payYearId) state.selectedPlans[pt.id] = payYearId;
+    const amt = qp.get('amt_' + pt.id);
+    if (amt) state.planAmount[pt.id] = isNaN(Number(amt)) ? amt : Number(amt);
+  });
+  if (qp.get('hmo')) state.hmo = qp.get('hmo');
+
+  // Lock the builder — shared links show a fixed snapshot, not an editable tool
+  document.querySelectorAll('#mainWrap input').forEach(el => el.disabled = true);
+  document.getElementById('updatePlanBtn').style.display = 'none';
+  document.querySelectorAll('.block').forEach((block, i) => {
+    if (i < 2) block.classList.add('view-lock-controls'); // Step 1 + Step 2 become non-interactive
+  });
+
+  document.getElementById('viewLockBanner').innerHTML = `
+    <div class="view-lock-banner">
+      <div class="vlb-text">🔒 <b>You're viewing a shared plan.</b> These numbers are fixed and can't be edited here.</div>
+      <div class="vlb-actions">
+        <a href="assessment.html" class="primary">Take the Free Assessment →</a>
+        <a href="booking.html" class="secondary">Book a Free Clarity Call →</a>
+      </div>
+    </div>
+  `;
+}
 
 /* ============================================================
    INIT
@@ -883,7 +954,6 @@ function renderMonthlyHint(){
 
 function renderAll(){
   renderPlanSelect();
-  renderHmo();
   renderCompareTable();
   renderAssessmentLink();
   renderSummary();
@@ -891,9 +961,11 @@ function renderAll(){
 }
 
 ['pName','pAge','pEmail','pBudgetMin','pBudgetMax'].forEach(id=>{
-  document.getElementById(id).addEventListener('input', renderAll);
+  document.getElementById(id).addEventListener('input', renderMonthlyHint);
 });
+document.getElementById('updatePlanBtn').addEventListener('click', renderAll);
 
+loadFromLink();
 renderAll();
 
 document.getElementById('year').textContent = new Date().getFullYear();

@@ -596,6 +596,10 @@ const SECTIONS = [
         options:['Family Protection','Retirement',"Children's Education",'Wealth Building','Medical Protection','Debt-Free Living','Business Capital','Travel','Home Ownership']},
       {id:'biggest_concern', q:'17. Which concerns you the most? (Choose up to 3.)', type:'checkbox', max:3,
         options:['Hospital Bills','Critical Illness','Loss of Income','Death of Breadwinner','Retirement','Inflation','Education Costs']},
+      {id:'desired_retirement_age', q:'17a. At what age would you like to retire?', type:'number', placeholder:'e.g. 60'},
+      {id:'education_school_type', q:'17b. What type of school are you planning for your child\'s college education?', sub:'This helps us estimate a more realistic education fund using today\'s costs.', type:'radio',
+        options:['Public university','Private university','International / abroad'],
+        showIf: (a) => (Number(a.children_count) > 0) || (Array.isArray(a.top_priorities) && a.top_priorities.includes("Children's Education")) || (Array.isArray(a.biggest_concern) && a.biggest_concern.includes('Education Costs'))},
     ]
   },
   {
@@ -662,6 +666,7 @@ function overallProgress(){
 
 function isVisible(f){
   if (!f.showIf) return true;
+  if (typeof f.showIf === 'function') return f.showIf(answers);
   return answers[f.showIf.field] === f.showIf.equals;
 }
 
@@ -983,13 +988,18 @@ function computeAssessment(){
   // Education fund
   const childrenCount = Math.max(num(answers.children_count), (Array.isArray(answers.who_depends) && answers.who_depends.includes('Children')) ? 1 : 0);
   const wantsEducationFund = Array.isArray(answers.top_priorities) && answers.top_priorities.includes("Children's Education");
-  const perChildEstimate = 600000; // rough Philippine four-year college estimate, adviser to refine
+  const EDUCATION_COST_BY_SCHOOL = {
+    'Public university': 200000,
+    'Private university': 600000,
+    'International / abroad': 1500000
+  };
+  const perChildEstimate = EDUCATION_COST_BY_SCHOOL[answers.education_school_type] || 600000; // default: private university estimate
   const educationFundNeed = (wantsEducationFund || childrenCount > 0) ? childrenCount * perChildEstimate : 0;
 
   // Retirement — inflation-adjusted target using a 4% safe withdrawal rule
   const wantsRetirement = Array.isArray(answers.top_priorities) && answers.top_priorities.includes('Retirement');
   const currentAge = num(answers.age);
-  const retirementAge = 60;
+  const retirementAge = num(answers.desired_retirement_age) || 60;
   const yearsToRetirement = currentAge > 0 ? Math.max(retirementAge - currentAge, 1) : 25; // assume 25 years if age wasn't provided
   const inflationRate = 0.04; // long-run Philippine average assumption — adviser can adjust
   const annualExpensesToday = monthlyExpenses > 0 ? monthlyExpenses * 12 : annualIncome * 0.7; // fallback: assume 70% of income if expenses weren't provided
@@ -1008,7 +1018,7 @@ function computeAssessment(){
     hasHMO, existingHMOCoverage,
     emergencyFundTarget, efMonths, monthlyExpenses,
     debtOwed,
-    childrenCount, wantsEducationFund, educationFundNeed,
+    childrenCount, wantsEducationFund, educationFundNeed, perChildEstimate,
     wantsRetirement, retirementFundTarget,
     currentAge, retirementAge, yearsToRetirement, inflationRate,
     annualExpensesToday, inflatedAnnualExpenseAtRetirement, retirementWithdrawalMultiple,
@@ -1023,7 +1033,7 @@ function renderAdviserAssessment(main){
   banner.className = 'report-banner';
   banner.innerHTML = `
     <svg width="20" height="22" viewBox="0 0 20 22" fill="none"><path d="M10 0L19 3.5V10.5C19 16 15 19.8 10 21.5C5 19.8 1 16 1 10.5V3.5L10 0Z" fill="#B8112C"/></svg>
-    <div>This section is generated automatically from the client's responses and is intended as a starting point for the adviser's professional recommendation — not a final quote. Figures are directional estimates based on standard financial-needs-analysis rules of thumb and should be reviewed against the client's full circumstances before presenting.</div>
+    <div>Your personalized results are ready. Get your link below to view your full coverage snapshot, save it, or share it — it's generated instantly from your answers.</div>
   `;
   main.appendChild(banner);
 
@@ -1035,93 +1045,6 @@ function renderAdviserAssessment(main){
 
   main.appendChild(renderSendEmailCard(c));
 
-  const grid = document.createElement('div');
-  grid.className = 'report-grid';
-
-  grid.appendChild(reportCard({
-    label:'Income Replacement Need',
-    flag: c.coverageGap > 0 ? {text:'Gap identified', cls:'flag-gap'} : {text:'Covered', cls:'flag-ok'},
-    figure: peso(c.incomeReplacementNeed),
-    sub: `${c.multiplier}× annual income (${peso(c.annualIncome)}/yr), scaled for ${c.dependents} dependent(s)${answers.primary_earner==='Yes' ? ' as primary earner' : ''}.`
-  }));
-
-  grid.appendChild(reportCard({
-    label:'Life Insurance Coverage Gap',
-    flag: c.coverageGap > 0 ? {text:'Action needed', cls:'flag-gap'} : {text:'No gap', cls:'flag-ok'},
-    figure: peso(c.coverageGap),
-    sub: `Existing coverage: ${peso(c.existingLifeCoverage)}. Recommended: ${peso(c.incomeReplacementNeed)}.`
-  }));
-
-  grid.appendChild(reportCard({
-    label:'Critical Illness Need',
-    flag: c.criticalIllnessNeed <= 0 ? {text:'Fully covered', cls:'flag-ok'} : (c.hasCI ? {text:'Partial gap', cls:'flag-watch'} : {text:'No CI in place', cls:'flag-gap'}),
-    figure: peso(c.criticalIllnessNeed),
-    sub: c.hasCI
-      ? `Target ${peso(c.criticalIllnessTarget)}, minus existing coverage of ${peso(c.existingCICoverage)} — this is the remaining gap.`
-      : `Based on ~${(c.criticalIllnessTarget / (c.annualIncome||1)).toFixed(1)}× annual income, adjusted for health profile (${answers.overall_health || 'not specified'}${answers.smoker==='Yes' ? ', smoker' : ''}).`
-  }));
-
-  grid.appendChild(reportCard({
-    label:'Hospitalization / HMO Need',
-    flag: c.hasHMO ? {text:'Already in place', cls:'flag-ok'} : {text:'Recommend enrolling', cls:'flag-gap'},
-    figure: c.hasHMO ? (c.existingHMOCoverage > 0 ? peso(c.existingHMOCoverage) + '/yr MBL' : 'In place') : 'Not in place',
-    sub: c.hasHMO ? 'Client reports existing HMO/medical coverage — confirm room limits and diagnostics coverage.' : 'Client has no HMO or medical insurance — a priority gap regardless of income tier.'
-  }));
-
-  grid.appendChild(reportCard({
-    label:'Emergency Fund Requirement',
-    flag: answers.emergency_fund === 'No' ? {text:'Not started', cls:'flag-gap'} : {text: answers.emergency_fund === 'Still building one' ? 'In progress' : 'Has fund', cls: answers.emergency_fund === 'Still building one' ? 'flag-watch' : 'flag-ok'},
-    figure: peso(c.emergencyFundTarget),
-    sub: `${c.efMonths} months of expenses at ${peso(c.monthlyExpenses)}/month.`
-  }));
-
-  grid.appendChild(reportCard({
-    label:'Debt Protection Requirement',
-    flag: c.debtOwed > 0 ? {text:'Outstanding debt', cls:'flag-watch'} : {text:'Debt-free', cls:'flag-ok'},
-    figure: peso(c.debtOwed),
-    sub: c.debtOwed > 0 ? 'Consider decreasing term or debt-cancellation coverage tied to outstanding balances.' : 'No outstanding debt reported.'
-  }));
-
-  grid.appendChild(reportCard({
-    label:'Education Fund Need',
-    flag: c.educationFundNeed > 0 ? {text:'Applicable', cls:'flag-watch'} : {text:'Not applicable', cls:'flag-ok'},
-    figure: c.educationFundNeed > 0 ? peso(c.educationFundNeed) : '—',
-    sub: c.educationFundNeed > 0 ? `Estimated at ₱600,000 per child for ${c.childrenCount} child(ren) — refine using target school and timeline.` : 'No children reported or education not selected as a priority.'
-  }));
-
-  grid.appendChild(reportCard({
-    label:'Retirement Planning Need',
-    flag: c.wantsRetirement ? {text:'Priority for client', cls:'flag-watch'} : {text:'Not a stated priority', cls:'flag-ok'},
-    figure: c.wantsRetirement ? peso(c.retirementFundTarget) : '—',
-    sub: c.wantsRetirement
-      ? `Assumes retirement at age ${c.retirementAge} (${c.yearsToRetirement} yrs away), ${Math.round(c.inflationRate*100)}% average inflation on ${peso(c.annualExpensesToday)}/yr in today's expenses — growing to ${peso(c.inflatedAnnualExpenseAtRetirement)}/yr by retirement, ×${c.retirementWithdrawalMultiple} (4% withdrawal rule).`
-      : 'Client did not select retirement among top priorities.'
-  }));
-
-  const premiumCard = reportCard({
-    label:'Suggested Monthly Premium Range',
-    flag:{text:'Guideline', cls:'flag-watch'},
-    figure: `${peso(c.premiumLow)} – ${peso(c.premiumHigh)}`,
-    sub: `5–15% of monthly household income (${peso(c.monthlyIncome)}). Client's stated target budget: ${answers.target_budget || 'not specified'}.`
-  });
-  premiumCard.classList.add('wide');
-  grid.appendChild(premiumCard);
-
-  main.appendChild(grid);
-
-  const nextSteps = document.createElement('div');
-  nextSteps.className = 'next-steps';
-  nextSteps.innerHTML = `
-    <div class="next-steps-title">You've got your numbers. Let's go over them together.</div>
-    <a href="booking.html" class="next-step-main">
-      Book a Free Clarity Call →
-    </a>
-    <div class="next-steps-secondary">
-      Curious about specific numbers first? <a href="term-insurance.html">See a Term Quote</a> or <a href="design-your-own-plan.html">Get a Recommended Plan</a>.
-    </div>
-  `;
-  main.appendChild(nextSteps);
-
   const backLink = document.createElement('div');
   backLink.className = 'assessment-back-link';
   backLink.innerHTML = '<a href="index.html">← Back to Home</a>';
@@ -1131,6 +1054,34 @@ function renderAdviserAssessment(main){
   disclaimer.className = 'disclaimer';
   disclaimer.textContent = 'Figures shown are illustrative estimates generated from standard financial-needs-analysis rules of thumb (income multiples, expense-based emergency fund targets, and percentage-of-income premium guidelines). They do not constitute a final insurance recommendation, quotation, or financial advice, and should be reviewed and adjusted by a licensed financial adviser in light of the client\'s complete circumstances before being presented or acted upon.';
   main.appendChild(disclaimer);
+}
+
+function buildSnapshotLink(){
+  const p = new URLSearchParams();
+  if (answers.full_name) p.set('name', answers.full_name);
+  if (answers.age) p.set('age', answers.age);
+  if (answers.total_household_income) p.set('income', answers.total_household_income);
+  if (answers.monthly_expenses) p.set('expenses', answers.monthly_expenses);
+  if (answers.emergency_fund) p.set('ef', answers.emergency_fund);
+  if (answers.primary_earner) p.set('primary', answers.primary_earner);
+  if (answers.dependents_count) p.set('dependents', answers.dependents_count);
+  if (answers.children_count) p.set('children', answers.children_count);
+  if (answers.has_life_insurance) p.set('life', answers.has_life_insurance);
+  if (answers.life_insurance_amount) p.set('lifeamt', answers.life_insurance_amount);
+  if (answers.has_hmo) p.set('hmo', answers.has_hmo);
+  if (answers.hmo_coverage_amount) p.set('hmoamt', answers.hmo_coverage_amount);
+  if (answers.has_critical_illness) p.set('ci', answers.has_critical_illness);
+  if (answers.critical_illness_amount) p.set('ciamt', answers.critical_illness_amount);
+  if (answers.smoker) p.set('smoker', answers.smoker);
+  if (answers.overall_health) p.set('health', answers.overall_health);
+  if (answers.total_owed) p.set('debt', answers.total_owed);
+  if (answers.desired_retirement_age) p.set('retage', answers.desired_retirement_age);
+  if (answers.education_school_type) p.set('schooltype', answers.education_school_type);
+  if (Array.isArray(answers.top_priorities) && answers.top_priorities.length){
+    p.set('priorities', answers.top_priorities.join(','));
+  }
+  const base = window.location.href.replace(/assessment\.html.*$/, 'snapshot.html');
+  return `${base}?${p.toString()}`;
 }
 
 function renderSendEmailCard(c){
@@ -1156,11 +1107,42 @@ function renderSendEmailCard(c){
   sendBtn.onclick = ()=> sendAssessmentEmail(c, sendBtn, status);
   wrap.appendChild(sendBtn);
 
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'btn btn-ghost';
+  copyBtn.type = 'button';
+  copyBtn.textContent = 'Copy my results link';
+  copyBtn.onclick = ()=>{
+    const link = buildSnapshotLink();
+    navigator.clipboard.writeText(link).then(()=>{
+      copyBtn.textContent = 'Link copied!';
+      setTimeout(()=>{ copyBtn.textContent = 'Copy my results link'; }, 2200);
+    }).catch(()=>{
+      status.className = 'send-status err';
+      status.textContent = 'Could not copy automatically — link: ' + link;
+    });
+  };
+  wrap.appendChild(copyBtn);
+
   const status = document.createElement('div');
   status.className = 'send-status';
   wrap.appendChild(status);
 
   return wrap;
+}
+
+function buildAnswersDump(){
+  const lines = [];
+  SECTIONS.forEach(section => {
+    if (section.final) return;
+    section.fields.forEach(f => {
+      if (!isVisible(f)) return;
+      const val = answers[f.id];
+      if (val === undefined || val === null || val === '' || (Array.isArray(val) && val.length === 0)) return;
+      const displayVal = Array.isArray(val) ? val.join(', ') : val;
+      lines.push(`${f.q}\n${displayVal}`);
+    });
+  });
+  return lines.join('\n\n');
 }
 
 function sendAssessmentEmail(c, btn, statusEl){
@@ -1181,12 +1163,38 @@ function sendAssessmentEmail(c, btn, statusEl){
   statusEl.textContent = 'Sending…';
 
   const clientName = answers.full_name || 'there';
-  const emailBody = [
-    "Here's your Financial Needs Assessment summary:",
+  const snapshotLink = buildSnapshotLink();
+
+  // ---- Email 1: to the CLIENT — simple, just the headline + link ----
+  const clientBody = [
+    `Hi ${clientName}! Here's what your Free Assessment adds up to.`,
     "",
+    `View your full personalized coverage snapshot here: ${snapshotLink}`,
+    "",
+    `This link is yours to keep — save it, revisit it, or share it with family.`,
+    "",
+    `These are illustrative estimates — ${CONFIG.adviserName} will walk you through the exact numbers on your free Clarity Call.`
+  ].join('\n');
+
+  const clientParams = {
+    to_email: toEmail,
+    to_name: clientName,
+    adviser_name: CONFIG.adviserName,
+    adviser_email: CONFIG.adviserEmail,
+    booking_url: CONFIG.bookingUrl,
+    snapshot_link: snapshotLink,
+    email_subject: `Your Financial Needs Assessment Results, ${clientName}`,
+    email_body: clientBody,
+    cta_line: `Book your free Clarity Call here: ${CONFIG.bookingUrl}`
+  };
+
+  // ---- Email 2: to the ADVISER — full answers + full results + link ----
+  const adviserBody = [
+    `New Free Assessment completed by ${clientName}.`,
+    "",
+    `=== FULL RESULTS ===`,
     `Monthly Income: ${peso(c.monthlyIncome)}`,
     `Dependents: ${c.dependents}`,
-    "",
     `Income Replacement Need: ${peso(c.incomeReplacementNeed)}`,
     `Life Insurance Coverage Gap: ${peso(c.coverageGap)}`,
     `Critical Illness Need: ${peso(c.criticalIllnessNeed)}`,
@@ -1194,28 +1202,35 @@ function sendAssessmentEmail(c, btn, statusEl){
     `Emergency Fund Target: ${peso(c.emergencyFundTarget)}`,
     `Outstanding Debt: ${peso(c.debtOwed)}`,
     `Education Fund Need: ${c.educationFundNeed > 0 ? peso(c.educationFundNeed) : 'Not applicable'}`,
-    `Retirement Fund Target: ${c.wantsRetirement ? peso(c.retirementFundTarget) : 'Not a stated priority'}`,
+    `Retirement Fund Target: ${c.wantsRetirement ? peso(c.retirementFundTarget) + ' at age ' + c.retirementAge : 'Not a stated priority'}`,
     `Suggested Monthly Premium: ${peso(c.premiumLow)} – ${peso(c.premiumHigh)}`,
     "",
-    `These are illustrative estimates — ${CONFIG.adviserName} will walk you through the exact numbers.`
+    `Shareable results link: ${snapshotLink}`,
+    "",
+    `=== FULL CLIENT ANSWERS ===`,
+    buildAnswersDump()
   ].join('\n');
 
-  const params = {
-    to_email: toEmail,
-    to_name: clientName,
+  const adviserParams = {
+    to_email: CONFIG.adviserEmail,
+    to_name: CONFIG.adviserName,
     adviser_name: CONFIG.adviserName,
     adviser_email: CONFIG.adviserEmail,
     booking_url: CONFIG.bookingUrl,
-    email_subject: `Your Financial Needs Assessment Results, ${clientName}`,
-    email_body: emailBody,
-    cta_line: `Book your free Clarity Call here: ${CONFIG.bookingUrl}`
+    snapshot_link: snapshotLink,
+    email_subject: `New Assessment: ${clientName} — Full Answers & Results`,
+    email_body: adviserBody,
+    cta_line: ''
   };
 
-  emailjs.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, params)
+  Promise.all([
+    emailjs.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, clientParams),
+    emailjs.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, adviserParams)
+  ])
     .then(()=>{
       btn.disabled = false;
       statusEl.className = 'send-status ok';
-      statusEl.textContent = `Sent! Check ${toEmail} for the full results and the free session invite.`;
+      statusEl.textContent = `Sent! Check ${toEmail} for your results and free session invite.`;
     })
     .catch((err)=>{
       btn.disabled = false;
@@ -1225,17 +1240,6 @@ function sendAssessmentEmail(c, btn, statusEl){
     });
 }
 
-function reportCard({label, flag, figure, sub}){
-  const card = document.createElement('div');
-  card.className = 'report-card';
-  card.innerHTML = `
-    ${flag ? `<div class="rc-flag ${flag.cls}">${flag.text}</div>` : ''}
-    <div class="rc-label">${label}</div>
-    <div class="rc-figure">${figure}</div>
-    <div class="rc-sub">${sub}</div>
-  `;
-  return card;
-}
 
 function escapeHtml(s){
   const d = document.createElement('div');
