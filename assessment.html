@@ -1084,6 +1084,24 @@ function buildSnapshotLink(){
   return `${base}?${p.toString()}`;
 }
 
+function buildAnswersLink(){
+  const qa = [];
+  SECTIONS.forEach(section => {
+    if (section.final) return;
+    section.fields.forEach(f => {
+      if (!isVisible(f)) return;
+      const val = answers[f.id];
+      if (val === undefined || val === null || val === '' || (Array.isArray(val) && val.length === 0)) return;
+      const displayVal = Array.isArray(val) ? val.join(', ') : val;
+      qa.push([f.q, String(displayVal)]);
+    });
+  });
+  // encode as base64 (handles ₱ and other non-ASCII characters safely)
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(qa))));
+  const base = window.location.href.replace(/assessment\.html.*$/, 'answers.html');
+  return `${base}?data=${encoded}`;
+}
+
 function renderSendEmailCard(c){
   const wrap = document.createElement('div');
   wrap.className = 'send-card';
@@ -1152,81 +1170,32 @@ function sendAssessmentEmail(c, btn, statusEl){
     statusEl.textContent = 'Please enter a valid email address above first.';
     return;
   }
-  if (!window.emailjs || CONFIG.emailjsTemplateId.indexOf('YOUR_') === 0){
-    statusEl.className = 'send-status err';
-    statusEl.textContent = 'Email sending isn\'t configured yet — add your EmailJS keys in CONFIG at the top of the script.';
-    return;
-  }
 
   btn.disabled = true;
   statusEl.className = 'send-status pending';
   statusEl.textContent = 'Sending…';
 
   const clientName = answers.full_name || 'there';
-  const snapshotLink = buildSnapshotLink();
+  const resultLink = buildSnapshotLink();
+  const answersLink = buildAnswersLink();
 
-  // ---- Email 1: to the CLIENT — simple, just the headline + link ----
-  const clientBody = [
-    `Hi ${clientName}! Here's what your Free Assessment adds up to.`,
-    "",
-    `View your full personalized coverage snapshot here: ${snapshotLink}`,
-    "",
-    `This link is yours to keep — save it, revisit it, or share it with family.`,
-    "",
-    `These are illustrative estimates — ${CONFIG.adviserName} will walk you through the exact numbers on your free Clarity Call.`
-  ].join('\n');
-
-  const clientParams = {
-    to_email: toEmail,
-    to_name: clientName,
-    adviser_name: CONFIG.adviserName,
-    adviser_email: CONFIG.adviserEmail,
-    booking_url: CONFIG.bookingUrl,
-    snapshot_link: snapshotLink,
-    email_subject: `Your Financial Needs Assessment Results, ${clientName}`,
-    email_body: clientBody,
-    cta_line: `Book your free Clarity Call here: ${CONFIG.bookingUrl}`
-  };
-
-  // ---- Email 2: to the ADVISER — full answers + full results + link ----
-  const adviserBody = [
-    `New Free Assessment completed by ${clientName}.`,
-    "",
-    `=== FULL RESULTS ===`,
-    `Monthly Income: ${peso(c.monthlyIncome)}`,
-    `Dependents: ${c.dependents}`,
-    `Income Replacement Need: ${peso(c.incomeReplacementNeed)}`,
-    `Life Insurance Coverage Gap: ${peso(c.coverageGap)}`,
-    `Critical Illness Need: ${peso(c.criticalIllnessNeed)}`,
-    `HMO / Hospitalization: ${c.hasHMO ? 'Already in place' : 'Not in place — recommended'}`,
-    `Emergency Fund Target: ${peso(c.emergencyFundTarget)}`,
-    `Outstanding Debt: ${peso(c.debtOwed)}`,
-    `Education Fund Need: ${c.educationFundNeed > 0 ? peso(c.educationFundNeed) : 'Not applicable'}`,
-    `Retirement Fund Target: ${c.wantsRetirement ? peso(c.retirementFundTarget) + ' at age ' + c.retirementAge : 'Not a stated priority'}`,
-    `Suggested Monthly Premium: ${peso(c.premiumLow)} – ${peso(c.premiumHigh)}`,
-    "",
-    `Shareable results link: ${snapshotLink}`,
-    "",
-    `=== FULL CLIENT ANSWERS ===`,
-    buildAnswersDump()
-  ].join('\n');
-
-  const adviserParams = {
-    to_email: CONFIG.adviserEmail,
-    to_name: CONFIG.adviserName,
-    adviser_name: CONFIG.adviserName,
-    adviser_email: CONFIG.adviserEmail,
-    booking_url: CONFIG.bookingUrl,
-    snapshot_link: snapshotLink,
-    email_subject: `New Assessment: ${clientName} — Full Answers & Results`,
-    email_body: adviserBody,
-    cta_line: ''
-  };
-
-  Promise.all([
-    emailjs.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, clientParams),
-    emailjs.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, adviserParams)
-  ])
+  // One shared Brevo template is sent to both the client and the adviser
+  // (see netlify/functions/send-email.js). It carries: welcome message,
+  // results snapshot link, answers copy link, and the Clarity Call link.
+  fetch('/.netlify/functions/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: clientName,
+      email: toEmail,
+      resultLink,
+      answersLink
+    })
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Send failed');
+      return res.json();
+    })
     .then(()=>{
       btn.disabled = false;
       statusEl.className = 'send-status ok';

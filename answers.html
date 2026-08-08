@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Assessment Answers — Insurance Made Simple by Engr. Suzeth A. Malit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root{
+    --ink:#141414; --teal:#B8112C; --teal-deep:#7D0C1F; --gold:#B8112C;
+    --paper:#FFFFFF; --paper-alt:#F7F5F5; --charcoal:#141414; --slate:#5C5C5C; --line:#E4E0E0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--charcoal);
+    font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:64px 24px 90px 24px;}
+  h1{font-family:'Fraunces',serif; font-size:30px; font-weight:600; margin:0 0 8px 0;}
+  .sub{color:var(--slate); font-size:14px; margin-bottom:36px; line-height:1.5;}
+  table{width:100%; border-collapse:collapse;}
+  td{padding:12px 14px; border-bottom:1px solid var(--line); font-size:14.5px; vertical-align:top;}
+  td.q{font-weight:600; color:var(--charcoal); width:48%;}
+  td.a{color:var(--slate);}
+  tr:nth-child(odd) td{background:var(--paper-alt);}
+  .empty{padding:24px; text-align:center; color:var(--slate); font-size:14px;}
+  .back-row{margin-top:36px; text-align:center;}
+  .back-row a{color:var(--teal-deep); font-weight:600; font-size:13px; text-decoration:none;}
+  .cta{
+    margin-top:8px; text-align:center;
+  }
+  .cta a{
+    display:inline-block; margin-top:20px;
+    background:linear-gradient(135deg, var(--gold), var(--teal)); color:#fff;
+    border-radius:100px; padding:14px 30px; font-size:14.5px; font-weight:700;
+    text-decoration:none;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Your Assessment Answers</h1>
+  <div class="sub">Here's a saved copy of everything you shared in your Financial Needs Assessment — keep this for your records or your Clarity Call.</div>
+  <table id="answersTable"></table>
+  <div class="cta">
+    <a href="booking.html">Book Your Free Clarity Call →</a>
+  </div>
+  <div class="back-row"><a href="index.html">&larr; Back to Home</a></div>
+</div>
+
+<script>
+function escapeHtml(s){
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+const qp = new URLSearchParams(window.location.search);
+const raw = qp.get('data');
+const table = document.getElementById('answersTable');
+
+if (raw){
+  try {
+    const qa = JSON.parse(decodeURIComponent(escape(atob(raw))));
+    if (Array.isArray(qa) && qa.length){
+      qa.forEach(([q, a]) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="q">${escapeHtml(q)}</td><td class="a">${escapeHtml(a)}</td>`;
+        table.appendChild(tr);
+      });
+    } else {
+      table.innerHTML = '<tr><td class="empty">No answers found in this link.</td></tr>';
+    }
+  } catch(e){
+    table.innerHTML = '<tr><td class="empty">Could not load your answers — the link may be incomplete or damaged.</td></tr>';
+  }
+} else {
+  table.innerHTML = '<tr><td class="empty">No answers found in this link.</td></tr>';
+}
+</script>
+</body>
+</html>
