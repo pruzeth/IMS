@@ -1219,7 +1219,7 @@ function sendAssessmentEmail(c, btn, statusEl){
     .then(()=>{
       btn.disabled = false;
       statusEl.className = 'send-status ok';
-      statusEl.textContent = `Sent! Check ${toEmail} for your results and free session invite.`;
+      statusEl.textContent = `Sent! Check ${toEmail} for your results and free session invite. Don't see it? Please also check your Spam, Junk, or Promotions folder.`;
     })
     .catch((err)=>{
       btn.disabled = false;
