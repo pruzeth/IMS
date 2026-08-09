@@ -396,7 +396,7 @@ button.ghost:hover{border-color:var(--black);}
   <div class="wrap">
     <a href="index.html" class="brand-mark">
       <span class="brand-avatar"><img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit"></span>
-      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em></span>
+      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em><small class="brand-tagline">Zero to F.I.R.E: Financial Independence, Retiring Early</small></span>
     </a>
     <button class="nav-toggle" id="siteNavToggle" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="siteNavLinks">
@@ -404,7 +404,9 @@ button.ghost:hover{border-color:var(--black);}
       <a href="about.html">About</a>
       <a href="assessment.html">Assessment</a>
       <a href="stories.html">Stories</a>
-      <a href="booking.html" class="nav-cta">Book a Clarity Call</a>
+      <a href="contact.html">Contact</a>
+      <a href="booking.html" class="nav-cta">Book a Clarity Session</a>
+      <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
     </div>
   </div>
 </nav>
@@ -810,7 +812,7 @@ function loadFromLink(){
       <div class="vlb-text">🔒 <b>You're viewing a shared quotation.</b> These numbers are fixed and can't be edited here.</div>
       <div class="vlb-actions">
         <a href="assessment.html" class="primary">Take the Free Assessment →</a>
-        <a href="booking.html" class="secondary">Book a Free Clarity Call →</a>
+        <a href="booking.html" class="secondary">Book a Free Clarity Session →</a>
       </div>
     </div>
   `;
@@ -868,5 +870,6 @@ document.getElementById('siteNavToggle').addEventListener('click', ()=>{
   Talk to Suzeth Live
 </a>
 
+<script src="enhance.js"></script>
 </body>
 </html>

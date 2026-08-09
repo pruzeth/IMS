@@ -289,6 +289,24 @@
   .hvm-sub{font-size:12px;color:var(--slate);}
   @media (max-width:760px){.home-video-grid{grid-template-columns:1fr 1fr;}}
 
+  .proof-split-videos .video-card{
+    display:flex;text-decoration:none;
+    border:1.5px solid var(--line);border-radius:var(--radius);overflow:hidden;
+    background:var(--white);box-shadow:0 10px 30px rgba(20,20,20,0.06);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .proof-split-videos .video-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(20,20,20,0.1);}
+  .proof-split-videos .vc-frame{
+    aspect-ratio:16/9;background:#141414;position:relative;flex-shrink:0;width:150px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .proof-split-videos .vc-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+  .proof-split-videos .vc-frame iframe{width:100%;height:100%;border:none;display:block;}
+  .proof-split-videos .vc-body{padding:12px 14px;display:flex;flex-direction:column;justify-content:center;}
+  .proof-split-videos .vc-title{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3;}
+  .proof-split-videos .vc-desc{font-size:11.5px;color:var(--slate);margin-top:4px;}
+  @media (max-width:500px){.proof-split-videos .video-card{flex-direction:column;}.proof-split-videos .vc-frame{width:100%;}}
+
   .social-proof-strip{
     display:flex;align-items:center;justify-content:center;gap:16px;
     flex-wrap:wrap;padding:26px 0;
@@ -417,9 +435,35 @@
     .gallery-stage{height:320px;}
     .gallery-arrow{width:36px;height:36px;font-size:18px;}
   }
+  .hero.diag-bg{
+    position:relative;overflow:hidden;
+    background:#3A1A20;
+  }
+  .hero.diag-bg::before{
+    content:"";position:absolute;top:0;right:-10%;width:48%;height:100%;
+    background:linear-gradient(135deg, var(--tan) 0%, var(--tan-deep) 100%);
+    clip-path:polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+    z-index:0;
+  }
+  .hero.diag-bg > .wrap{position:relative;z-index:1;}
+  .hero.diag-bg .eyebrow-pill{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.28);color:#fff;}
+  .hero.diag-bg h1{color:#fff;}
+  .hero.diag-bg .grad-heading{background:linear-gradient(120deg, #F5C344 0%, #FFFFFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero.diag-bg p.lede{color:#EDE1DF;}
+  .hero.diag-bg p.lede[style*="tan-deep"]{color:#F5C344 !important;}
+  .hero.diag-bg p.lede[style*="var(--ink)"]{color:#fff !important;}
+  .hero.diag-bg .btn-outline{background:transparent;border-color:rgba(255,255,255,.55);color:#fff;}
+  .hero.diag-bg .btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.12);}
+  .hero.diag-bg .hero-rating-badge{background:rgba(255,255,255,.14);}
+  .hero.diag-bg .hrb-title{color:#fff;}
+  .hero.diag-bg .hrb-sub{color:#EDE1DF;}
+  .hero.diag-bg .video-card{box-shadow:0 30px 60px rgba(0,0,0,.45);}
+  @media (max-width:760px){
+    .hero.diag-bg::before{width:100%;right:0;opacity:.9;}
+  }
 </style>
 </head>
-<body>
+<body id="index-body">
 
 <div class="intro-preloader" id="introPreloader">
   <div class="intro-glow"></div>
@@ -447,7 +491,7 @@
   <div class="wrap">
     <a href="index.html" class="brand-mark">
       <span class="brand-avatar"><img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit"></span>
-      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em></span>
+      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em><small class="brand-tagline">Zero to F.I.R.E: Financial Independence, Retiring Early</small></span>
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="navLinks">
@@ -455,12 +499,14 @@
       <a href="about.html">About</a>
       <a href="assessment.html">Assessment</a>
       <a href="stories.html">Stories</a>
-      <a href="booking.html" class="nav-cta">Book a Clarity Call</a>
+      <a href="contact.html">Contact</a>
+      <a href="booking.html" class="nav-cta">Book a Clarity Session</a>
+      <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
     </div>
   </div>
 </nav>
 
-<header class="hero blob-bg">
+<header class="hero diag-bg">
   <div class="wrap">
     <div class="hero-greeting">👋 Hello, there! Watch this first —</div>
     <div class="hero-grid">
@@ -468,14 +514,14 @@
         <div class="vc-frame" id="watchFrame"></div>
       </div>
       <div>
-        <div class="eyebrow-pill">Licensed by the Insurance Commission · Pru Life UK</div>
-        <h1>Finally know if YOU or your <span class="grad-heading">family is protected.</span></h1>
+        <div class="eyebrow-pill">Free · 2-Minute Assessment</div>
+        <h1>Finally know if <span class="grad-heading">YOU</span> or your <span class="grad-heading">loved ones</span> is truly protected.</h1>
         <p class="lede" style="font-family:'Fraunces',serif;font-style:italic;color:var(--tan-deep);font-size:17px;margin-bottom:14px;">"Insurance shouldn't feel confusing. Let's make it simple."</p>
         <p class="lede">Take a short assessment to see where the gaps are and what coverage actually fits your life. Then we'll go over it together — free, one-on-one.</p>
         <p class="lede" style="font-weight:700;color:var(--ink);">No hard selling. No complicated terms. Just honest guidance.</p>
         <div class="hero-ctas">
-          <a href="assessment.html" class="btn btn-gold">Start My Free Assessment →</a>
-          <a href="about.html" class="btn btn-outline">Meet Engr. Suzeth</a>
+          <a href="assessment.html" class="btn btn-gold">Take Free Assessment →</a>
+          <a href="booking.html" class="btn btn-outline">Book a Clarity Session</a>
         </div>
         <div class="hero-rating-badge">
           <div class="hrb-stars">★★★★★</div>
@@ -487,61 +533,33 @@
   </div>
 </header>
 
-<section class="section" style="padding-top:0;">
+<section class="section reveal" style="padding-top:36px;padding-bottom:20px;">
   <div class="wrap">
-    <div class="measure-divider"><span class="tick"></span><span class="lbl">Track record</span><span class="rule"></span></div>
-    <div class="spec-strip">
-      <div class="spec-item"><div class="spec-num">4</div><div class="spec-label">Years in the industry</div></div>
-      <div class="spec-item"><div class="spec-num">150+</div><div class="spec-label">Clients served nationwide</div></div>
-      <div class="spec-item"><div class="spec-num">₱280M+</div><div class="spec-label">Secured protection coverages</div></div>
-      <div class="spec-item"><div class="spec-num">IC</div><div class="spec-label">Licensed adviser</div></div>
+    <div class="measure-divider"><span class="tick"></span><span class="lbl">Why trust Suzeth</span><span class="rule"></span></div>
+    <div class="stats-grid-new">
+      <div class="stat-card-new"><div class="num">150+</div><div class="lbl">Clients Protected</div></div>
+      <div class="stat-card-new"><div class="num">4</div><div class="lbl">Years Experience</div></div>
+      <div class="stat-card-new"><div class="num">CE</div><div class="lbl">Licensed Civil Engineer</div></div>
+      <div class="stat-card-new"><div class="num">FA</div><div class="lbl">Licensed Financial Advisor</div></div>
     </div>
   </div>
 </section>
 
-<section class="marquee-section">
-  <div class="marquee-label">TRUSTED PARTNERS &amp; RECOGNITIONS</div>
-  <div class="marquee-track">
-    <div class="marquee-content">
-      <span class="marquee-item"><img src="images/logo-prulifeuk.png" alt="Pru Life UK"></span>
-      <span class="marquee-item"><img src="images/logo-insurance-commission.png" alt="Insurance Commission"></span>
-      <span class="marquee-item text">100% Persistency Rating · Q1 2026</span>
-      <span class="marquee-item"><img src="images/logo-topglobalsummit.png" alt="Top Global Summit LIA"></span>
-      <span class="marquee-item text">#1 Most Lives Secured · 2025</span>
-      <!-- duplicate set for seamless loop -->
-      <span class="marquee-item"><img src="images/logo-prulifeuk.png" alt="Pru Life UK"></span>
-      <span class="marquee-item"><img src="images/logo-insurance-commission.png" alt="Insurance Commission"></span>
-      <span class="marquee-item text">100% Persistency Rating · Q1 2026</span>
-      <span class="marquee-item"><img src="images/logo-topglobalsummit.png" alt="Top Global Summit LIA"></span>
-      <span class="marquee-item text">#1 Most Lives Secured · 2025</span>
-    </div>
-  </div>
-</section>
-
-<section class="section">
+<section class="section reveal" style="padding-top:20px;">
   <div class="wrap">
-    <div class="hesitation-section">
-      <div class="hs-eyebrow">Let's be honest about why most people put this off</div>
-      <h2>It's not that you don't care. <em>It's that it never feels safe to ask.</em></h2>
-      <div class="hs-sub">So you tell yourself...</div>
-      <div class="hs-quote-list">
-        <div class="hs-quote">"I already have something." <span>— even when you're not sure it's enough</span></div>
-        <div class="hs-quote">"I'm too busy right now." <span>— there's always a better time later</span></div>
-        <div class="hs-quote">"I'll just deal with it eventually." <span>— easier than sitting through a sales pitch</span></div>
-        <div class="hs-quote">"Later. When things settle down." <span>— a delay that never really ends</span></div>
+    <div class="looking-band">
+      <div>
+        <div class="looking-band-label">I am looking to...</div>
+        <div class="looking-band-items">
+          <a href="assessment.html" class="lb-item"><div class="lb-icon">✓</div><span>Know my coverage gap</span></a>
+          <a href="term-insurance.html" class="lb-item"><div class="lb-icon">₱</div><span>See a term quote</span></a>
+          <a href="stories.html" class="lb-item"><div class="lb-icon">▶</div><span>Watch client stories</span></a>
+          <a href="booking.html" class="lb-item"><div class="lb-icon">☎</div><span>Talk to an adviser</span></a>
+        </div>
       </div>
-      <div class="hs-body">
-        <p>It's not that this doesn't matter to you. It's that every time you've tried to ask, someone was already trying to sell you something.</p>
-        <p>But the questions don't go away:</p>
-      </div>
-      <div class="hs-questions">
-        <div>"Is what I have actually enough to protect the people who depend on me?"</div>
-        <div>"If something happened to me tomorrow, would they be okay?"</div>
-        <div>"Am I actually planning for this, or just hoping for the best?"</div>
-      </div>
-      <div class="hs-closing">You don't have to answer all of that today. What you need first isn't a product — <strong>it's a safe space to think it through</strong>, no pressure, no pushing.</div>
-      <div style="margin-top:26px;">
-        <a href="assessment.html" class="btn btn-gold">Start with the Free Assessment →</a>
+      <div class="looking-band-cta">
+        <div>Access your Pru Policy here</div>
+        <a href="https://pruservices.prulifeuk.com.ph/" target="_blank">Go to PRUServices →</a>
       </div>
     </div>
   </div>
@@ -551,13 +569,13 @@
   <div class="wrap">
     <div class="section-head">
       <h2>How it works</h2>
-      <p>Two steps. No sales pitch first — just a clear look at where you stand today.</p>
+      <p>Three simple steps. No sales pitch first — just a clear look at where you stand today.</p>
     </div>
-    <div class="step-grid">
+    <div class="step-grid" style="grid-template-columns:repeat(3,1fr);">
       <div class="step-card dark">
-        <div class="step-tag">10 minutes</div>
+        <div class="step-tag">2 minutes</div>
         <div class="step-num-badge">1</div>
-        <h3>Take the Free Assessment</h3>
+        <h3>Take the Assessment</h3>
         <div class="step-sub">Get your coverage snapshot</div>
         <ul>
           <li>See which benefits actually apply to you</li>
@@ -566,9 +584,20 @@
         </ul>
       </div>
       <div class="step-card">
-        <div class="step-tag">Free 1-on-1</div>
+        <div class="step-tag">Instant</div>
         <div class="step-num-badge">2</div>
-        <h3>Book a Clarity Call</h3>
+        <h3>Review Your Results</h3>
+        <div class="step-sub">Your personal snapshot</div>
+        <ul>
+          <li>See your protection gap clearly</li>
+          <li>No jargon, no confusing terms</li>
+          <li>Yours to keep and revisit anytime</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <div class="step-tag">Free 1-on-1</div>
+        <div class="step-num-badge">3</div>
+        <h3>Join a Clarity Session</h3>
         <div class="step-sub">Get your plan options</div>
         <ul>
           <li>Walk through your results together</li>
@@ -578,7 +607,7 @@
       </div>
     </div>
     <div style="text-align:center;margin-top:30px;">
-      <a href="assessment.html" class="btn btn-gold">Start My Free Assessment →</a>
+      <a href="assessment.html" class="btn btn-gold">Take Free Assessment →</a>
     </div>
 
     <div class="snapshot-preview-wrap">
@@ -613,17 +642,32 @@
         <div class="sc-foot">Personalized to <b>your</b> situation, budget, and priorities.</div>
       </div>
     </div>
+
+    <div style="text-align:center;margin-top:26px;font-size:13.5px;color:var(--slate);">
+      Looking for affordable protection instead? <a href="term-insurance.html" style="color:var(--tan-deep);font-weight:600;">Get a Term Insurance Quote →</a>
+    </div>
   </div>
 </section>
 
-<section class="section" style="background:var(--cream-2);">
-  <div class="wrap about-preview">
-    <div class="photo-slot has-image"><img src="images/about-photo.jpg" alt="Engr. Suzeth Malit"></div>
-    <div>
-      <h2>An engineer's approach to your protection plan</h2>
-      <p>Most insurance conversations start with a product. Mine start with your numbers — income, dependents, existing coverage, gaps. Once that's clear, a recommendation actually makes sense.</p>
-      <p>Four years with Pru Life UK, 150+ clients nationwide — breadwinners, seamen, OFWs, engineers, virtual assistants, families, and business owners.</p>
-      <a href="about.html" class="btn btn-ink">Read the full story →</a>
+<section class="marquee-section" style="background:linear-gradient(120deg, var(--maroon) 0%, var(--ink) 100%);">
+  <div class="marquee-label">TRUSTED PARTNERS &amp; RECOGNITIONS</div>
+  <div class="marquee-track">
+    <div class="marquee-content">
+      <span class="marquee-item"><img src="images/logo-prulifeuk.png" alt="Pru Life UK"></span>
+      <span class="marquee-item"><img src="images/logo-insurance-commission.png" alt="Insurance Commission"></span>
+      <span class="marquee-item text">100% Persistency Rating · Q1 2026</span>
+      <span class="marquee-item"><img src="images/logo-topglobalsummit.png" alt="Top Global Summit LIA"></span>
+      <span class="marquee-item text">#1 Most Lives Secured · 2025</span>
+      <span class="marquee-item"><img src="images/logo-atram.png" alt="ATRAM"></span>
+      <span class="marquee-item"><img src="images/logo-eastspring.png" alt="Eastspring Investments — A member of Prudential plc (UK)"></span>
+      <!-- duplicate set for seamless loop -->
+      <span class="marquee-item"><img src="images/logo-prulifeuk.png" alt="Pru Life UK"></span>
+      <span class="marquee-item"><img src="images/logo-insurance-commission.png" alt="Insurance Commission"></span>
+      <span class="marquee-item text">100% Persistency Rating · Q1 2026</span>
+      <span class="marquee-item"><img src="images/logo-topglobalsummit.png" alt="Top Global Summit LIA"></span>
+      <span class="marquee-item text">#1 Most Lives Secured · 2025</span>
+      <span class="marquee-item"><img src="images/logo-atram.png" alt="ATRAM"></span>
+      <span class="marquee-item"><img src="images/logo-eastspring.png" alt="Eastspring Investments — A member of Prudential plc (UK)"></span>
     </div>
   </div>
 </section>
@@ -653,7 +697,7 @@
           </div>
         </div>
         <div class="testi-stars">★★★★★</div>
-        <p>"When it comes sa pag explain sa policy, makasabot jud dayon ko kay well explained ni Engr. Malit — naa syay mga presentations na gina pakita niya every detail og gina explain kada item. If naa ko questions ma answer niya og dali. Pag abot sa pila ang need ma invest, dli sya same sa uban financial advisor na pugson ka mag invest ani na amount miskan dli kaya sa budget — willing sya maminaw pila lang kaya nako og iyang ginapangitaan og way para ma fit akong budget sa ilang bracket."</p>
+        <p>"When it comes sa pag explain sa policy, makasabot jud dayon ko kay well explained ni Engr. Malit — naa syay mga presentations na gina pakita niya every detail og gina explain kada item. If naa ko questions ma answer niya og dali."</p>
         <span class="testi-tag">Explained clearly, no pressure</span>
       </div>
       <div class="testi-card">
@@ -665,7 +709,7 @@
           </div>
         </div>
         <div class="testi-stars">★★★★★</div>
-        <p>"Hi Fer! Thank you for the eye opener presentation. Actually gusto na ko naay insurance and I really want a thorough explanation para understandable pud. Luckily, because of you, na-enlighten among mind — 10 yrs from now, asa nami? Nakaipon na ba mi? Thankful kaayo ko sa imo. Now gusto na nako tanan nako family member kay insured. God bless you Fer, continue teaching other people."</p>
+        <p>"Hi Fer! Thank you for the eye opener presentation. Luckily, because of you, na-enlighten among mind — 10 yrs from now, asa nami? Nakaipon na ba mi? Thankful kaayo ko sa imo. Now gusto na nako tanan nako family member kay insured."</p>
         <span class="testi-tag">Made insurance make sense</span>
       </div>
       <div class="testi-card">
@@ -683,23 +727,12 @@
         <div class="testi-head">
           <div class="testi-avatar"></div>
           <div>
-            <div class="testi-name">Ms. Admin Assistant, 27</div>
-          </div>
-        </div>
-        <div class="testi-stars">★★★★★</div>
-        <p>"Wala koy masabi sa PRU te. Super satisfied ako sa nakuha nako. Regarding sab sa discussion last time goods kaayo te. Even sa app gani happy ko ga explore2 🥰"</p>
-        <span class="testi-tag">Super satisfied</span>
-      </div>
-      <div class="testi-card">
-        <div class="testi-head">
-          <div class="testi-avatar"></div>
-          <div>
             <div class="testi-name">Jewel Mae Lugo Bolivar</div>
             <div class="testi-verified">✓ Verified Facebook recommendation</div>
           </div>
         </div>
         <div class="testi-stars">★★★★★</div>
-        <p>"The best FA, very professional and committed to assisting everyone in achieving financial freedom. I wholeheartedly recommend Ate FA Suzeth Malit to anyone seeking financial guidance and planning. With her by your side, you can trust that your financial future is in the best possible hands."</p>
+        <p>"The best FA, very professional and committed to assisting everyone in achieving financial freedom. I wholeheartedly recommend Ate FA Suzeth Malit to anyone seeking financial guidance and planning."</p>
         <span class="testi-tag">Recommends without hesitation</span>
       </div>
     </div>
@@ -708,97 +741,72 @@
       <span class="tag-pill">✦ Clear explanations</span>
       <span class="tag-pill">✦ No-pressure consultations</span>
     </div>
-    <div class="card" style="margin-top:20px;background:var(--cream-2);border:none;">
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--tan-deep);margin-bottom:12px;">More from TikTok consultations</div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;">
-        <span class="tag-pill" style="background:#fff;">"She was able to explain all things that I should know in getting my plan"</span>
-        <span class="tag-pill" style="background:#fff;">"It was conversational 😊"</span>
-        <span class="tag-pill" style="background:#fff;">"Being comfortable during conversation"</span>
+    <div style="text-align:center;margin-top:26px;">
+      <a href="stories.html" class="btn btn-outline">See All Client Stories &amp; Reviews →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section reveal" id="proof-split">
+  <div class="wrap">
+    <div class="proof-split-grid">
+      <div>
+        <div class="section-head">
+          <h2>Moments with clients</h2>
+          <p>Consultations, policy deliveries, and a few celebrations along the way.</p>
+        </div>
+        <div class="gallery-stage-wrap">
+          <button class="gallery-arrow gallery-prev" id="galleryPrev" aria-label="Previous">‹</button>
+          <div class="gallery-stage">
+            <img id="galleryImg" src="images/gallery-1.jpg" alt="Client moment">
+          </div>
+          <button class="gallery-arrow gallery-next" id="galleryNext" aria-label="Next">›</button>
+        </div>
+        <div class="gallery-dots" id="galleryDots"></div>
+      </div>
+      <div>
+        <div class="section-head">
+          <h2>Video stories</h2>
+          <p>Clients, in their own words.</p>
+        </div>
+        <div class="proof-split-videos">
+          <a href="https://www.youtube.com/watch?v=NbH19_7Bv4Q" target="_blank" class="video-card" onclick="return playVideo(event, this, 'youtube', 'NbH19_7Bv4Q')">
+            <div class="vc-frame">
+              <img src="https://img.youtube.com/vi/NbH19_7Bv4Q/hqdefault.jpg" alt="Client video story thumbnail">
+              <div class="vc-play-overlay"><span>▶</span></div>
+            </div>
+            <div class="vc-body">
+              <div class="vc-title">Bakit mo naisipang kumuha ng insurance at age 23?</div>
+              <div class="vc-desc">Watch on YouTube</div>
+            </div>
+          </a>
+          <a href="https://www.youtube.com/watch?v=7KtoPoY2-qw" target="_blank" class="video-card" onclick="return playVideo(event, this, 'youtube', '7KtoPoY2-qw')">
+            <div class="vc-frame">
+              <img src="https://img.youtube.com/vi/7KtoPoY2-qw/hqdefault.jpg" alt="Client video story thumbnail">
+              <div class="vc-play-overlay"><span>▶</span></div>
+            </div>
+            <div class="vc-body">
+              <div class="vc-title">Akala ko expenses siya, Asset pala talaga</div>
+              <div class="vc-desc">Watch on YouTube</div>
+            </div>
+          </a>
+        </div>
+        <div style="margin-top:14px;">
+          <a href="stories.html#videos" style="font-size:13px;color:var(--tan-deep);font-weight:600;">Watch more on YouTube →</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section" id="client-gallery">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Moments with clients</h2>
-      <p>Consultations, policy deliveries, and a few celebrations along the way.</p>
-    </div>
-    <div class="gallery-stage-wrap">
-      <button class="gallery-arrow gallery-prev" id="galleryPrev" aria-label="Previous">‹</button>
-      <div class="gallery-stage">
-        <img id="galleryImg" src="images/gallery-1.jpg" alt="Client moment">
-      </div>
-      <button class="gallery-arrow gallery-next" id="galleryNext" aria-label="Next">›</button>
-    </div>
-    <div class="gallery-dots" id="galleryDots"></div>
-  </div>
-</section>
-
-<section class="section" id="video-stories" style="background:var(--cream-2);">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Video stories</h2>
-      <p>Clients, in their own words.</p>
-    </div>
-    <div class="home-video-grid">
-      <a href="https://www.youtube.com/watch?v=NbH19_7Bv4Q" target="_blank" class="video-card" onclick="return playVideo(event, this, 'youtube', 'NbH19_7Bv4Q')">
-        <div class="vc-frame">
-          <img src="https://img.youtube.com/vi/NbH19_7Bv4Q/hqdefault.jpg" alt="Client video story thumbnail">
-          <div class="vc-play-overlay"><span>▶</span></div>
-        </div>
-        <div class="vc-body">
-          <div class="vc-title">Bakit mo naisipang kumuha ng insurance at age 23?</div>
-          <div class="vc-desc">Watch on YouTube</div>
-        </div>
-      </a>
-      <a href="https://www.youtube.com/watch?v=7KtoPoY2-qw" target="_blank" class="video-card" onclick="return playVideo(event, this, 'youtube', '7KtoPoY2-qw')">
-        <div class="vc-frame">
-          <img src="https://img.youtube.com/vi/7KtoPoY2-qw/hqdefault.jpg" alt="Client video story thumbnail">
-          <div class="vc-play-overlay"><span>▶</span></div>
-        </div>
-        <div class="vc-body">
-          <div class="vc-title">Akala ko expenses siya, Asset pala talaga</div>
-          <div class="vc-desc">Watch on YouTube</div>
-        </div>
-      </a>
-      <a href="stories.html#videos" class="home-video-more">
-        <div class="hvm-icon">▶️</div>
-        <div class="hvm-title">Watch more on YouTube</div>
-        <div class="hvm-sub">More client stories &amp; explainers</div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;">
-  <div class="wrap">
-    <div class="hesitation-section compact">
-      <div class="hs-eyebrow">One last thing, before you close this tab</div>
-      <h2>Still telling yourself <em>"maybe later"?</em></h2>
-      <div class="hs-body">
-        <p>That's okay — no pressure to decide right now. But if those questions keep coming back, the fastest way to quiet them is to just look at the numbers, once.</p>
-      </div>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:20px;">
-        <a href="assessment.html" class="btn btn-gold">Take the Free Assessment →</a>
-        <a href="booking.html" class="btn btn-outline">Or Just Talk It Through First</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;padding-bottom:0;">
-  <div class="wrap">
-    <div class="social-proof-strip">
-      <div class="sp-avatars">
-        <span class="sp-avatar"><img src="images/gallery-2.jpg" alt=""></span>
-        <span class="sp-avatar"><img src="images/gallery-3.jpg" alt=""></span>
-        <span class="sp-avatar"><img src="images/gallery-5.jpg" alt=""></span>
-        <span class="sp-avatar"><img src="images/gallery-9.jpg" alt=""></span>
-        <span class="sp-avatar"><img src="images/gallery-6.jpg" alt=""></span>
-      </div>
-      <div class="sp-text">Trusted by <b>150+ clients nationwide</b> — and growing, one Free Assessment at a time.</div>
+<section class="section" style="background:var(--cream-2);">
+  <div class="wrap about-preview">
+    <div class="photo-slot has-image"><img src="images/about-photo.jpg" alt="Engr. Suzeth Malit"></div>
+    <div>
+      <h2>An engineer's approach to your protection plan</h2>
+      <p>Most insurance conversations start with a product. Mine start with your numbers — income, dependents, existing coverage, gaps. Once that's clear, a recommendation actually makes sense.</p>
+      <p>Four years with Pru Life UK, 150+ clients nationwide — breadwinners, seamen, OFWs, engineers, virtual assistants, families, and business owners.</p>
+      <a href="about.html" class="btn btn-ink">Read the full story →</a>
     </div>
   </div>
 </section>
@@ -808,10 +816,13 @@
     <div class="cta-band">
       <div class="wrap" style="padding:0 24px;">
         <h2>Let's measure where you stand.</h2>
-        <p>Free, no-obligation, takes about 10 minutes.</p>
+        <p>Free, no-obligation, takes about 2 minutes.</p>
         <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-          <a href="assessment.html" class="btn btn-gold">Start My Free Assessment →</a>
-          <a href="booking.html" class="btn btn-outline">Book a Free Clarity Call</a>
+          <a href="assessment.html" class="btn btn-gold">Take Free Assessment →</a>
+          <a href="booking.html" class="btn btn-outline">Book a Clarity Session</a>
+        </div>
+        <div style="margin-top:22px;font-size:13px;opacity:.85;">
+          Trusted by <b>150+ clients nationwide</b> — or <a href="contact.html" style="text-decoration:underline;">get in touch directly →</a>
         </div>
       </div>
     </div>
@@ -832,6 +843,7 @@
         <a href="about.html">About Suzeth</a>
         <a href="assessment.html">Free Assessment</a>
         <a href="stories.html">Stories</a>
+      <a href="contact.html">Contact</a>
         <a href="term-insurance.html">See a Term Quote</a>
       </div>
       <div class="footer-col">
@@ -977,5 +989,6 @@ document.addEventListener('DOMContentLoaded', function(){
   Talk to Suzeth Live
 </a>
 
+<script src="enhance.js"></script>
 </body>
 </html>

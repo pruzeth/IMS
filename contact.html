@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Insurance Made Simple by Engr. Suzeth A. Malit</title>
+<meta name="description" content="Get in touch directly with Engr. Suzeth A. Malit — email, WhatsApp, Facebook, or book a free Clarity Session.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  section.section{padding:78px 0;}
+  .page-hero{padding:52px 0 60px 0;}
+  .page-hero h1{font-size:40px;margin-bottom:14px;}
+  .page-hero p{color:var(--ink-soft);max-width:56ch;font-size:15.5px;}
+  .eyebrow-pill{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--tan-deep);
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:7px 14px;border-radius:100px;
+    margin-bottom:22px;
+  }
+
+  /* Invite band — book a Clarity Session or talk live */
+  .invite-band{
+    background:linear-gradient(120deg, var(--tan-deep) 0%, var(--ink) 100%);
+    border-radius:22px;padding:44px 40px;color:#fff;text-align:center;margin-bottom:64px;
+  }
+  .invite-band h2{color:#fff;font-size:28px;margin-bottom:10px;}
+  .invite-band p{color:#EAD9DC;font-size:15px;max-width:520px;margin:0 auto 26px auto;}
+  .invite-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .invite-ctas .btn-white{background:#fff;color:var(--tan-deep);border-radius:100px;padding:13px 26px;font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px;}
+  .invite-ctas .btn-ghost{border:1.5px solid rgba(255,255,255,.5);color:#fff;border-radius:100px;padding:13px 26px;font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px;}
+  .invite-ctas .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.1);}
+
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:760px;margin:0 auto;}
+  .contact-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:30px;}
+  .contact-row{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line);}
+  .contact-row:first-child{padding-top:0;}
+  .contact-row:last-child{border-bottom:none;padding-bottom:0;}
+  .contact-icon{width:38px;height:38px;border-radius:10px;background:var(--cream-2);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+  .contact-label{font-family:'Poppins',sans-serif;font-size:10.5px;color:var(--slate);text-transform:uppercase;letter-spacing:.05em;}
+  .contact-value{font-weight:600;margin-top:3px;font-size:15px;}
+  .contact-value a{color:var(--tan-deep);}
+  .contact-value a:hover{text-decoration:underline;}
+  .contact-sub{font-size:12.5px;color:var(--slate);margin-top:3px;}
+
+  .contact-guarantee{background:var(--cream-2);border:1px solid var(--line);border-radius:16px;padding:30px;display:flex;flex-direction:column;justify-content:center;}
+  .contact-guarantee h4{font-family:'Fraunces',serif;font-size:19px;margin:0 0 12px 0;color:var(--ink);}
+  .contact-guarantee p{color:var(--slate);font-size:14.5px;line-height:1.65;margin:0 0 22px 0;}
+  .contact-guarantee .btn-wa{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg, var(--tan), var(--tan-deep));color:#fff;border-radius:100px;padding:13px 24px;font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;box-shadow:0 10px 22px rgba(184,17,44,0.25);width:fit-content;}
+
+  @media (max-width:760px){
+    .contact-grid{grid-template-columns:1fr;}
+    .invite-band{padding:36px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="page-transition-wrap" id="pageWrap">
+
+<div class="top-accent"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand-mark">
+      <span class="brand-avatar"><img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit"></span>
+      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em><small class="brand-tagline">Zero to F.I.R.E: Financial Independence, Retiring Early</small></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="assessment.html">Assessment</a>
+      <a href="stories.html">Stories</a>
+      <a href="contact.html" class="current">Contact</a>
+      <a href="booking.html" class="nav-cta">Book a Clarity Session</a>
+      <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero blob-bg">
+  <div class="wrap">
+    <div class="eyebrow-pill">Contact</div>
+    <h1>Get in touch <span class="grad-heading">directly.</span></h1>
+    <p>No call centers, no ticketing systems — just a direct line to your adviser. Reach out however's easiest for you.</p>
+  </div>
+</header>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+
+    <div class="invite-band">
+      <h2>Prefer to talk it through?</h2>
+      <p>Whether you want a structured walkthrough of your results or you'd just like to ask a quick question — both options are free, and there's zero pressure either way.</p>
+      <div class="invite-ctas">
+        <a href="https://www.facebook.com/pruengrsuzeth" target="_blank" class="btn-white">💬 Message me on Facebook →</a>
+        <a href="booking.html" class="btn-ghost">📅 Book a Free Clarity Session</a>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:12.5px;color:var(--slate);margin-top:-4px;">Prefer WhatsApp? <a href="https://wa.me/639619517397" target="_blank" style="color:var(--tan-deep);font-weight:600;">Chat here instead →</a> (I mostly reply on Facebook)</p>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-row">
+          <div class="contact-icon">💬</div>
+          <div>
+            <div class="contact-label">Facebook Page — Main Contact</div>
+            <div class="contact-value"><a href="https://www.facebook.com/pruengrsuzeth" target="_blank">facebook.com/pruengrsuzeth</a></div>
+            <div class="contact-sub">I reply here most often</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-label">Email Address</div>
+            <div class="contact-value"><a href="mailto:plukferrysuzethmalit@gmail.com">plukferrysuzethmalit@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📱</div>
+          <div>
+            <div class="contact-label">Mobile / WhatsApp — Secondary</div>
+            <div class="contact-value"><a href="https://wa.me/639619517397" target="_blank">0961 951 7397</a></div>
+            <div class="contact-sub">Alternative option only</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">Agency Office Address</div>
+            <div class="contact-value">BGC, Taguig, National Capital Region, Philippines</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-guarantee">
+        <h4>The 24-hour reply guarantee</h4>
+        <p>I personally answer all inquiries inside 24 business hours. No automated robotic loops, no ticketing systems. Just direct, honest replies.</p>
+        <a href="https://www.facebook.com/pruengrsuzeth" target="_blank" class="btn-wa">💬 Message on Facebook now</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="title-block">
+  <div class="wrap">
+    <div class="footer-columns">
+      <div class="footer-col">
+        <div class="footer-brand">Engr. Suzeth A. Malit</div>
+        <div class="footer-role">Insurance Made Simple &middot; Pru Life UK</div>
+        <p class="footer-blurb">Providing clear, honest, jargon-free financial planning for breadwinners, seamen, OFWs, engineers, virtual assistants, families, and business owners &mdash; no pressure, no 40-page proposals.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Quick Links</div>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Suzeth</a>
+        <a href="assessment.html">Free Assessment</a>
+        <a href="stories.html">Stories</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Contact &amp; Office</div>
+        <div class="footer-contact-line"><a href="mailto:plukferrysuzethmalit@gmail.com" style="margin:0;display:inline;color:#D9D9D9;">plukferrysuzethmalit@gmail.com</a></div>
+        <div class="footer-contact-line"><a href="https://wa.me/639619517397" target="_blank" style="margin:0;display:inline;color:#D9D9D9;">WhatsApp: 0961 951 7397</a></div>
+        <div class="footer-contact-line">BGC, Taguig, National Capital Region, Philippines</div>
+        <div class="footer-contact-line"><a href="https://www.facebook.com/pruengrsuzeth/" target="_blank" style="margin:0;display:inline;color:#D9D9D9;">Facebook (Page)</a></div>
+      </div>
+    </div>
+    <div class="tb-grid">
+      <div class="tb-cell"><div class="tb-k">Adviser</div><div class="tb-v">Engr. Suzeth A. Malit</div></div>
+      <div class="tb-cell"><div class="tb-k">Partner Firm</div><div class="tb-v">Top Global Summit LIA, Pru Life UK</div></div>
+      <div class="tb-cell"><div class="tb-k">License</div><div class="tb-v">Insurance Commission</div></div>
+      <div class="tb-cell"><div class="tb-k">Clients Served</div><div class="tb-v">150+ Nationwide</div></div>
+    </div>
+    <div class="site-footer-bottom">
+      <span>© <span id="year"></span> Insurance Made Simple by Engr. Suzeth A. Malit</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('navToggle').addEventListener('click', ()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+(function pageTransitions(){
+  const wrap = document.getElementById('pageWrap');
+  if (!wrap) return;
+  requestAnimationFrame(()=>{ wrap.classList.add('page-in'); });
+
+  document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(link=>{
+    link.addEventListener('click', function(e){
+      if (e.defaultPrevented) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (link.target === '_blank') return;
+      const href = link.getAttribute('href');
+      if (!href || href.indexOf('http') === 0) return;
+      e.preventDefault();
+      wrap.classList.remove('page-in');
+      wrap.classList.add('page-out');
+      setTimeout(()=>{ window.location.href = href; }, 220);
+    });
+  });
+})();
+</script>
+
+</div>
+
+<a href="assessment.html" class="assessment-float">Take Free Assessment →</a>
+
+<a href="booking.html" class="chat-float">
+  <span class="cf-avatar"><img src="images/headshot.jpg" alt="Suzeth"><span class="cf-dot"></span></span>
+  Talk to Suzeth Live
+</a>
+
+<script src="enhance.js"></script>
+</body>
+</html>

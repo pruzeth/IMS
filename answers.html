@@ -42,10 +42,10 @@
 <body>
 <div class="wrap">
   <h1>Your Assessment Answers</h1>
-  <div class="sub">Here's a saved copy of everything you shared in your Financial Needs Assessment — keep this for your records or your Clarity Call.</div>
+  <div class="sub">Here's a saved copy of everything you shared in your Financial Needs Assessment — keep this for your records or your Clarity Session.</div>
   <table id="answersTable"></table>
   <div class="cta">
-    <a href="booking.html">Book Your Free Clarity Call →</a>
+    <a href="booking.html">Book Your Free Clarity Session →</a>
   </div>
   <div class="back-row"><a href="index.html">&larr; Back to Home</a></div>
 </div>
@@ -63,7 +63,10 @@ const table = document.getElementById('answersTable');
 
 if (raw){
   try {
-    const qa = JSON.parse(decodeURIComponent(escape(atob(raw))));
+    // Reverse the URL-safe base64 (base64url) conversion back to standard base64
+    let b64 = raw.replace(/-/g, '+').replace(/_/g, '/');
+    while (b64.length % 4) b64 += '=';
+    const qa = JSON.parse(decodeURIComponent(escape(atob(b64))));
     if (Array.isArray(qa) && qa.length){
       qa.forEach(([q, a]) => {
         const tr = document.createElement('tr');

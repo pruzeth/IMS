@@ -446,7 +446,7 @@
   <div class="wrap">
     <a href="index.html" class="brand-mark">
       <span class="brand-avatar"><img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit"></span>
-      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em></span>
+      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em><small class="brand-tagline">Zero to F.I.R.E: Financial Independence, Retiring Early</small></span>
     </a>
     <button class="nav-toggle" id="siteNavToggle" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="siteNavLinks">
@@ -454,7 +454,9 @@
       <a href="about.html">About</a>
       <a href="assessment.html" class="current">Assessment</a>
       <a href="stories.html">Stories</a>
-      <a href="booking.html" class="nav-cta">Book a Clarity Call</a>
+      <a href="contact.html">Contact</a>
+      <a href="booking.html" class="nav-cta">Book a Clarity Session</a>
+      <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
     </div>
   </div>
 </nav>
@@ -1116,8 +1118,11 @@ function buildAnswersLink(){
       qa.push([f.q, String(displayVal)]);
     });
   });
-  // encode as base64 (handles ₱ and other non-ASCII characters safely)
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(qa))));
+  // encode as base64 (handles ₱ and other non-ASCII characters safely),
+  // then convert to URL-safe base64 (base64url) so +, /, = characters
+  // can't get corrupted by email link-trackers or URL parsing.
+  let encoded = btoa(unescape(encodeURIComponent(JSON.stringify(qa))));
+  encoded = encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   const base = siteBase();
   return `${base}answers.html?data=${encoded}`;
 }
@@ -1276,5 +1281,6 @@ document.getElementById('siteNavToggle').addEventListener('click', ()=>{
   Talk to Suzeth Live
 </a>
 
+<script src="enhance.js"></script>
 </body>
 </html>
