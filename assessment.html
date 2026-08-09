@@ -1205,9 +1205,9 @@ function sendAssessmentEmail(c, btn, statusEl){
   const answersLink = buildAnswersLink();
 
   // One shared Brevo template is sent to both the client and the adviser
-  // (see netlify/functions/send-email.js). It carries: welcome message,
-  // results snapshot link, answers copy link, and the Clarity Call link.
-  fetch('/.netlify/functions/send-email', {
+  // (see functions/send-email.js). It carries: welcome message,
+  // results snapshot link, answers copy link, and the Clarity Session link.
+  fetch('/send-email', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
