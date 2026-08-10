@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Financial Needs Assessment — Insurance Made Simple by Engr. Suzeth A. Malit</title>
+<title>Your Financial Protection Checkup — Insurance Made Simple by Engr. Suzeth A. Malit</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -55,7 +55,7 @@
   .rail{
     width:300px;
     flex-shrink:0;
-    background:var(--ink);
+    background:var(--surface-dark);
     color:#F2F2F2;
     padding:36px 28px;
     display:flex;
@@ -75,8 +75,14 @@
     font-size:22px;
     font-weight:600;
     color:#fff;
-    margin:0 0 26px 0;
+    margin:0 0 8px 0;
     line-height:1.25;
+  }
+  .brand-sub{
+    font-size:13px;
+    color:#B8B8B8;
+    line-height:1.5;
+    margin:0 0 26px 0;
   }
   .shield-wrap{
     position:relative;
@@ -278,7 +284,7 @@
 
   /* ---------- Adviser assessment / report ---------- */
   .report-banner{
-    background:var(--ink);
+    background:var(--surface-dark);
     color:#F2F2F2;
     border-radius:var(--radius);
     padding:22px 26px;
@@ -334,7 +340,7 @@
     margin-bottom:10px;
   }
   .flag-gap{background:var(--danger);color:#fff;}
-  .flag-ok{background:#F0F0F0;color:var(--ink);}
+  .flag-ok{background:var(--cream-2);color:var(--ink);}
   .flag-watch{background:#fff;color:var(--tan-deep);border:1px solid var(--tan-deep);}
 
   .next-steps{margin-top:30px;padding-top:26px;border-top:1px solid var(--line);text-align:center;}
@@ -414,7 +420,7 @@
     .mobile-bar{
       display:flex;
       position:sticky;top:0;z-index:5;
-      background:var(--ink);
+      background:var(--surface-dark);
       color:#fff;
       padding:16px 20px;
       align-items:center;
@@ -446,16 +452,16 @@
   <div class="wrap">
     <a href="index.html" class="brand-mark">
       <span class="brand-avatar"><img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit"></span>
-      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em><small class="brand-tagline">Zero to F.I.R.E: Financial Independence, Retiring Early</small></span>
+      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em></span>
     </a>
     <button class="nav-toggle" id="siteNavToggle" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="siteNavLinks">
       <a href="index.html">Home</a>
+      <a href="assessment.html" class="current nav-highlight">Assessment</a>
+      <a href="booking.html" class="nav-cta">Book a Free Clarity Call</a>
       <a href="about.html">About</a>
-      <a href="assessment.html" class="current">Assessment</a>
       <a href="stories.html">Stories</a>
       <a href="contact.html">Contact</a>
-      <a href="booking.html" class="nav-cta">Book a Clarity Session</a>
       <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
     </div>
   </div>
@@ -465,7 +471,7 @@
 
   <!-- Mobile top bar -->
   <div class="mobile-bar">
-    <span class="mb-title">Financial Needs Assessment</span>
+    <span class="mb-title">Financial Protection Checkup</span>
     <span id="mobileStepLabel" class="mono"></span>
   </div>
   <div class="mobile-progress"><div class="mobile-progress-fill" id="mobileProgressFill" style="width:0%"></div></div>
@@ -473,7 +479,8 @@
   <!-- Left rail (desktop) -->
   <nav class="rail">
     <div class="brand">Prepared for you by your adviser</div>
-    <h1 class="brand-title">Life &amp; Health Insurance<br>Financial Needs Assessment</h1>
+    <h1 class="brand-title">Your Financial Protection Checkup</h1>
+    <p class="brand-sub">A quick assessment to see where you're protected and where you may have gaps.</p>
 
     <div class="shield-wrap">
       <svg id="overallShield" width="88" height="98" viewBox="0 0 88 98">
@@ -497,7 +504,7 @@
     <ul class="steps" id="stepsList"></ul>
 
     <div class="rail-foot">
-      Every section builds toward your personalized protection picture — completed automatically in the final step.
+      <strong>Your results are yours to keep.</strong>
     </div>
   </nav>
 
@@ -529,104 +536,83 @@ if (window.emailjs && CONFIG.emailjsPublicKey && CONFIG.emailjsPublicKey.indexOf
    ============================================================ */
 const SECTIONS = [
   {
-    id:'income',
-    label:'Income & Financial Capacity',
-    title:'Section 1 — Income & Financial Capacity',
-    desc:'Your income shapes how much protection you can comfortably carry.',
+    id:'about',
+    label:'About You',
+    title:'01 — About You',
+    desc:'Just the basics.',
     fields:[
-      {id:'total_household_income', q:'1. Approximately how much is your total monthly household income?', type:'peso', placeholder:'0.00'},
-      {id:'monthly_expenses', q:'2. How much do you spend every month on average?', type:'peso', placeholder:'0.00'},
-      {id:'emergency_fund', q:'3. Do you currently have an emergency fund?', type:'radio', options:['Yes','No','Still building one']},
+      {id:'full_name', q:'What should we call you?', type:'text', placeholder:'Juan Dela Cruz'},
+      {id:'age', q:'How old are you?', type:'number', placeholder:'e.g. 34'},
+      {id:'total_household_income', q:'Monthly household income?', type:'peso', placeholder:'0.00'},
+      {id:'monthly_expenses', q:'Average monthly expenses?', type:'peso', placeholder:'0.00'},
     ]
   },
   {
-    id:'family',
-    label:'Family & Responsibilities',
-    title:'Section 2 — Family & Financial Responsibilities',
-    desc:'Who is counting on your income is central to how much coverage makes sense.',
+    id:'dependents',
+    label:'Who Depends on You?',
+    title:'02 — Who Depends on You?',
+    desc:'Who\'s counting on you.',
     fields:[
-      {id:'primary_earner', q:'4. Are you the primary income earner?', type:'radio', options:['Yes','No','Shared responsibility']},
-      {id:'dependents_count', q:'5. How many people depend on your income?', type:'number', placeholder:'e.g. 3'},
-      {id:'children_count', q:'6. How many children do you have?', type:'number', placeholder:'e.g. 2'},
-      {id:'who_depends', q:'7. Who depends on you financially?', type:'checkbox',
-        options:['Parents','Spouse','Children','Siblings','None'], allowOther:true},
+      {id:'depends_on_you', q:'Does anyone depend on your income?', type:'radio',
+        options:['No one','Spouse/Partner','Children','Parents','Other family members','Multiple people']},
+      {id:'dependents_count', q:'How many people depend on you financially?', type:'number', placeholder:'e.g. 3'},
+      {id:'has_children', q:'Do you have children?', type:'radio', options:['Yes','No']},
+      {id:'children_count', q:'How many children?', type:'number', placeholder:'e.g. 2',
+        showIf:{field:'has_children', equals:'Yes'}},
     ]
   },
   {
-    id:'protection',
-    label:'Existing Protection',
-    title:'Section 3 — Existing Protection',
-    desc:'Let’s take stock of what you already have in place.',
+    id:'existing',
+    label:'What You Already Have',
+    title:'03 — What You Already Have',
+    desc:'What\'s already in place.',
     fields:[
-      {id:'has_life_insurance', q:'8. Do you currently have Life Insurance?', type:'radio', options:['Yes','No']},
-      {id:'life_insurance_amount', q:'8a. If yes, approximately how much is your life insurance coverage?', type:'peso', placeholder:'0.00', showIf:{field:'has_life_insurance', equals:'Yes'}},
-      {id:'has_hmo', q:'9. Do you currently have HMO or Medical Insurance?', type:'radio', options:['Yes','No']},
-      {id:'hmo_coverage_amount', q:'9a. If yes, approximately how much is your annual HMO coverage (Maximum Benefit Limit)?', type:'peso', placeholder:'0.00', showIf:{field:'has_hmo', equals:'Yes'}},
-      {id:'has_critical_illness', q:'10. Do you have Critical Illness coverage?', type:'radio', options:['Yes','No']},
-      {id:'critical_illness_amount', q:'10a. If yes, approximately how much is your Critical Illness coverage?', type:'peso', placeholder:'0.00', showIf:{field:'has_critical_illness', equals:'Yes'}},
-      {id:'protection_enough', q:'11. Do you think your current protection is enough?', type:'radio', options:['Yes','No','Not sure']},
+      {id:'has_life_insurance', q:'Do you have life insurance?', type:'radio', options:['Yes','No','Not sure']},
+      {id:'life_insurance_amount', q:'About how much coverage do you have?', type:'peso', placeholder:'0.00',
+        showIf:(ans)=> ans.has_life_insurance === 'Yes' || ans.has_life_insurance === 'Not sure'},
+      {id:'has_hmo', q:'Do you have HMO or health insurance?', type:'radio', options:['Yes','No','Not sure']},
+      {id:'hmo_coverage_amount', q:'About how much coverage do you have?', type:'peso', placeholder:'0.00',
+        showIf:(ans)=> ans.has_hmo === 'Yes' || ans.has_hmo === 'Not sure'},
+      {id:'has_critical_illness', q:'Do you have critical illness coverage?', type:'radio', options:['Yes','No','Not sure']},
+      {id:'critical_illness_amount', q:'About how much coverage do you have?', type:'peso', placeholder:'0.00',
+        showIf:(ans)=> ans.has_critical_illness === 'Yes' || ans.has_critical_illness === 'Not sure'},
+      {id:'has_emergency_fund', q:'Do you have an emergency fund?', type:'radio', options:['Yes','No','Not sure']},
+      {id:'emergency_fund_amount', q:'About how much do you have saved?', type:'peso', placeholder:'0.00',
+        showIf:(ans)=> ans.has_emergency_fund === 'Yes' || ans.has_emergency_fund === 'Not sure'},
     ]
   },
   {
-    id:'health',
-    label:'Health Profile',
-    title:'Section 4 — Health Profile',
-    desc:'Health context helps your adviser understand urgency and eligibility.',
+    id:'building',
+    label:"What You're Building",
+    title:"04 — What You're Building",
+    desc:'What matters most to you.',
     fields:[
-      {id:'smoker', q:'12. Do you smoke or vape?', type:'radio', options:['Yes','No']},
-      {id:'overall_health', q:'13. How would you describe your overall health?', type:'radio', options:['Excellent','Good','Fair','Poor']},
+      {id:'top_priorities', q:'What are your top 3 financial priorities?', sub:'Choose up to 3.', type:'checkbox', max:3,
+        options:['Building an emergency fund','Protecting my family','Health & medical protection','Preparing for retirement',"Children's future",'Paying off debt','Building wealth / investments','Buying a home','Starting / growing a business','Other'], allowOther:true},
+      {id:'has_loans', q:'Do you have loans or major financial obligations?', type:'radio', options:['None','Yes']},
+      {id:'loan_amount', q:'About how much do you owe?', type:'peso', placeholder:'0.00',
+        showIf:{field:'has_loans', equals:'Yes'}},
+      {id:'desired_retirement_age', q:'At what age would you ideally like to retire?', type:'number', placeholder:'e.g. 60'},
     ]
   },
   {
-    id:'assets',
-    label:'Assets & Liabilities',
-    title:'Section 5 — Assets & Liabilities',
-    desc:'What you owe factors into the right coverage amount.',
+    id:'healthsnap',
+    label:'Your Protection',
+    title:'05 — Your Protection',
+    desc:'A couple of health questions.',
     fields:[
-      {id:'loans', q:'14. Do you currently have any loans?', type:'checkbox',
-        options:['Home Loan','Car Loan','Personal Loan','Credit Card Debt','Business Loan','None']},
-      {id:'total_owed', q:'15. Approximately how much do you still owe?', type:'peso', placeholder:'0.00'},
-    ]
-  },
-  {
-    id:'goals',
-    label:'Financial Goals',
-    title:'Section 6 — Financial Goals',
-    desc:'This tells your adviser what protection and planning should prioritize.',
-    fields:[
-      {id:'top_priorities', q:'16. What are your top financial priorities? (Choose up to 3.)', type:'checkbox', max:3,
-        options:['Family Protection','Retirement',"Children's Education",'Wealth Building','Medical Protection','Debt-Free Living','Business Capital','Travel','Home Ownership']},
-      {id:'biggest_concern', q:'17. Which concerns you the most? (Choose up to 3.)', type:'checkbox', max:3,
-        options:['Hospital Bills','Critical Illness','Loss of Income','Death of Breadwinner','Retirement','Inflation','Education Costs']},
-      {id:'desired_retirement_age', q:'17a. At what age would you like to retire?', type:'number', placeholder:'e.g. 60'},
-      {id:'education_school_type', q:'17b. What type of school are you planning for your child\'s college education?', sub:'This helps us estimate a more realistic education fund using today\'s costs.', type:'radio',
-        options:['Public university','Private university','International / abroad'],
-        showIf: (a) => (Number(a.children_count) > 0) || (Array.isArray(a.top_priorities) && a.top_priorities.includes("Children's Education")) || (Array.isArray(a.biggest_concern) && a.biggest_concern.includes('Education Costs'))},
-    ]
-  },
-  {
-    id:'planning',
-    label:'Insurance Planning',
-    title:'Section 7 — Insurance Planning',
-    desc:'A couple more questions before your adviser puts together your assessment.',
-    fields:[
-      {id:'target_budget', q:'18. What is your target monthly budget for protection?', type:'radio',
-        options:['Below ₱2,000','₱2,000–₱3,999','₱4,000–₱5,999','₱6,000–₱9,999','₱10,000+']},
-      {id:'planning_start', q:'19. When are you planning to start?', type:'radio',
-        options:['ASAP','Within 30 days','Within 3 months','Just exploring']},
+      {id:'overall_health', q:'How would you describe your overall health?', type:'radio', options:['Excellent','Good','Fair','Needs attention']},
+      {id:'smoker', q:'Do you smoke or use tobacco?', type:'radio', options:['Yes','No']},
     ]
   },
   {
     id:'personal',
-    label:'Personal Information',
-    title:'Almost done — where should we send this?',
-    desc:'Just a few details so your adviser can prepare your results and follow up.',
+    label:'Contact Details',
+    title:'Contact Details',
+    desc:'Where to send your results.',
     fields:[
-      {id:'full_name', q:'20. Nickname', sub:'What should I call you?', type:'text', placeholder:'Juan Dela Cruz'},
-      {id:'age', q:'21. What is your age?', type:'number', placeholder:'e.g. 34'},
-      {id:'date_of_birth', q:'22. What is your birthdate?', type:'date'},
-      {id:'contact_number', q:'23. Contact number', type:'tel', placeholder:'09XX XXX XXXX'},
-      {id:'email_address', q:'24. Email address', type:'email', placeholder:'you@email.com'},
+      {id:'email_address', q:'Email', type:'email', placeholder:'you@email.com'},
+      {id:'contact_number', q:'Mobile number', type:'tel', placeholder:'09XX XXX XXXX'},
     ]
   },
   {
@@ -961,6 +947,7 @@ function computeAssessment(){
   const monthlyIncome = num(answers.total_household_income) || INCOME_MIDPOINTS[answers.gross_monthly_income] || 0;
   const annualIncome = monthlyIncome * 12;
   const dependents = num(answers.dependents_count) || 0;
+  const childrenCount = answers.has_children === 'Yes' ? num(answers.children_count) : 0;
 
   // Income replacement multiplier: 5x baseline, scaling up with dependents, capped at 10x
   let multiplier = 5;
@@ -968,73 +955,55 @@ function computeAssessment(){
   if (dependents >= 2) multiplier = 7;
   if (dependents >= 3) multiplier = 8;
   if (dependents >= 4) multiplier = 10;
-  if (answers.primary_earner === 'Yes') multiplier = Math.min(multiplier + 1, 10);
 
   const incomeReplacementNeed = annualIncome * multiplier;
   const existingLifeCoverage = num(answers.life_insurance_amount);
-  const coverageGap = Math.max(incomeReplacementNeed - existingLifeCoverage, 0);
+  const lifeGap = Math.max(incomeReplacementNeed - existingLifeCoverage, 0);
+  const lifeStarter = Math.round(incomeReplacementNeed * 0.4);
+  const hasLife = answers.has_life_insurance === 'Yes';
 
   // Critical illness need — baseline 2x annual income, scaled for risk factors
   let ciMultiplier = 2;
   if (answers.smoker === 'Yes') ciMultiplier += 0.5;
   if (answers.overall_health === 'Fair') ciMultiplier += 0.3;
-  if (answers.overall_health === 'Poor') ciMultiplier += 0.7;
-  const criticalIllnessTarget = annualIncome * ciMultiplier;
-  const hasCI = answers.has_critical_illness === 'Yes';
+  if (answers.overall_health === 'Needs attention') ciMultiplier += 0.7;
+  const criticalIllnessTarget = Math.max(annualIncome * ciMultiplier, 1000000);
   const existingCICoverage = num(answers.critical_illness_amount);
-  const criticalIllnessNeed = Math.max(criticalIllnessTarget - existingCICoverage, 0);
+  const ciGap = Math.max(criticalIllnessTarget - existingCICoverage, 0);
+  const ciStarter = Math.round(criticalIllnessTarget / 2);
+  const hasCI = answers.has_critical_illness === 'Yes';
 
   // HMO / hospitalization
   const hasHMO = answers.has_hmo === 'Yes';
   const existingHMOCoverage = num(answers.hmo_coverage_amount);
 
-  // Emergency fund
+  // Emergency fund — standard 6-month recommendation
   const monthlyExpenses = num(answers.monthly_expenses);
-  let efMonths = 6;
-  if (answers.emergency_fund === 'Still building one') efMonths = 4;
-  if (answers.emergency_fund === 'Yes') efMonths = 3;
-  const emergencyFundTarget = monthlyExpenses * efMonths;
+  const emergencyFundTarget = monthlyExpenses * 6;
+  const existingEmergencyFund = num(answers.emergency_fund_amount);
+  const emergencyFundGap = Math.max(emergencyFundTarget - existingEmergencyFund, 0);
+  const hasEmergencyFund = answers.has_emergency_fund === 'Yes';
+
+  // Disability / income protection
+  const disabilityIdeal = monthlyExpenses > 0 ? monthlyExpenses * 12 * 5 : annualIncome * 0.7 * 5;
+  const disabilityStarter = monthlyExpenses > 0 ? monthlyExpenses * 12 * 2 : annualIncome * 0.7 * 2;
 
   // Debt protection
-  const debtOwed = num(answers.total_owed);
-
-  // Education fund
-  const childrenCount = Math.max(num(answers.children_count), (Array.isArray(answers.who_depends) && answers.who_depends.includes('Children')) ? 1 : 0);
-  const wantsEducationFund = Array.isArray(answers.top_priorities) && answers.top_priorities.includes("Children's Education");
-  const EDUCATION_COST_BY_SCHOOL = {
-    'Public university': 200000,
-    'Private university': 600000,
-    'International / abroad': 1500000
-  };
-  const perChildEstimate = EDUCATION_COST_BY_SCHOOL[answers.education_school_type] || 600000; // default: private university estimate
-  const educationFundNeed = (wantsEducationFund || childrenCount > 0) ? childrenCount * perChildEstimate : 0;
-
-  // Retirement — inflation-adjusted target using a 4% safe withdrawal rule
-  const wantsRetirement = Array.isArray(answers.top_priorities) && answers.top_priorities.includes('Retirement');
-  const currentAge = num(answers.age);
-  const retirementAge = num(answers.desired_retirement_age) || 60;
-  const yearsToRetirement = currentAge > 0 ? Math.max(retirementAge - currentAge, 1) : 25; // assume 25 years if age wasn't provided
-  const inflationRate = 0.04; // long-run Philippine average assumption — adviser can adjust
-  const annualExpensesToday = monthlyExpenses > 0 ? monthlyExpenses * 12 : annualIncome * 0.7; // fallback: assume 70% of income if expenses weren't provided
-  const inflatedAnnualExpenseAtRetirement = annualExpensesToday * Math.pow(1 + inflationRate, yearsToRetirement);
-  const retirementWithdrawalMultiple = 25; // 4% safe withdrawal rule
-  const retirementFundTarget = inflatedAnnualExpenseAtRetirement * retirementWithdrawalMultiple;
+  const hasLoans = answers.has_loans === 'Yes';
+  const loanAmount = num(answers.loan_amount);
 
   // Suggested premium
   const premiumLow = monthlyIncome * 0.05;
   const premiumHigh = monthlyIncome * 0.15;
 
   return {
-    monthlyIncome, annualIncome, dependents, multiplier,
-    incomeReplacementNeed, existingLifeCoverage, coverageGap,
-    criticalIllnessNeed, criticalIllnessTarget, hasCI, existingCICoverage,
+    monthlyIncome, annualIncome, dependents, childrenCount, multiplier,
+    incomeReplacementNeed, existingLifeCoverage, lifeGap, lifeStarter, hasLife,
+    criticalIllnessTarget, existingCICoverage, ciGap, ciStarter, hasCI,
     hasHMO, existingHMOCoverage,
-    emergencyFundTarget, efMonths, monthlyExpenses,
-    debtOwed,
-    childrenCount, wantsEducationFund, educationFundNeed, perChildEstimate,
-    wantsRetirement, retirementFundTarget,
-    currentAge, retirementAge, yearsToRetirement, inflationRate,
-    annualExpensesToday, inflatedAnnualExpenseAtRetirement, retirementWithdrawalMultiple,
+    emergencyFundTarget, monthlyExpenses, existingEmergencyFund, emergencyFundGap, hasEmergencyFund,
+    disabilityIdeal, disabilityStarter,
+    hasLoans, loanAmount,
     premiumLow, premiumHigh
   };
 }
@@ -1053,7 +1022,7 @@ function renderAdviserAssessment(main){
   const clientLine = document.createElement('div');
   clientLine.className = 'client-summary-line';
   const name = answers.full_name || 'This client';
-  clientLine.innerHTML = `<b>${escapeHtml(name)}</b> · Monthly household income ${c.monthlyIncome ? peso(c.monthlyIncome) : '—'} · ${c.dependents || 0} dependent(s) · ${answers.primary_earner === 'Yes' ? 'Primary income earner' : (answers.primary_earner || 'Earner status not specified')}`;
+  clientLine.innerHTML = `<b>${escapeHtml(name)}</b> · Monthly household income ${c.monthlyIncome ? peso(c.monthlyIncome) : '—'} · ${c.dependents || 0} dependent(s)`;
   main.appendChild(clientLine);
 
   main.appendChild(renderSendEmailCard(c));
@@ -1084,9 +1053,9 @@ function buildSnapshotLink(){
   if (answers.age) p.set('age', answers.age);
   if (answers.total_household_income) p.set('income', answers.total_household_income);
   if (answers.monthly_expenses) p.set('expenses', answers.monthly_expenses);
-  if (answers.emergency_fund) p.set('ef', answers.emergency_fund);
-  if (answers.primary_earner) p.set('primary', answers.primary_earner);
+  if (answers.depends_on_you) p.set('dependson', answers.depends_on_you);
   if (answers.dependents_count) p.set('dependents', answers.dependents_count);
+  if (answers.has_children) p.set('haschildren', answers.has_children);
   if (answers.children_count) p.set('children', answers.children_count);
   if (answers.has_life_insurance) p.set('life', answers.has_life_insurance);
   if (answers.life_insurance_amount) p.set('lifeamt', answers.life_insurance_amount);
@@ -1094,11 +1063,13 @@ function buildSnapshotLink(){
   if (answers.hmo_coverage_amount) p.set('hmoamt', answers.hmo_coverage_amount);
   if (answers.has_critical_illness) p.set('ci', answers.has_critical_illness);
   if (answers.critical_illness_amount) p.set('ciamt', answers.critical_illness_amount);
+  if (answers.has_emergency_fund) p.set('ef', answers.has_emergency_fund);
+  if (answers.emergency_fund_amount) p.set('efamt', answers.emergency_fund_amount);
+  if (answers.has_loans) p.set('loans', answers.has_loans);
+  if (answers.loan_amount) p.set('loanamt', answers.loan_amount);
+  if (answers.desired_retirement_age) p.set('retage', answers.desired_retirement_age);
   if (answers.smoker) p.set('smoker', answers.smoker);
   if (answers.overall_health) p.set('health', answers.overall_health);
-  if (answers.total_owed) p.set('debt', answers.total_owed);
-  if (answers.desired_retirement_age) p.set('retage', answers.desired_retirement_age);
-  if (answers.education_school_type) p.set('schooltype', answers.education_school_type);
   if (Array.isArray(answers.top_priorities) && answers.top_priorities.length){
     p.set('priorities', answers.top_priorities.join(','));
   }

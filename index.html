@@ -14,7 +14,7 @@
     font-family:'Fraunces',serif;
     font-size:24px;
     font-style:italic;
-    color:var(--tan-deep);
+    color:#F5C344;
     font-weight:600;
     margin-bottom:22px;
   }
@@ -53,6 +53,53 @@
   .hrb-stars{color:#F5A623;font-size:14px;letter-spacing:2px;margin-bottom:4px;}
   .hrb-title{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--ink);}
   .hrb-sub{font-size:13px;color:var(--slate);}
+
+  .hero-stats-grid{
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+  }
+  .hero-stat-card{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:12px;
+    padding:14px 12px;
+    text-align:center;
+  }
+  .hero-stat-rating{background:rgba(255,255,255,.14);}
+  .hero-stat-rating .hrb-stars{color:#F5C344;font-size:13px;letter-spacing:1.5px;margin-bottom:3px;}
+  .hero-stat-rating .hrb-title{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:#fff;}
+  .hero-stat-rating .hrb-sub{font-size:11.5px;color:#EDE1DF;}
+  .hsc-num{font-family:'Fraunces',serif;font-weight:700;font-size:17px;color:#F5C344;margin-bottom:2px;}
+  .hsc-lbl{font-size:11px;font-weight:600;letter-spacing:.02em;color:#EDE1DF;line-height:1.3;text-transform:uppercase;}
+  @media (max-width:480px){
+    .hero-stats-grid{grid-template-columns:repeat(3,1fr);gap:8px;}
+    .hero-stat-card{padding:10px 6px;}
+  }
+
+  .hero-author-card{
+    margin-top:14px;
+    display:flex;align-items:center;gap:14px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:100px;
+    padding:10px 18px 10px 10px;
+  }
+  .hac-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+  .hac-text{flex:1;min-width:0;}
+  .hac-greet{font-family:'Fraunces',serif;font-weight:600;font-size:14.5px;color:#fff;}
+  .hac-sub{font-size:11.5px;color:#EDE1DF;line-height:1.3;}
+  .hac-badge{
+    flex-shrink:0;text-align:center;
+    background:rgba(255,255,255,.14);
+    border-radius:10px;padding:6px 12px;
+  }
+  .hac-badge-num{display:block;font-family:'Fraunces',serif;font-weight:700;font-size:14px;color:#F5C344;}
+  .hac-badge-lbl{display:block;font-size:9.5px;color:#EDE1DF;text-transform:uppercase;letter-spacing:.03em;}
+  @media (max-width:480px){
+    .hac-sub{display:none;}
+  }
 
   .hero-photo-card{
     background:var(--card);
@@ -154,7 +201,7 @@
   }
 
   .cta-band{
-    background:linear-gradient(135deg, var(--ink), var(--maroon));
+    background:linear-gradient(135deg, var(--surface-dark), var(--maroon));
     color:#fff;
     padding:56px 0;
     text-align:center;
@@ -163,6 +210,31 @@
   .cta-band h2{color:#fff;font-size:28px;margin-bottom:12px;}
   .cta-band p{color:#D9D9D9;margin-bottom:26px;}
   .cta-wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px;}
+  .pre-footer-grid{
+    display:grid;grid-template-columns:1.5fr 1fr;gap:20px;align-items:stretch;
+  }
+  .pre-footer-grid .cta-band{border-radius:12px;}
+  .pruservices-band{
+    background:linear-gradient(135deg, var(--tan-deep) 0%, var(--maroon) 100%);
+    border-radius:12px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    padding:36px 26px;
+    gap:18px;
+  }
+  .pb-label{
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:13.5px;
+    letter-spacing:.04em;text-transform:uppercase;color:#fff;line-height:1.5;
+  }
+  .pb-btn{
+    display:inline-block;background:#fff;color:var(--tan-deep);
+    border-radius:100px;padding:13px 26px;font-weight:700;font-size:14px;
+    transition:transform .15s ease;
+  }
+  .pb-btn:hover{transform:translateY(-2px);}
+  @media (max-width:760px){
+    .pre-footer-grid{grid-template-columns:1fr;}
+  }
 
   @media (max-width:900px){
     .hero-grid{grid-template-columns:1fr;}
@@ -187,8 +259,9 @@
   .video-card .vc-frame iframe{width:100%;height:100%;border:none;display:block;}
 
   .step-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .step-grid-3{grid-template-columns:repeat(3,1fr);}
   .step-card{border:1.5px solid var(--line);border-radius:20px;padding:28px;background:var(--white);}
-  .step-card.dark{background:var(--ink);border-color:var(--ink);}
+  .step-card.dark{background:var(--surface-dark);border-color:var(--surface-dark);}
   .step-card.dark *{color:#fff;}
   .step-card.dark p, .step-card.dark li{color:#D9D9D9;}
   .step-tag{
@@ -206,11 +279,12 @@
   .step-card ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-soft);}
   .step-card li{margin-bottom:6px;}
   @media (max-width:760px){.step-grid{grid-template-columns:1fr;}}
+  @media (max-width:900px){.step-grid-3{grid-template-columns:1fr;}}
 
   /* ---------- Scrolling logo marquee ---------- */
   .marquee-section{
     padding:22px 0;
-    background:var(--ink);
+    background:var(--surface-dark);
     overflow:hidden;
   }
   .marquee-label{
@@ -362,18 +436,26 @@
   .intro-ribbon-right{animation-delay:.25s;}
   @keyframes introRibbonDraw{to{stroke-dashoffset:0;}}
   .intro-title{
-    position:relative;z-index:1;margin:0;display:flex;flex-wrap:wrap;justify-content:center;gap:.28em;
-    font-family:'Fraunces',serif;font-weight:700;font-size:clamp(28px,6vw,54px);
-    text-align:center;color:var(--tan-deep);
+    position:relative;z-index:1;margin:0;display:flex;flex-wrap:wrap;justify-content:center;gap:.22em;
+    font-family:'Fraunces',serif;font-weight:700;font-size:clamp(22px,4.4vw,40px);
+    max-width:820px;text-align:center;color:var(--ink);line-height:1.15;
   }
   .intro-title .il{display:inline-block;opacity:0;transform:scale(2.2) translateY(12px);filter:blur(14px);
     animation:introLetter .8s cubic-bezier(.16,.84,.44,1) forwards;animation-delay:calc(var(--i,0)*35ms + .2s);}
   @keyframes introLetter{0%{opacity:0;transform:scale(2.2) translateY(12px);filter:blur(14px);}55%{opacity:1;filter:blur(0);}100%{opacity:1;transform:scale(1) translateY(0);filter:blur(0);}}
+  .intro-title .accent{color:var(--tan-deep);}
   .intro-sub{
-    position:relative;z-index:1;margin:6px 0 4px;
+    position:relative;z-index:1;margin:10px 0 4px;
     font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:16px;color:var(--ink-soft);opacity:0;
     animation:introFadeUp .6s cubic-bezier(.16,.84,.44,1) forwards;animation-delay:1.2s;
   }
+  .intro-tagline{
+    position:relative;z-index:1;margin:0 0 4px;
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.08em;color:var(--slate);opacity:0;
+    animation:introFadeUp .6s cubic-bezier(.16,.84,.44,1) forwards;animation-delay:1.32s;
+  }
+  .intro-tagline strong{color:var(--tan-deep);font-weight:700;}
+  .intro-tagline em{font-style:italic;font-weight:500;color:var(--ink-soft);}
   @keyframes introFadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
   .intro-continue{
     position:relative;z-index:1;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;
@@ -437,12 +519,24 @@
   }
   .hero.diag-bg{
     position:relative;overflow:hidden;
-    background:#3A1A20;
+    background:linear-gradient(150deg, #7D0C1F 0%, #55091A 65%, #3D0712 100%);
   }
   .hero.diag-bg::before{
-    content:"";position:absolute;top:0;right:-10%;width:48%;height:100%;
-    background:linear-gradient(135deg, var(--tan) 0%, var(--tan-deep) 100%);
-    clip-path:polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+    content:"";position:absolute;top:0;left:0;width:100%;height:100%;
+    background:linear-gradient(160deg, #9C1830 0%, transparent 60%);
+    clip-path:polygon(0 0, 55% 0, 30% 45%, 0 30%);
+    opacity:.6;
+    z-index:0;
+  }
+  .hero.diag-bg::after{
+    content:"";position:absolute;bottom:0;right:0;width:60%;height:70%;
+    background:radial-gradient(circle at 100% 100%, rgba(255,255,255,.06) 0%, transparent 60%);
+    z-index:0;
+  }
+  .hero-diag-line{
+    position:absolute;top:20%;left:44%;width:1px;height:65%;
+    background:linear-gradient(180deg, rgba(245,195,68,0) 0%, rgba(245,195,68,.35) 35%, rgba(245,195,68,.08) 100%);
+    transform:rotate(14deg);transform-origin:top;
     z-index:0;
   }
   .hero.diag-bg > .wrap{position:relative;z-index:1;}
@@ -459,7 +553,11 @@
   .hero.diag-bg .hrb-sub{color:#EDE1DF;}
   .hero.diag-bg .video-card{box-shadow:0 30px 60px rgba(0,0,0,.45);}
   @media (max-width:760px){
-    .hero.diag-bg::before{width:100%;right:0;opacity:.9;}
+    .hero.diag-bg{background:linear-gradient(160deg, #9C1830 0%, #7D0C1F 55%, #55091A 100%);}
+    .hero.diag-bg::before{clip-path:none;}
+    .hero.diag-bg::after,
+    .hero-diag-line{display:none;}
+    .hero.diag-bg .hero-greeting{color:#F5C344;}
   }
 </style>
 </head>
@@ -479,7 +577,8 @@
     </defs>
   </svg>
   <h1 class="intro-title" id="introTitle"></h1>
-  <p class="intro-sub">By Engr. Zeth, Your Insurance &amp; Health Advisor</p>
+  <p class="intro-sub">Let's make insurance simple.</p>
+  <p class="intro-tagline"><strong>INSURANCE MADE SIMPLE</strong> <em>By Engr. Zeth</em></p>
   <button class="intro-continue" id="introContinue">Continue</button>
 </div>
 
@@ -491,22 +590,23 @@
   <div class="wrap">
     <a href="index.html" class="brand-mark">
       <span class="brand-avatar"><img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit"></span>
-      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em><small class="brand-tagline">Zero to F.I.R.E: Financial Independence, Retiring Early</small></span>
+      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em></span>
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="navLinks">
       <a href="index.html" class="current">Home</a>
+      <a href="assessment.html" class="nav-highlight">Assessment</a>
+      <a href="booking.html" class="nav-cta">Book a Free Clarity Call</a>
       <a href="about.html">About</a>
-      <a href="assessment.html">Assessment</a>
       <a href="stories.html">Stories</a>
       <a href="contact.html">Contact</a>
-      <a href="booking.html" class="nav-cta">Book a Clarity Session</a>
       <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
     </div>
   </div>
 </nav>
 
 <header class="hero diag-bg">
+  <div class="hero-diag-line"></div>
   <div class="wrap">
     <div class="hero-greeting">👋 Hello, there! Watch this first —</div>
     <div class="hero-grid">
@@ -514,52 +614,56 @@
         <div class="vc-frame" id="watchFrame"></div>
       </div>
       <div>
-        <div class="eyebrow-pill">Free · 2-Minute Assessment</div>
-        <h1>Finally know if <span class="grad-heading">YOU</span> or your <span class="grad-heading">loved ones</span> is truly protected.</h1>
-        <p class="lede" style="font-family:'Fraunces',serif;font-style:italic;color:var(--tan-deep);font-size:17px;margin-bottom:14px;">"Insurance shouldn't feel confusing. Let's make it simple."</p>
-        <p class="lede">Take a short assessment to see where the gaps are and what coverage actually fits your life. Then we'll go over it together — free, one-on-one.</p>
-        <p class="lede" style="font-weight:700;color:var(--ink);">No hard selling. No complicated terms. Just honest guidance.</p>
+        <div class="eyebrow-pill">Free · 2 minutes · No obligation</div>
+        <h1>Do <span class="grad-heading">you</span> know <span class="grad-heading">how much</span> insurance you actually need?</h1>
+        <p class="lede" style="font-weight:600;">Whether you already have insurance or you're just starting to explore your options, it's important to know how much protection you actually need.</p>
+        <p class="lede" style="font-weight:700;color:var(--ink);">Take a free 2-minute assessment and get your personalized Coverage Snapshot by email.</p>
         <div class="hero-ctas">
-          <a href="assessment.html" class="btn btn-gold">Take Free Assessment →</a>
-          <a href="booking.html" class="btn btn-outline">Book a Clarity Session</a>
+          <a href="assessment.html" class="btn btn-gold btn-lg">Find Out What Coverage I Need →</a>
         </div>
-        <div class="hero-rating-badge">
-          <div class="hrb-stars">★★★★★</div>
-          <div class="hrb-title">Rated 5 stars</div>
-          <div class="hrb-sub">150+ clients</div>
+        <div class="hero-stats-grid">
+          <div class="hero-stat-card hero-stat-rating">
+            <div class="hrb-stars">★★★★★</div>
+            <div class="hrb-title">Rated 5 stars</div>
+            <div class="hrb-sub">150+ clients</div>
+          </div>
+          <div class="hero-stat-card"><div class="hsc-num">150+</div><div class="hsc-lbl">Clients Protected</div></div>
+          <div class="hero-stat-card"><div class="hsc-num">₱280M+</div><div class="hsc-lbl">Coverage Secured</div></div>
+        </div>
+        <div class="hero-author-card">
+          <img class="hac-avatar" src="images/headshot.jpg" alt="Engr. Suzeth A. Malit">
+          <div class="hac-text">
+            <div class="hac-greet">Hi, I'm Zeth 👋</div>
+            <div class="hac-sub">Dual-Licensed Financial Advisor &amp; Civil Engineer</div>
+          </div>
+          <div class="hac-badge"><span class="hac-badge-num">4+</span><span class="hac-badge-lbl">yrs experience</span></div>
         </div>
       </div>
     </div>
   </div>
 </header>
 
-<section class="section reveal" style="padding-top:36px;padding-bottom:20px;">
-  <div class="wrap">
-    <div class="measure-divider"><span class="tick"></span><span class="lbl">Why trust Suzeth</span><span class="rule"></span></div>
-    <div class="stats-grid-new">
-      <div class="stat-card-new"><div class="num">150+</div><div class="lbl">Clients Protected</div></div>
-      <div class="stat-card-new"><div class="num">4</div><div class="lbl">Years Experience</div></div>
-      <div class="stat-card-new"><div class="num">CE</div><div class="lbl">Licensed Civil Engineer</div></div>
-      <div class="stat-card-new"><div class="num">FA</div><div class="lbl">Licensed Financial Advisor</div></div>
-    </div>
-  </div>
-</section>
 
 <section class="section reveal" style="padding-top:20px;">
   <div class="wrap">
-    <div class="looking-band">
-      <div>
-        <div class="looking-band-label">I am looking to...</div>
-        <div class="looking-band-items">
-          <a href="assessment.html" class="lb-item"><div class="lb-icon">✓</div><span>Know my coverage gap</span></a>
-          <a href="term-insurance.html" class="lb-item"><div class="lb-icon">₱</div><span>See a term quote</span></a>
-          <a href="stories.html" class="lb-item"><div class="lb-icon">▶</div><span>Watch client stories</span></a>
-          <a href="booking.html" class="lb-item"><div class="lb-icon">☎</div><span>Talk to an adviser</span></a>
-        </div>
-      </div>
-      <div class="looking-band-cta">
-        <div>Access your Pru Policy here</div>
-        <a href="https://pruservices.prulifeuk.com.ph/" target="_blank">Go to PRUServices →</a>
+    <div class="help-band">
+      <div class="help-band-label">How can I help you today?</div>
+      <div class="help-band-items">
+        <a href="assessment.html" class="help-item help-item-primary">
+          <div class="help-item-icon">✓</div>
+          <div class="help-item-title">Find Out What Coverage I Need <em>(Recommended)</em></div>
+          <div class="help-item-sub">Discover your protection gaps in 2 minutes.</div>
+        </a>
+        <a href="booking.html" class="help-item help-item-secondary">
+          <div class="help-item-icon">☎</div>
+          <div class="help-item-title">Book a Free Clarity Call</div>
+          <div class="help-item-sub">Get personalized guidance.</div>
+        </a>
+        <a href="stories.html" class="help-item help-item-tertiary">
+          <div class="help-item-icon">▶</div>
+          <div class="help-item-title">Watch Client Stories</div>
+          <div class="help-item-sub">See how others started their journey.</div>
+        </a>
       </div>
     </div>
   </div>
@@ -569,9 +673,9 @@
   <div class="wrap">
     <div class="section-head">
       <h2>How it works</h2>
-      <p>Three simple steps. No sales pitch first — just a clear look at where you stand today.</p>
+      <p>Three simple steps to see exactly where you stand today.</p>
     </div>
-    <div class="step-grid" style="grid-template-columns:repeat(3,1fr);">
+    <div class="step-grid step-grid-3">
       <div class="step-card dark">
         <div class="step-tag">2 minutes</div>
         <div class="step-num-badge">1</div>
@@ -602,12 +706,12 @@
         <ul>
           <li>Walk through your results together</li>
           <li>Options that fit your budget and priorities</li>
-          <li>No pressure — just clarity</li>
+          <li>Decide at your own pace</li>
         </ul>
       </div>
     </div>
     <div style="text-align:center;margin-top:30px;">
-      <a href="assessment.html" class="btn btn-gold">Take Free Assessment →</a>
+      <a href="assessment.html" class="btn btn-gold">Find Out What Coverage I Need →</a>
     </div>
 
     <div class="snapshot-preview-wrap">
@@ -643,13 +747,10 @@
       </div>
     </div>
 
-    <div style="text-align:center;margin-top:26px;font-size:13.5px;color:var(--slate);">
-      Looking for affordable protection instead? <a href="term-insurance.html" style="color:var(--tan-deep);font-weight:600;">Get a Term Insurance Quote →</a>
-    </div>
   </div>
 </section>
 
-<section class="marquee-section" style="background:linear-gradient(120deg, var(--maroon) 0%, var(--ink) 100%);">
+<section class="marquee-section" style="background:linear-gradient(120deg, var(--maroon) 0%, var(--surface-dark) 100%);">
   <div class="marquee-label">TRUSTED PARTNERS &amp; RECOGNITIONS</div>
   <div class="marquee-track">
     <div class="marquee-content">
@@ -813,17 +914,23 @@
 
 <section class="section">
   <div class="cta-wrap">
-    <div class="cta-band">
-      <div class="wrap" style="padding:0 24px;">
-        <h2>Let's measure where you stand.</h2>
-        <p>Free, no-obligation, takes about 2 minutes.</p>
-        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-          <a href="assessment.html" class="btn btn-gold">Take Free Assessment →</a>
-          <a href="booking.html" class="btn btn-outline">Book a Clarity Session</a>
+    <div class="pre-footer-grid">
+      <div class="cta-band">
+        <div class="wrap" style="padding:0 24px;">
+          <h2>Let's measure where you stand.</h2>
+          <p>Free, no-obligation, takes about 2 minutes.</p>
+          <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+            <a href="assessment.html" class="btn btn-gold btn-lg">Find Out What Coverage I Need →</a>
+            <a href="booking.html" class="btn btn-outline btn-md">Book a Free Clarity Call</a>
+          </div>
+          <div style="margin-top:22px;font-size:13px;opacity:.85;">
+            Trusted by <b>150+ clients nationwide</b> — or <a href="contact.html" style="text-decoration:underline;">get in touch directly →</a>
+          </div>
         </div>
-        <div style="margin-top:22px;font-size:13px;opacity:.85;">
-          Trusted by <b>150+ clients nationwide</b> — or <a href="contact.html" style="text-decoration:underline;">get in touch directly →</a>
-        </div>
+      </div>
+      <div class="pruservices-band">
+        <div class="pb-label">Already my client?<br>Check your policy here</div>
+        <a href="https://pruservices.prulifeuk.com.ph/" target="_blank" class="pb-btn">Go to PRUServices →</a>
       </div>
     </div>
   </div>
@@ -927,8 +1034,9 @@ document.addEventListener('DOMContentLoaded', function(){
       });
       return `<span class="${accent ? 'accent' : ''}">${html}</span>`;
     }
+    const introWords = ["DO","YOU","KNOW","IF","YOU'RE","ACTUALLY","PROTECTED?"];
     document.getElementById('introTitle').innerHTML =
-      letters('INSURANCE', false) + ' ' + letters('MADE', false) + ' ' + letters('SIMPLE', true);
+      introWords.map(w => letters(w, w === 'PROTECTED?')).join(' ');
 
     function dismiss(){
       pre.classList.add('intro-loaded');
@@ -982,7 +1090,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 <!-- Floating live-chat button. Default links to the booking page;
      replace href below with a Messenger/WhatsApp/Tawk.to link once you have one. -->
-<a href="assessment.html" class="assessment-float">Take Free Assessment →</a>
+<a href="assessment.html" class="assessment-float"><span class="af-full">Find Out What Coverage I Need →</span><span class="af-short">Find My Coverage →</span></a>
 
 <a href="booking.html" class="chat-float">
   <span class="cf-avatar"><img src="images/headshot.jpg" alt="Suzeth"><span class="cf-dot"></span></span>

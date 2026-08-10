@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Coverage Snapshot — Insurance Made Simple by Engr. Suzeth A. Malit</title>
-<meta name="description" content="Your personalized coverage snapshot, based on your Free Assessment answers.">
+<title>Your Protection Snapshot — Insurance Made Simple by Engr. Suzeth A. Malit</title>
+<meta name="description" content="Your personalized Protection Snapshot, based on your Free Assessment answers.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
 <style>
   body{background:var(--cream-2);}
   .snap-urgency-bar{
-    background:var(--ink);color:#fff;text-align:center;
+    background:var(--surface-dark);color:#fff;text-align:center;
     padding:11px 16px;font-size:13px;font-weight:600;
   }
   .snap-urgency-bar span{color:#F2A5AF;}
@@ -46,7 +46,7 @@
   .snap-advisor-note p{font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin:0;}
 
   .snap-score-card{
-    background:var(--ink);color:#fff;border-radius:18px;padding:24px 22px;
+    background:var(--surface-dark);color:#fff;border-radius:18px;padding:24px 22px;
     display:flex;align-items:center;gap:20px;margin-bottom:26px;
   }
   .snap-score-ring{flex-shrink:0;position:relative;width:84px;height:84px;}
@@ -108,7 +108,7 @@
   .bc-checklist li span.ck{color:#3A7A3A;flex-shrink:0;}
 
   .snap-cta-band{
-    background:var(--ink);color:#fff;border-radius:20px;padding:36px 28px;text-align:center;margin:36px 0;
+    background:var(--surface-dark);color:#fff;border-radius:20px;padding:36px 28px;text-align:center;margin:36px 0;
   }
   .scb-tag{
     display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
@@ -167,30 +167,30 @@
   <div class="wrap">
     <a href="index.html" class="brand-mark">
       <span class="brand-avatar"><img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit"></span>
-      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em><small class="brand-tagline">Zero to F.I.R.E: Financial Independence, Retiring Early</small></span>
+      <span class="brand-name">Insurance Made Simple <em>by Engr. Zeth</em></span>
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
+      <a href="assessment.html" class="nav-highlight">Assessment</a>
+      <a href="booking.html" class="btn nav-cta">Book a Free Clarity Call</a>
       <a href="about.html">About</a>
-      <a href="assessment.html">Assessment</a>
       <a href="stories.html">Stories</a>
       <a href="contact.html">Contact</a>
-      <a href="booking.html" class="btn nav-cta">Book a Clarity Session</a>
       <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
     </div>
   </div>
 </nav>
 
-<div class="snap-urgency-bar" id="urgencyBar">⏰ Your Coverage Snapshot is reserved for <span>48 hours</span> — book your Clarity Session before it expires</div>
+<div class="snap-urgency-bar" id="urgencyBar">⏰ Your Protection Snapshot is reserved for <span>48 hours</span> — book your Clarity Session before it expires</div>
 
 <div class="page-transition-wrap" id="pageWrap">
 
 <header class="snap-hero">
   <div class="wrap">
-    <div class="snap-eyebrow">Coverage Snapshot</div>
-    <h1 id="snapTitle">Your personalized insurance needs.</h1>
-    <p id="snapSub">Based on your assessment answers, here are the benefits that should be in your plan — and by how much.</p>
+    <div class="snap-eyebrow">Protection Snapshot</div>
+    <h1 id="snapTitle">Your Personalized Protection Snapshot.</h1>
+    <p id="snapSub">Based on your answers, here are the areas that may need attention — and what you can consider prioritizing based on your current situation.</p>
     <button class="btn btn-outline" id="printSnapBtn" style="margin-top:16px;" onclick="window.print()">🖨️ Print / Save as PDF</button>
   </div>
 </header>
@@ -223,9 +223,9 @@ const a = {
   age: qp.get('age') || '',
   total_household_income: qp.get('income') || '',
   monthly_expenses: qp.get('expenses') || '',
-  emergency_fund: qp.get('ef') || '',
-  primary_earner: qp.get('primary') || '',
+  depends_on_you: qp.get('dependson') || '',
   dependents_count: qp.get('dependents') || '',
+  has_children: qp.get('haschildren') || '',
   children_count: qp.get('children') || '',
   has_life_insurance: qp.get('life') || '',
   life_insurance_amount: qp.get('lifeamt') || '',
@@ -233,11 +233,13 @@ const a = {
   hmo_coverage_amount: qp.get('hmoamt') || '',
   has_critical_illness: qp.get('ci') || '',
   critical_illness_amount: qp.get('ciamt') || '',
+  has_emergency_fund: qp.get('ef') || '',
+  emergency_fund_amount: qp.get('efamt') || '',
+  has_loans: qp.get('loans') || '',
+  loan_amount: qp.get('loanamt') || '',
+  desired_retirement_age: qp.get('retage') || '',
   smoker: qp.get('smoker') || '',
   overall_health: qp.get('health') || '',
-  total_owed: qp.get('debt') || '',
-  desired_retirement_age: qp.get('retage') || '',
-  education_school_type: qp.get('schooltype') || '',
   top_priorities: (qp.get('priorities') || '').split(',').filter(Boolean)
 };
 
@@ -248,7 +250,7 @@ if (!qp.toString()){
   document.getElementById('snapContent').innerHTML = `
     <div class="wrap"><div class="snap-empty">
       <h2>No snapshot found</h2>
-      <p>This link doesn't have any assessment data attached to it. Take the free assessment to generate your own personal coverage snapshot.</p>
+      <p>This link doesn't have any assessment data attached to it. Take the free assessment to generate your own personal Protection Snapshot.</p>
       <a href="assessment.html" class="btn btn-gold">Take the Free Assessment →</a>
     </div></div>
   `;
@@ -256,68 +258,51 @@ if (!qp.toString()){
 }
 
 document.getElementById('snapTitle').innerHTML = a.full_name
-  ? `Your personalized insurance needs, <span class="accent">${escapeHtml(a.full_name)}</span>.`
-  : 'Your personalized insurance needs.';
+  ? `Your Personalized Protection Snapshot, <span class="accent">${escapeHtml(a.full_name)}</span>.`
+  : 'Your Personalized Protection Snapshot.';
 
 function computeAssessment(){
   const monthlyIncome = num(a.total_household_income);
   const annualIncome = monthlyIncome * 12;
   const dependents = num(a.dependents_count) || 0;
+  const childrenCount = a.has_children === 'Yes' ? num(a.children_count) : 0;
 
   let multiplier = 5;
   if (dependents >= 1) multiplier = 6;
   if (dependents >= 2) multiplier = 7;
   if (dependents >= 3) multiplier = 8;
   if (dependents >= 4) multiplier = 10;
-  if (a.primary_earner === 'Yes') multiplier = Math.min(multiplier + 1, 10);
 
   const incomeReplacementNeed = annualIncome * multiplier;
   const existingLifeCoverage = num(a.life_insurance_amount);
-  const coverageGap = Math.max(incomeReplacementNeed - existingLifeCoverage, 0);
+  const lifeGap = Math.max(incomeReplacementNeed - existingLifeCoverage, 0);
+  const lifeStarter = Math.round(incomeReplacementNeed * 0.4);
+  const hasLife = a.has_life_insurance === 'Yes';
 
   let ciMultiplier = 2;
   if (a.smoker === 'Yes') ciMultiplier += 0.5;
   if (a.overall_health === 'Fair') ciMultiplier += 0.3;
-  if (a.overall_health === 'Poor') ciMultiplier += 0.7;
+  if (a.overall_health === 'Needs attention') ciMultiplier += 0.7;
   const criticalIllnessTarget = Math.max(annualIncome * ciMultiplier, 1000000);
-  const hasCI = a.has_critical_illness === 'Yes';
   const existingCICoverage = num(a.critical_illness_amount);
-  const criticalIllnessNeed = Math.max(criticalIllnessTarget - existingCICoverage, 0);
+  const ciGap = Math.max(criticalIllnessTarget - existingCICoverage, 0);
   const ciStarter = Math.round(criticalIllnessTarget / 2);
+  const hasCI = a.has_critical_illness === 'Yes';
 
   const hasHMO = a.has_hmo === 'Yes';
   const existingHMOCoverage = num(a.hmo_coverage_amount);
 
   const monthlyExpenses = num(a.monthly_expenses);
-  let efMonths = 6;
-  if (a.emergency_fund === 'Still building one') efMonths = 4;
-  if (a.emergency_fund === 'Yes') efMonths = 3;
-  const emergencyFundTarget = monthlyExpenses * efMonths;
-
-  const debtOwed = num(a.total_owed);
-
-  const childrenCount = num(a.children_count);
-  const wantsEducationFund = a.top_priorities.includes("Children's Education");
-  const EDUCATION_COST_BY_SCHOOL = {
-    'Public university': 200000,
-    'Private university': 600000,
-    'International / abroad': 1500000
-  };
-  const perChildEstimate = EDUCATION_COST_BY_SCHOOL[a.education_school_type] || 600000;
-  const educationFundNeed = (wantsEducationFund || childrenCount > 0) ? childrenCount * perChildEstimate : 0;
-
-  const wantsRetirement = a.top_priorities.includes('Retirement');
-  const currentAge = num(a.age);
-  const retirementAge = num(a.desired_retirement_age) || 60;
-  const yearsToRetirement = currentAge > 0 ? Math.max(retirementAge - currentAge, 1) : 25;
-  const inflationRate = 0.04;
-  const annualExpensesToday = monthlyExpenses > 0 ? monthlyExpenses * 12 : annualIncome * 0.7;
-  const inflatedAnnualExpenseAtRetirement = annualExpensesToday * Math.pow(1 + inflationRate, yearsToRetirement);
-  const retirementWithdrawalMultiple = 25;
-  const retirementFundTarget = inflatedAnnualExpenseAtRetirement * retirementWithdrawalMultiple;
+  const emergencyFundTarget = monthlyExpenses * 6;
+  const existingEmergencyFund = num(a.emergency_fund_amount);
+  const emergencyFundGap = Math.max(emergencyFundTarget - existingEmergencyFund, 0);
+  const hasEmergencyFund = a.has_emergency_fund === 'Yes';
 
   const disabilityIdeal = monthlyExpenses > 0 ? monthlyExpenses * 12 * 5 : annualIncome * 0.7 * 5;
   const disabilityStarter = monthlyExpenses > 0 ? monthlyExpenses * 12 * 2 : annualIncome * 0.7 * 2;
+
+  const hasLoans = a.has_loans === 'Yes';
+  const loanAmount = num(a.loan_amount);
 
   const premiumLow = monthlyIncome * 0.05;
   const premiumHigh = monthlyIncome * 0.15;
@@ -329,15 +314,13 @@ function computeAssessment(){
   const annualSavingsCapacity = monthlySavingsCapacity * 12;
 
   return {
-    monthlyIncome, annualIncome, dependents, multiplier,
-    incomeReplacementNeed, existingLifeCoverage, coverageGap,
-    criticalIllnessNeed, criticalIllnessTarget, ciStarter, hasCI, existingCICoverage,
+    monthlyIncome, annualIncome, dependents, childrenCount, multiplier,
+    incomeReplacementNeed, existingLifeCoverage, lifeGap, lifeStarter, hasLife,
+    criticalIllnessTarget, existingCICoverage, ciGap, ciStarter, hasCI,
     hasHMO, existingHMOCoverage,
-    emergencyFundTarget, efMonths, monthlyExpenses,
-    debtOwed, childrenCount, wantsEducationFund, educationFundNeed, perChildEstimate,
-    wantsRetirement, retirementFundTarget, currentAge, retirementAge, yearsToRetirement,
-    inflationRate, annualExpensesToday, inflatedAnnualExpenseAtRetirement, retirementWithdrawalMultiple,
+    emergencyFundTarget, monthlyExpenses, existingEmergencyFund, emergencyFundGap, hasEmergencyFund,
     disabilityIdeal, disabilityStarter,
+    hasLoans, loanAmount,
     premiumLow, premiumHigh,
     monthlySavingsCapacity, annualSavingsCapacity
   };
@@ -357,46 +340,55 @@ function yearsToPayOffText(debtAmount, c){
   return `At your current pace, paying this off on your own could take about ${years.toFixed(1)} years.`;
 }
 
+function priorityBadge(status){
+  // status: 'gap' (high priority), 'watch' (should consider), 'ok' (on track)
+  if (status === 'gap') return { cls:'gap', label:'🔴 High Priority' };
+  if (status === 'watch') return { cls:'watch', label:'🟡 Should Consider' };
+  return { cls:'ok', label:'🟢 On Track' };
+}
+
 const c = computeAssessment();
 const content = document.getElementById('snapContent');
 
 let html = '<div class="snap-col">';
 
-let noteBody = "Based on your answers, I've put together a starting picture of your protection — where you're covered, and where there might be a gap. Let's walk through what this looks like together.";
+let noteBody = "Based on what you shared, you're already taking the first step by looking at your financial protection. You don't have to fix everything at once. Let's focus first on the areas that could have the biggest impact on you and the people who depend on you.";
 if (c.dependents > 0){
   noteBody = `You mentioned ${c.dependents} ${c.dependents===1?'person depends':'people depend'} on your income. This snapshot is built around protecting your ability to provide for them — even when life doesn't go as planned. Let me walk you through what that looks like.`;
-} else if (c.debtOwed > 0){
-  noteBody = "You mentioned you're still paying off some debt. This snapshot factors that in, so your coverage protects what you owe as well as what you earn. Let me walk you through what that looks like.";
+} else if (c.hasLoans){
+  noteBody = "You mentioned you're still paying off some loans or financial obligations. This snapshot factors that in, so your coverage protects what you owe as well as what you earn. Let me walk you through what that looks like.";
 }
 html += `
   <div class="snap-advisor-note">
     <img src="images/headshot.jpg" alt="Engr. Suzeth A. Malit">
     <div>
-      <div class="san-label">From Engr. Suzeth — Your Insurance Planner</div>
+      <div class="san-label">From Engr. Zeth — Your Insurance Planner</div>
       <p>${noteBody}</p>
     </div>
   </div>
 `;
 
-html += '<div class="snap-section-label">Your Insurance Benefits</div>';
+html += '<div class="snap-section-label">Your Protection Areas</div>';
 
-// Protection Score — an original addition, not in the reference we studied
+// Protection Score — 5 core essentials
 const scoreChecks = [
-  c.coverageGap <= 0,
-  c.criticalIllnessNeed <= 0,
+  c.hasLife,
+  c.hasCI,
   c.hasHMO,
-  a.emergency_fund === 'Yes',
-  c.debtOwed <= 0
+  c.hasEmergencyFund,
+  !c.hasLoans
 ];
 const scoreCovered = scoreChecks.filter(Boolean).length;
 const scoreTotal = scoreChecks.length;
 const scorePct = scoreTotal ? scoreCovered / scoreTotal : 0;
 const ringR = 34, ringC = 2 * Math.PI * ringR;
 const ringOffset = ringC * (1 - scorePct);
-let scoreMsg = "You're just getting started — let's close these gaps together.";
-if (scorePct >= 0.8) scoreMsg = "You're in a strong position. Let's fine-tune what's left.";
-else if (scorePct >= 0.5) scoreMsg = "You're partway there — a few key gaps are worth closing.";
-else if (scorePct >= 0.2) scoreMsg = "A good start, but there's real exposure here worth addressing.";
+let scoreLabel = 'Just Getting Started';
+let scoreMsg = "That's perfectly fine — everyone starts somewhere. Let's build your plan step by step, starting with what matters most.";
+if (scorePct >= 1){ scoreLabel = 'Well Protected'; scoreMsg = "You've covered the essentials. Let's fine-tune what's left and make sure it still fits your life."; }
+else if (scorePct >= 0.8){ scoreLabel = 'Almost There'; scoreMsg = "You're in a strong position — just one or two areas are worth closing next."; }
+else if (scorePct >= 0.4){ scoreLabel = 'Building Momentum'; scoreMsg = "You're partway there. A few key gaps are worth addressing first."; }
+else if (scorePct > 0){ scoreLabel = 'Just Getting Started'; scoreMsg = "A good start — but there's real exposure here worth addressing soon."; }
 
 html += `
   <div class="snap-score-card">
@@ -410,154 +402,139 @@ html += `
     </div>
     <div class="snap-score-text">
       <div class="sst-label">Your Protection Score</div>
-      <h3>${scoreMsg}</h3>
-      <p>Based on life, critical illness, HMO, emergency fund, and debt protection — the five essentials most Filipino households need first.</p>
+      <h3>${scoreCovered}/${scoreTotal} — ${scoreLabel}</h3>
+      <p>${scoreMsg}</p>
     </div>
   </div>
 `;
 
-html += `
-  <div class="benefit-card">
-    <div class="bc-head">
-      <div class="bc-head-left"><div class="bc-icon">🛡️</div><div class="bc-title">Life Insurance</div></div>
-      <div class="bc-status ${c.coverageGap > 0 ? 'gap' : 'ok'}">${c.coverageGap > 0 ? '⚠ Gap detected' : '✓ Covered'}</div>
-    </div>
-    <div class="bc-body">
-      <p>You're financially supporting people who depend on you. If something happens to you unexpectedly, <b>they lose their source of income</b> — and that impact is felt for years. Life insurance gives them the cash to continue without you.</p>
-      <div class="bc-coverage-box">
-        <div class="bc-coverage-row"><span class="cr-label">💡 Ideal coverage</span><span class="cr-value">${peso(c.incomeReplacementNeed)}</span></div>
-        <div class="bc-coverage-note">Based on ${c.multiplier}× your annual income, scaled for ${c.dependents} dependent(s)${a.primary_earner==='Yes' ? ' as primary earner' : ''}.</div>
+{
+  const lifeStatus = c.hasLife ? (c.lifeGap <= 0 ? 'ok' : 'watch') : ((c.dependents > 0 || c.childrenCount > 0) ? 'gap' : 'watch');
+  const badge = priorityBadge(lifeStatus);
+  html += `
+    <div class="benefit-card">
+      <div class="bc-head">
+        <div class="bc-head-left"><div class="bc-icon">🛡️</div><div class="bc-title">Life Insurance</div></div>
+        <div class="bc-status ${badge.cls}">${badge.label}</div>
       </div>
-      ${yearsToSaveText(c.incomeReplacementNeed, c) ? `<div class="bc-reality-check">${yearsToSaveText(c.incomeReplacementNeed, c)}</div>` : ''}
+      <div class="bc-body">
+        <p>If something unexpected happened to you, would your family have enough financial support to continue without your income? ${c.hasLife ? "You told us you already have life insurance — here's how it compares to what's typically recommended." : "Life insurance gives the people who depend on you the cash to continue without you."}</p>
+        <div class="bc-coverage-box">
+          <div class="bc-coverage-row"><span class="cr-label">💡 Ideal coverage</span><span class="cr-value">${peso(c.incomeReplacementNeed)}</span></div>
+          ${c.existingLifeCoverage > 0 ? `<div class="bc-coverage-row"><span class="cr-label">📋 Your current coverage</span><span class="cr-value">${peso(c.existingLifeCoverage)}</span></div>` : `<div class="bc-coverage-row"><span class="cr-label">🚀 Starter coverage</span><span class="cr-value">${peso(c.lifeStarter)}</span></div>`}
+          <div class="bc-coverage-note">Based on ${c.multiplier}× your annual income, scaled for ${c.dependents} dependent(s)${c.existingLifeCoverage > 0 && c.lifeGap > 0 ? ` — that leaves a gap of about ${peso(c.lifeGap)}.` : '.'}</div>
+        </div>
+        ${yearsToSaveText(c.lifeGap > 0 ? c.lifeGap : c.incomeReplacementNeed, c) ? `<div class="bc-reality-check">${yearsToSaveText(c.lifeGap > 0 ? c.lifeGap : c.incomeReplacementNeed, c)}</div>` : ''}
+      </div>
     </div>
-  </div>
-`;
+  `;
+}
 
-html += `
-  <div class="benefit-card">
-    <div class="bc-head">
-      <div class="bc-head-left"><div class="bc-icon">❤️</div><div class="bc-title">Critical Illness Coverage</div></div>
-      <div class="bc-status ${c.criticalIllnessNeed > 0 ? 'gap' : 'ok'}">${c.criticalIllnessNeed > 0 ? '⚠ Gap detected' : '✓ Covered'}</div>
-    </div>
-    <div class="bc-body">
-      <p>When a serious illness hits, the bills don't care about your savings. This benefit gives you <b>a lump-sum cash payout to cover treatment costs</b> — so you can focus on getting better, not worrying about money.</p>
-      <div class="bc-condition-grid">
-        <div class="bc-condition"><div class="cn-name">Cancer treatment</div><div class="cn-cost">up to ₱2M+</div></div>
-        <div class="bc-condition"><div class="cn-name">Stroke &amp; rehab</div><div class="cn-cost">~₱1M–1.8M</div></div>
-        <div class="bc-condition"><div class="cn-name">Heart attack</div><div class="cn-cost">~₱800K–1.2M</div></div>
-        <div class="bc-condition"><div class="cn-name">Bypass surgery</div><div class="cn-cost">~₱500K–1M</div></div>
-        <div class="bc-condition"><div class="cn-name">Kidney dialysis</div><div class="cn-cost">~₱400K/yr</div></div>
-        <div class="bc-condition"><div class="cn-name">Organ transplant</div><div class="cn-cost">~₱1M+</div></div>
+{
+  const ciStatus = c.hasCI ? (c.ciGap <= 0 ? 'ok' : 'watch') : (a.has_critical_illness === 'Not sure' ? 'watch' : 'gap');
+  const badge = priorityBadge(ciStatus);
+  html += `
+    <div class="benefit-card">
+      <div class="bc-head">
+        <div class="bc-head-left"><div class="bc-icon">❤️</div><div class="bc-title">Critical Illness Coverage</div></div>
+        <div class="bc-status ${badge.cls}">${badge.label}</div>
       </div>
-      <div class="bc-coverage-box">
-        <div class="bc-coverage-row"><span class="cr-label">💡 Ideal coverage</span><span class="cr-value">${peso(c.criticalIllnessTarget)}</span></div>
-        <div class="bc-coverage-row"><span class="cr-label">🚀 Starter coverage</span><span class="cr-value">${peso(c.ciStarter)}</span></div>
-        <div class="bc-coverage-note">${c.hasCI ? `Less your existing ${peso(c.existingCICoverage)} in critical illness coverage.` : 'Illustrative treatment-cost ranges — actual costs vary by hospital, stage, and case.'}</div>
+      <div class="bc-body">
+        <p>When a serious illness hits, the bills don't care about your savings. This benefit gives you <b>a lump-sum cash payout to cover treatment costs</b> — so you can focus on getting better, not worrying about money.</p>
+        <div class="bc-condition-grid">
+          <div class="bc-condition"><div class="cn-name">Cancer treatment</div><div class="cn-cost">up to ₱2M+</div></div>
+          <div class="bc-condition"><div class="cn-name">Stroke &amp; rehab</div><div class="cn-cost">~₱1M–1.8M</div></div>
+          <div class="bc-condition"><div class="cn-name">Heart attack</div><div class="cn-cost">~₱800K–1.2M</div></div>
+          <div class="bc-condition"><div class="cn-name">Bypass surgery</div><div class="cn-cost">~₱500K–1M</div></div>
+          <div class="bc-condition"><div class="cn-name">Kidney dialysis</div><div class="cn-cost">~₱400K/yr</div></div>
+          <div class="bc-condition"><div class="cn-name">Organ transplant</div><div class="cn-cost">~₱1M+</div></div>
+        </div>
+        <div class="bc-coverage-box">
+          <div class="bc-coverage-row"><span class="cr-label">💡 Ideal coverage</span><span class="cr-value">${peso(c.criticalIllnessTarget)}</span></div>
+          ${c.existingCICoverage > 0 ? `<div class="bc-coverage-row"><span class="cr-label">📋 Your current coverage</span><span class="cr-value">${peso(c.existingCICoverage)}</span></div>` : `<div class="bc-coverage-row"><span class="cr-label">🚀 Starter coverage</span><span class="cr-value">${peso(c.ciStarter)}</span></div>`}
+          <div class="bc-coverage-note">${c.existingCICoverage > 0 && c.ciGap > 0 ? `That leaves a gap of about ${peso(c.ciGap)}. ` : ''}Illustrative treatment-cost ranges — actual costs vary by hospital, stage, and case.</div>
+        </div>
+        ${yearsToSaveText(c.ciGap > 0 ? c.ciGap : c.criticalIllnessTarget, c) ? `<div class="bc-reality-check">${yearsToSaveText(c.ciGap > 0 ? c.ciGap : c.criticalIllnessTarget, c)}</div>` : ''}
       </div>
-      ${yearsToSaveText(c.criticalIllnessTarget, c) ? `<div class="bc-reality-check">${yearsToSaveText(c.criticalIllnessTarget, c)}</div>` : ''}
     </div>
-  </div>
-`;
+  `;
+}
 
-html += `
-  <div class="benefit-card">
-    <div class="bc-head">
-      <div class="bc-head-left"><div class="bc-icon">🏥</div><div class="bc-title">Hospitalization / HMO</div></div>
-      <div class="bc-status ${c.hasHMO ? 'ok' : 'gap'}">${c.hasHMO ? '✓ Already in place' : '⚠ Gap detected'}</div>
-    </div>
-    <div class="bc-body">
-      <p>${c.hasHMO
-        ? `You reported existing HMO or medical coverage${c.existingHMOCoverage ? ` with a ${peso(c.existingHMOCoverage)}/yr Maximum Benefit Limit` : ''}. Worth confirming your room limits and diagnostics coverage are still enough for today's hospital costs.`
-        : `Without HMO, a single hospital stay can eat through months of savings. This benefit <b>covers room, board, and doctor's fees</b> so a hospital bill doesn't become a financial setback.`}</p>
-    </div>
-  </div>
-`;
-
-html += `
-  <div class="benefit-card">
-    <div class="bc-head">
-      <div class="bc-head-left"><div class="bc-icon">💼</div><div class="bc-title">Disability / Income Protection</div></div>
-      <div class="bc-status gap">⚠ Gap detected</div>
-    </div>
-    <div class="bc-body">
-      <p>A serious illness or accident can leave you <b>unable to work — sometimes for years</b>. Your income stops, but your expenses don't. This benefit replaces your lost income so your family's lifestyle stays protected.</p>
-      <div class="bc-coverage-box">
-        <div class="bc-coverage-row"><span class="cr-label">💡 Ideal coverage</span><span class="cr-value">${peso(c.disabilityIdeal)}</span></div>
-        <div class="bc-coverage-row"><span class="cr-label">🚀 Starter coverage</span><span class="cr-value">${peso(c.disabilityStarter)}</span></div>
-        <div class="bc-coverage-note">Ideal = 5 years of your monthly expenses. Starter = at least 2 years.</div>
+{
+  const hmoStatus = c.hasHMO ? 'ok' : (a.has_hmo === 'Not sure' ? 'watch' : 'gap');
+  const badge = priorityBadge(hmoStatus);
+  html += `
+    <div class="benefit-card">
+      <div class="bc-head">
+        <div class="bc-head-left"><div class="bc-icon">🏥</div><div class="bc-title">Hospitalization / HMO</div></div>
+        <div class="bc-status ${badge.cls}">${badge.label}</div>
       </div>
-      ${yearsToSaveText(c.disabilityIdeal, c) ? `<div class="bc-reality-check">${yearsToSaveText(c.disabilityIdeal, c)}</div>` : ''}
+      <div class="bc-body">
+        <p>${c.hasHMO
+          ? `You told us you already have HMO or health insurance${c.existingHMOCoverage > 0 ? `, with about ${peso(c.existingHMOCoverage)} in coverage` : ''}. Worth confirming your room limits and diagnostics coverage are still enough for today's hospital costs.`
+          : `Without adequate medical coverage, a single hospital stay can eat through months of savings. This benefit <b>covers room, board, and doctor's fees</b> so a hospital bill doesn't become a financial setback.`}</p>
+      </div>
     </div>
-  </div>
-`;
+  `;
+}
+
+{
+  const badge = priorityBadge('gap');
+  html += `
+    <div class="benefit-card">
+      <div class="bc-head">
+        <div class="bc-head-left"><div class="bc-icon">💼</div><div class="bc-title">Disability / Income Protection</div></div>
+        <div class="bc-status ${badge.cls}">${badge.label}</div>
+      </div>
+      <div class="bc-body">
+        <p>Your income is one of your biggest financial assets. If an illness or accident prevented you from working, how long could your current finances continue? This benefit replaces your lost income so your lifestyle stays protected.</p>
+        <div class="bc-coverage-box">
+          <div class="bc-coverage-row"><span class="cr-label">💡 Ideal coverage</span><span class="cr-value">${peso(c.disabilityIdeal)}</span></div>
+          <div class="bc-coverage-row"><span class="cr-label">🚀 Starter coverage</span><span class="cr-value">${peso(c.disabilityStarter)}</span></div>
+          <div class="bc-coverage-note">Ideal = 5 years of your monthly expenses. Starter = at least 2 years.</div>
+        </div>
+        ${yearsToSaveText(c.disabilityIdeal, c) ? `<div class="bc-reality-check">${yearsToSaveText(c.disabilityIdeal, c)}</div>` : ''}
+      </div>
+    </div>
+  `;
+}
 
 if (c.emergencyFundTarget > 0){
+  const efStatus = c.hasEmergencyFund ? (c.emergencyFundGap <= 0 ? 'ok' : 'watch') : (a.has_emergency_fund === 'Not sure' ? 'watch' : 'gap');
+  const badge = priorityBadge(efStatus);
   html += `
     <div class="benefit-card">
       <div class="bc-head">
         <div class="bc-head-left"><div class="bc-icon">💰</div><div class="bc-title">Emergency Fund</div></div>
-        <div class="bc-status ${a.emergency_fund === 'No' ? 'gap' : (a.emergency_fund === 'Still building one' ? 'watch' : 'ok')}">${a.emergency_fund === 'No' ? '⚠ Not started' : (a.emergency_fund === 'Still building one' ? '◐ In progress' : '✓ Has fund')}</div>
+        <div class="bc-status ${badge.cls}">${badge.label}</div>
       </div>
       <div class="bc-body">
         <p>A cash cushion for the unexpected — job loss, urgent repairs, a sudden expense — so you're never forced to break your long-term savings or go into debt to cover it.</p>
         <div class="bc-coverage-box">
-          <div class="bc-coverage-row"><span class="cr-label">💡 Target</span><span class="cr-value">${peso(c.emergencyFundTarget)}</span></div>
-          <div class="bc-coverage-note">${c.efMonths} months of expenses at ${peso(c.monthlyExpenses)}/month.</div>
+          <div class="bc-coverage-row"><span class="cr-label">💡 Recommended target</span><span class="cr-value">${peso(c.emergencyFundTarget)}</span></div>
+          ${c.existingEmergencyFund > 0 ? `<div class="bc-coverage-row"><span class="cr-label">📋 You currently have</span><span class="cr-value">${peso(c.existingEmergencyFund)}</span></div>` : ''}
+          <div class="bc-coverage-note">${c.existingEmergencyFund > 0 && c.emergencyFundGap > 0 ? `About ${peso(c.emergencyFundGap)} short of target. ` : ''}Approximately 6 months of expenses, based on ${peso(c.monthlyExpenses)}/month.</div>
         </div>
-        ${yearsToSaveText(c.emergencyFundTarget, c) ? `<div class="bc-reality-check">${yearsToSaveText(c.emergencyFundTarget, c)}</div>` : ''}
+        ${yearsToSaveText(c.emergencyFundGap > 0 ? c.emergencyFundGap : c.emergencyFundTarget, c) ? `<div class="bc-reality-check">${yearsToSaveText(c.emergencyFundGap > 0 ? c.emergencyFundGap : c.emergencyFundTarget, c)}</div>` : ''}
       </div>
     </div>
   `;
 }
 
-if (c.debtOwed > 0){
+if (c.hasLoans){
+  const badge = priorityBadge('watch');
   html += `
     <div class="benefit-card">
       <div class="bc-head">
         <div class="bc-head-left"><div class="bc-icon">📋</div><div class="bc-title">Debt Protection</div></div>
-        <div class="bc-status watch">◐ Outstanding balance</div>
+        <div class="bc-status ${badge.cls}">${badge.label}</div>
       </div>
       <div class="bc-body">
-        <p>You reported ${peso(c.debtOwed)} in outstanding loans. Without protection, that debt doesn't disappear if something happens to you — it can pass on to your co-signers or family. Coverage tied to your balance keeps that from happening.</p>
-        ${yearsToPayOffText(c.debtOwed, c) ? `<div class="bc-reality-check">${yearsToPayOffText(c.debtOwed, c)}</div>` : ''}
-      </div>
-    </div>
-  `;
-}
-
-if (c.educationFundNeed > 0){
-  html += `
-    <div class="benefit-card">
-      <div class="bc-head">
-        <div class="bc-head-left"><div class="bc-icon">🎓</div><div class="bc-title">Children's Education Fund</div></div>
-        <div class="bc-status watch">◐ Applicable</div>
-      </div>
-      <div class="bc-body">
-        <p>College doesn't get cheaper by waiting. A dedicated education fund locks in the cost of your ${c.childrenCount > 1 ? "children's" : "child's"} college years today, regardless of what happens to your income later.</p>
-        <div class="bc-coverage-box">
-          <div class="bc-coverage-row"><span class="cr-label">💡 Estimated need</span><span class="cr-value">${peso(c.educationFundNeed)}</span></div>
-          <div class="bc-coverage-note">${peso(c.perChildEstimate)} per child for a 4-year college estimate${a.education_school_type ? ` (${a.education_school_type.toLowerCase()})` : ''}, for ${c.childrenCount} child(ren).</div>
-        </div>
-        ${yearsToSaveText(c.educationFundNeed, c) ? `<div class="bc-reality-check">${yearsToSaveText(c.educationFundNeed, c)}</div>` : ''}
-      </div>
-    </div>
-  `;
-}
-
-if (c.wantsRetirement){
-  html += `
-    <div class="benefit-card">
-      <div class="bc-head">
-        <div class="bc-head-left"><div class="bc-icon">🌅</div><div class="bc-title">Retirement Fund</div></div>
-        <div class="bc-status watch">◐ Priority for you</div>
-      </div>
-      <div class="bc-body">
-        <p>Retiring at ${c.retirementAge} means covering ${c.yearsToRetirement} years of no active income — while prices keep rising. This fund is sized so your money keeps up with the cost of living by the time you get there, not just today's prices.</p>
-        <div class="bc-coverage-box">
-          <div class="bc-coverage-row"><span class="cr-label">💡 Target fund at retirement</span><span class="cr-value">${peso(c.retirementFundTarget)}</span></div>
-          <div class="bc-coverage-note">Assumes retirement at age ${c.retirementAge} (${c.yearsToRetirement} yrs away), ~4% average Philippine inflation on ${peso(c.annualExpensesToday)}/yr in today's expenses — growing to ${peso(c.inflatedAnnualExpenseAtRetirement)}/yr by retirement, sized using the 4% withdrawal rule.</div>
-        </div>
-        ${yearsToSaveText(c.retirementFundTarget, c) ? `<div class="bc-reality-check">${yearsToSaveText(c.retirementFundTarget, c)} — this is exactly why starting early, and letting a fund grow, matters more than saving alone.</div>` : ''}
+        <p>${c.loanAmount > 0
+          ? `You mentioned about ${peso(c.loanAmount)} in loans or major financial obligations.`
+          : `You mentioned you currently have loans or major financial obligations.`} Without a plan, outstanding debt can become a burden for your family or co-signers if something unexpected happens to you. Coverage tied to what you owe keeps that from happening.</p>
+        ${c.loanAmount > 0 ? `<div class="bc-coverage-box"><div class="bc-coverage-row"><span class="cr-label">💡 Amount owed</span><span class="cr-value">${peso(c.loanAmount)}</span></div></div>` : ''}
+        ${yearsToPayOffText(c.loanAmount, c) ? `<div class="bc-reality-check">${yearsToPayOffText(c.loanAmount, c)}</div>` : ''}
       </div>
     </div>
   `;
@@ -583,10 +560,10 @@ html += `
 html += `
   <div class="snap-cta-band">
     <div class="scb-tag">Results available for 48 hours</div>
-    <h2>See exactly how these numbers translate into a plan — and what it costs</h2>
-    <p>In your free 30-minute Clarity Session, I'll show you the specific plan options that cover all of this — clear, no jargon, no pressure to buy anything.</p>
-    <a href="booking.html" class="scb-btn">Get My Plan Options →</a>
-    <div class="scb-trust">✓ 100% Free &nbsp;·&nbsp; ✓ No obligation &nbsp;·&nbsp; ✓ Personalized</div>
+    <h2>See how this can translate into a plan</h2>
+    <p>Want to see what these numbers could look like as an actual protection plan? Let's go through your options together — no pressure and no obligation.</p>
+    <a href="booking.html" class="scb-btn">Book Your Free Clarity Session →</a>
+    <div class="scb-trust">100% Free &nbsp;·&nbsp; No obligation &nbsp;·&nbsp; Personalized</div>
   </div>
 `;
 

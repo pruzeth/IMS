@@ -27,6 +27,11 @@
   --danger:#7D0C1F;
   --radius:14px;
   --maxw:1180px;
+
+  /* fixed dark surface — for accent blocks (marquee, dark step card,
+     dark buttons) that must stay dark regardless of light/dark theme */
+  --surface-dark:#141414;
+  --surface-dark-2:#1E1E1E;
 }
 
 *{box-sizing:border-box;}
@@ -133,6 +138,8 @@ button{font-family:inherit;cursor:pointer;}
   box-shadow:0 8px 18px rgba(184,17,44,0.28);
 }
 .nav-cta:hover{filter:brightness(1.06);}
+.nav-highlight{color:var(--tan-deep) !important;font-weight:700 !important;}
+.nav-highlight:hover{background:var(--cream-2);}
 .nav-toggle{display:none;}
 
 /* ---------- Dropdown nav items ---------- */
@@ -247,8 +254,10 @@ button{font-family:inherit;cursor:pointer;}
 .btn-gold:hover{filter:brightness(1.06);}
 .btn-outline{background:var(--card);color:var(--ink);border:1.5px solid var(--line);}
 .btn-outline:hover{border-color:var(--tan-deep);}
-.btn-ink{background:var(--ink);color:#fff;}
+.btn-ink{background:var(--surface-dark);color:#fff;}
 .btn-ink:hover{background:var(--ink-soft);}
+.btn-lg{padding:20px 42px;font-size:17px;border-radius:8px;}
+.btn-md{padding:17px 34px;font-size:15px;}
 
 /* ---------- Spec / stat strip ---------- */
 .spec-strip{
@@ -474,7 +483,7 @@ button{font-family:inherit;cursor:pointer;}
 
 /* ---------- Footer (title block reworked to match warm palette) ---------- */
 .title-block{
-  background:var(--ink);
+  background:var(--surface-dark);
   color:#F2F2F2;
   padding:50px 0 0 0;
 }
@@ -588,7 +597,7 @@ button{font-family:inherit;cursor:pointer;}
   display:flex;
   align-items:center;
   gap:10px;
-  background:var(--ink);
+  background:var(--surface-dark);
   color:#fff;
   border:1.5px solid rgba(255,255,255,0.15);
   border-radius:100px;
@@ -640,8 +649,11 @@ button{font-family:inherit;cursor:pointer;}
   transition:transform .15s ease;
 }
 .assessment-float:hover{transform:translateY(-2px);}
+.assessment-float .af-short{display:none;}
 @media (max-width:600px){
-  .assessment-float{right:14px;bottom:14px;padding:12px 18px;font-size:12.5px;}
+  .assessment-float{right:14px;bottom:14px;padding:11px 16px;font-size:12px;}
+  .assessment-float .af-full{display:none;}
+  .assessment-float .af-short{display:inline;}
 }
 
 /* ---------- Hesitation / objection-breaking section ---------- */
@@ -757,20 +769,31 @@ button{font-family:inherit;cursor:pointer;}
 }
 
 /* ---------- Dark / light mode ---------- */
-:root{
-  --dm-bg:#141414; --dm-card:#1E1E1E; --dm-ink:#F2EFEC; --dm-slate:#B8B4AF; --dm-line:#333333;
+/* Re-theme the core design tokens so every component that already
+   uses var(--ink)/var(--card)/var(--line) etc. automatically gets
+   readable, correctly-contrasted colors — no per-component patches. */
+html[data-theme="dark"]{
+  --cream:#141414;
+  --cream-2:#1C1C1C;
+  --card:#1E1E1E;
+  --white:#1E1E1E;
+  --ink:#F2EFEC;
+  --ink-soft:#D6D2CD;
+  --charcoal:#F2EFEC;
+  --slate:#B0ACA7;
+  --line:#333333;
 }
-html[data-theme="dark"] body{background:var(--dm-bg);color:var(--dm-ink);}
-html[data-theme="dark"] .section, html[data-theme="dark"] header.hero{background:var(--dm-bg);}
-html[data-theme="dark"] .section[style*="cream-2"]{background:#1A1A1A !important;}
-html[data-theme="dark"] .site-nav{background:rgba(20,20,20,.92);border-bottom-color:var(--dm-line);}
-html[data-theme="dark"] .nav-links a{color:var(--dm-ink);}
-html[data-theme="dark"] h1,html[data-theme="dark"] h2,html[data-theme="dark"] h3{color:var(--dm-ink);}
-html[data-theme="dark"] p, html[data-theme="dark"] .lede{color:var(--dm-slate);}
-html[data-theme="dark"] .card,html[data-theme="dark"] .testi-card,html[data-theme="dark"] .snapshot-card,
-html[data-theme="dark"] .look-card,html[data-theme="dark"] .help-card,html[data-theme="dark"] .story-card,
-html[data-theme="dark"] .video-card{background:var(--dm-card);border-color:var(--dm-line);}
-html[data-theme="dark"] footer{background:#0A0A0A;}
+html[data-theme="dark"] body{background:var(--cream);color:var(--charcoal);}
+html[data-theme="dark"] .site-nav{background:transparent;}
+html[data-theme="dark"] .site-nav .wrap{background:rgba(26,26,26,0.9);border-color:var(--line);}
+html[data-theme="dark"] .theme-toggle{background:var(--card);border-color:var(--line);color:var(--ink);}
+html[data-theme="dark"] footer.title-block{background:#0A0A0A;}
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea{background:var(--card);color:var(--ink);border-color:var(--line);}
+html[data-theme="dark"] img{opacity:.94;}
+/* Elements that are intentionally dark/branded in both themes (hero,
+   maroon CTA bands, footer) keep their own fixed colors — excluded above. */
 
 .theme-toggle{
   width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);
@@ -791,21 +814,54 @@ html[data-theme="dark"] .theme-toggle{background:var(--dm-card);border-color:var
 .look-card:hover, .help-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(184,17,44,.12);}
 .video-card:hover .vc-frame, .story-card:hover{transform:scale(1.015);}
 
-/* ---------- "I am looking to..." merged banner ---------- */
-.looking-band{
+/* ---------- "How can I help you today?" banner ---------- */
+.help-band{
   background:linear-gradient(120deg, var(--tan-deep) 0%, var(--maroon) 100%);
-  color:#fff;border-radius:20px;padding:34px 36px;display:grid;
-  grid-template-columns:1.6fr 1fr;gap:0;align-items:center;
+  color:#fff;border-radius:20px;padding:44px 40px;text-align:center;
 }
-.looking-band-label{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px;opacity:.9;}
-.looking-band-items{display:flex;gap:8px;flex-wrap:wrap;}
-.lb-item{display:flex;flex-direction:column;align-items:center;gap:6px;width:96px;text-align:center;}
-.lb-icon{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:19px;}
-.lb-item span{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;line-height:1.3;}
-.looking-band-cta{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:22px;text-align:center;}
-.looking-band-cta div{font-family:'Poppins',sans-serif;font-weight:700;font-size:14.5px;margin-bottom:14px;}
-.looking-band-cta a{display:inline-block;background:#fff;color:var(--tan-deep);border-radius:100px;padding:11px 22px;font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;}
-@media (max-width:760px){.looking-band{grid-template-columns:1fr;}}
+.help-band-label{
+  font-family:'Fraunces',serif;font-weight:700;font-size:28px;
+  margin-bottom:30px;
+}
+.help-band-items{
+  display:flex;gap:18px;justify-content:center;flex-wrap:wrap;
+  max-width:900px;margin:0 auto;
+}
+.help-item{
+  flex:1 1 240px;max-width:280px;
+  background:rgba(255,255,255,.08);
+  border:1.5px solid rgba(255,255,255,.2);
+  border-radius:16px;
+  padding:26px 22px;
+  text-align:center;
+  transition:transform .15s ease, background .15s ease, border-color .15s ease;
+}
+.help-item:hover{transform:translateY(-3px);background:rgba(255,255,255,.13);}
+.help-item-icon{
+  width:46px;height:46px;border-radius:50%;
+  background:rgba(255,255,255,.16);
+  display:flex;align-items:center;justify-content:center;
+  font-size:19px;margin:0 auto 14px auto;
+}
+.help-item-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:15.5px;margin-bottom:6px;line-height:1.3;}
+.help-item-title em{font-style:normal;font-weight:600;font-size:12.5px;opacity:.85;}
+.help-item-sub{font-size:12.5px;color:#EDE1DF;line-height:1.4;}
+.help-item-primary{
+  background:#fff;color:var(--tan-deep);
+  border-color:#fff;
+  box-shadow:0 14px 30px rgba(0,0,0,.22);
+  transform:scale(1.05);
+}
+.help-item-primary .help-item-icon{background:linear-gradient(135deg, var(--tan), var(--tan-deep));color:#fff;}
+.help-item-primary .help-item-title{color:var(--ink);}
+.help-item-primary .help-item-sub{color:var(--slate);}
+.help-item-primary:hover{transform:scale(1.05) translateY(-3px);}
+.help-item-secondary{background:rgba(255,255,255,.14);}
+@media (max-width:760px){
+  .help-band-label{font-size:22px;}
+  .help-item-primary{transform:none;}
+  .help-item-primary:hover{transform:translateY(-3px);}
+}
 
 /* ---------- Newer-version stats cards ---------- */
 .stats-grid-new{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
