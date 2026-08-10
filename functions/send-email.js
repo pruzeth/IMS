@@ -52,11 +52,14 @@ export async function onRequestPost(context) {
       CLARITY_CALL_LINK,
     };
 
-    // 1. Email to the client
+    // 1. Email to the client — replyTo makes sure that if they hit "Reply,"
+    // it goes straight to your real Gmail inbox instead of the unmonitored
+    // hello@ address, even though "From" still shows your branded domain.
     const clientPayload = {
       to: [{ email, name }],
       templateId: TEMPLATE_ID,
       params: sharedParams,
+      replyTo: { email: ADVISER_EMAIL, name: ADVISER_NAME },
     };
 
     // 2. Same email to the adviser, plus who it's about
@@ -64,6 +67,7 @@ export async function onRequestPost(context) {
       to: [{ email: ADVISER_EMAIL, name: ADVISER_NAME }],
       templateId: TEMPLATE_ID,
       params: { ...sharedParams, CLIENT_EMAIL: email },
+      replyTo: { email: email, name: name },
     };
 
     // 3. Add/update the client in the marketing list
