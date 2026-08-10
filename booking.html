@@ -292,7 +292,10 @@ const CONFIG = {
 
 /* If a real Calendly link has been set, embed it as an inline iframe */
 (function renderCalendly(){
-  if (CONFIG.bookingUrl && CONFIG.bookingUrl.indexOf('your-link') === -1){
+  const isPlaceholder = !CONFIG.bookingUrl
+    || CONFIG.bookingUrl.indexOf('your-link') !== -1
+    || CONFIG.bookingUrl.indexOf('yourpru') !== -1;
+  if (!isPlaceholder){
     const wrap = document.getElementById('calendlyWrap');
     const iframe = document.createElement('iframe');
     iframe.src = CONFIG.bookingUrl;
@@ -337,7 +340,7 @@ document.getElementById('siteNavToggle').addEventListener('click', ()=>{
 
 <!-- Floating live-chat button. Default links to the booking page;
      replace href below with a Messenger/WhatsApp/Tawk.to link once you have one. -->
-<a href="assessment.html" class="assessment-float">Take Free Assessment →</a>
+<a href="assessment.html" class="assessment-float"><span class="af-full">Find Out What Coverage I Need →</span><span class="af-short">Find My Coverage →</span></a>
 
 <a href="booking.html" class="chat-float">
   <span class="cf-avatar"><img src="images/headshot.jpg" alt="Suzeth"><span class="cf-dot"></span></span>
