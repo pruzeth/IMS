@@ -290,12 +290,13 @@ const CONFIG = {
   adviserName:        'Engr. Suzeth A. Malit'
 };
 
-/* If a real Calendly link has been set, embed it as an inline iframe */
+/* If a real Calendly link has been set, embed it as an inline iframe.
+   We just confirm it's an actual calendly.com link — no more guessing
+   based on text patterns like "yourpru", since that wrongly flagged
+   your real username as a placeholder. */
 (function renderCalendly(){
-  const isPlaceholder = !CONFIG.bookingUrl
-    || CONFIG.bookingUrl.indexOf('your-link') !== -1
-    || CONFIG.bookingUrl.indexOf('yourpru') !== -1;
-  if (!isPlaceholder){
+  const isRealLink = CONFIG.bookingUrl && CONFIG.bookingUrl.indexOf('calendly.com/') !== -1;
+  if (isRealLink){
     const wrap = document.getElementById('calendlyWrap');
     const iframe = document.createElement('iframe');
     iframe.src = CONFIG.bookingUrl;
