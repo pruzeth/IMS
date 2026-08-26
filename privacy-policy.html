@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Insurance Made Simple by Engr. Suzeth A. Malit</title>
+<meta name="description" content="How Engr. Suzeth A. Malit (Insurance Made Simple) collects, uses, and protects personal information submitted through Facebook/Instagram lead ads, Messenger, and website forms.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#faf6ee;
+    --card:#ffffff;
+    --ink:#1c1a17;
+    --ink-soft:#69645c;
+    --maroon:#8a2332;
+    --maroon-deep:#6e1b28;
+    --badge-bg:#f7e3e0;
+    --line:#e9e2d3;
+    --radius:16px;
+    --maxw:800px;
+    --serif:'Playfair Display', Georgia, serif;
+    --sans:'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--maroon);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible, button:focus-visible{outline:3px solid var(--maroon);outline-offset:2px;}
+  img{max-width:100%;display:block;}
+
+  /* ---- Header ---- */
+  header.site{
+    background:var(--cream);
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  .site-inner{
+    max-width:1200px;
+    margin:0 auto;
+    padding:16px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:var(--serif);
+    font-weight:700;
+    font-size:19px;
+    color:var(--ink);
+    white-space:nowrap;
+  }
+  .brand img{
+    width:42px;height:42px;border-radius:50%;
+    object-fit:cover;
+    border:2px solid var(--maroon);
+  }
+  .brand em{font-style:italic;font-weight:600;color:var(--maroon);}
+  nav.site-nav{
+    display:flex;
+    align-items:center;
+    gap:26px;
+    font-size:14.5px;
+    font-weight:500;
+    flex-wrap:wrap;
+  }
+  nav.site-nav a{color:var(--ink);}
+  nav.site-nav a:hover{color:var(--maroon);text-decoration:none;}
+  nav.site-nav a.current{color:var(--maroon);font-weight:600;}
+  nav.site-nav a.nav-cta{
+    background:var(--maroon);
+    color:#fff;
+    padding:10px 18px;
+    border-radius:999px;
+    font-weight:600;
+  }
+  nav.site-nav a.nav-cta:hover{background:var(--maroon-deep);text-decoration:none;}
+  .theme-toggle{
+    background:none;border:1px solid var(--line);border-radius:50%;
+    width:36px;height:36px;font-size:15px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink);flex:0 0 auto;
+  }
+  .menu-toggle{
+    display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink);
+  }
+
+  /* ---- Trust strip, mirrors homepage partner bar ---- */
+  .trust-strip{
+    background:var(--cream);
+    border-bottom:1px solid var(--line);
+    padding:14px 24px 20px;
+    text-align:center;
+  }
+  .trust-strip .eyebrow-label{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+  }
+
+  /* ---- Hero ---- */
+  .hero{
+    padding:64px 24px 48px;
+    text-align:left;
+  }
+  .hero-inner{max-width:var(--maxw);margin:0 auto;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:var(--mono);
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:11px;
+    color:var(--maroon-deep);
+    font-weight:600;
+    background:var(--badge-bg);
+    padding:7px 14px;
+    border-radius:999px;
+    margin-bottom:20px;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-size:clamp(34px,5.5vw,52px);
+    margin:0 0 16px;
+    line-height:1.12;
+    font-weight:700;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{color:var(--maroon);font-style:italic;font-weight:600;}
+  .hero p{
+    margin:0;
+    color:var(--ink-soft);
+    max-width:64ch;
+    font-size:16.5px;
+  }
+  .effective-date{
+    display:inline-block;
+    margin-top:20px;
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:9px 16px;
+    border-radius:999px;
+    font-size:13px;
+    font-family:var(--mono);
+    color:var(--ink-soft);
+  }
+  .effective-date b{color:var(--ink);}
+
+  main{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:8px 24px 90px;
+  }
+
+  .notice{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px 22px;
+    font-size:14.5px;
+    color:var(--ink);
+    margin-bottom:40px;
+    box-shadow:0 1px 3px rgba(0,0,0,.03);
+  }
+  .notice strong{color:var(--maroon-deep);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:8px;}
+
+  .toc{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px 26px;
+    margin-bottom:48px;
+    box-shadow:0 1px 3px rgba(0,0,0,.03);
+  }
+  .toc h2{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.16em;
+    color:var(--ink-soft);
+    margin:0 0 16px;
+  }
+  .toc ol{
+    columns:2;
+    -webkit-columns:2;
+    column-gap:28px;
+    margin:0;
+    padding-left:20px;
+    font-size:14.5px;
+  }
+  .toc li{margin-bottom:8px;break-inside:avoid;}
+  .toc a{color:var(--ink);}
+  .toc a:hover{color:var(--maroon);}
+
+  section.policy-section{
+    padding:34px 0;
+    border-bottom:1px solid var(--line);
+    scroll-margin-top:100px;
+  }
+  section.policy-section:last-of-type{border-bottom:none;}
+  section.policy-section h2{
+    font-family:var(--serif);
+    font-size:23px;
+    color:var(--ink);
+    margin:0 0 12px;
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    font-weight:700;
+  }
+  section.policy-section h2 .num{
+    font-family:var(--mono);
+    color:var(--maroon);
+    font-size:12px;
+    font-weight:600;
+    background:var(--badge-bg);
+    padding:4px 9px;
+    border-radius:999px;
+  }
+  section.policy-section p, section.policy-section li{
+    font-size:15px;
+    color:var(--ink-soft);
+  }
+  section.policy-section ul{padding-left:20px;}
+  section.policy-section li{margin-bottom:7px;}
+
+  table.info-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+    font-size:14px;
+    border-radius:10px;
+    overflow:hidden;
+  }
+  table.info-table th, table.info-table td{
+    text-align:left;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.info-table th{
+    background:var(--badge-bg);
+    color:var(--maroon-deep);
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    font-weight:600;
+  }
+
+  .placeholder{
+    background:#fdeee9;
+    border:1px dashed #d99a86;
+    color:#8a3a1f;
+    padding:1px 7px;
+    border-radius:5px;
+    font-size:.94em;
+    font-family:var(--mono);
+  }
+
+  .contact-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px;
+    margin-top:12px;
+    box-shadow:0 1px 3px rgba(0,0,0,.03);
+  }
+  .contact-card p{margin:8px 0;}
+  .contact-card strong{color:var(--ink);}
+
+  .cta-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--ink);
+    color:#fff !important;
+    font-weight:600;
+    font-size:14px;
+    padding:13px 24px;
+    border-radius:999px;
+    text-decoration:none !important;
+    margin-top:18px;
+  }
+  .cta-pill:hover{background:var(--maroon-deep);}
+
+  /* ---- Footer ---- */
+  footer.site{
+    background:var(--card);
+    border-top:1px solid var(--line);
+    padding:48px 24px 28px;
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  .footer-inner{
+    max-width:1200px;margin:0 auto;
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:32px;
+  }
+  .footer-inner h4{
+    font-family:var(--mono);
+    font-size:11px;text-transform:uppercase;letter-spacing:.12em;
+    color:var(--ink);margin:0 0 14px;
+  }
+  .footer-brand{font-family:var(--serif);font-weight:700;color:var(--ink);margin-bottom:8px;font-size:16px;}
+  .footer-inner ul{list-style:none;margin:0;padding:0;}
+  .footer-inner li{margin-bottom:9px;}
+  .footer-inner a{color:var(--ink-soft);}
+  .footer-inner a:hover{color:var(--maroon);}
+  .footer-stat dt{font-family:var(--mono);color:var(--ink-soft);font-size:11px;margin-top:10px;text-transform:uppercase;letter-spacing:.05em;}
+  .footer-stat dd{margin:2px 0 0;color:var(--ink);font-weight:600;}
+  .footer-bottom{
+    max-width:1200px;margin:36px auto 0;
+    border-top:1px solid var(--line);
+    padding-top:20px;
+    text-align:center;
+    font-size:12.5px;
+  }
+
+  /* ---- Floating CTA, mirrors homepage sticky button ---- */
+  .floating-cta{
+    position:fixed;
+    bottom:22px;right:22px;
+    background:var(--ink);
+    color:#fff;
+    padding:14px 22px;
+    border-radius:999px;
+    font-size:13.5px;
+    font-weight:600;
+    box-shadow:0 6px 18px rgba(0,0,0,.18);
+    z-index:30;
+  }
+  .floating-cta:hover{background:var(--maroon-deep);text-decoration:none;color:#fff;}
+
+  @media (max-width:760px){
+    .footer-inner{grid-template-columns:1fr;}
+  }
+  @media (max-width:640px){
+    .toc ol{columns:1;-webkit-columns:1;}
+    nav.site-nav{
+      display:none;
+      position:absolute;top:68px;left:0;right:0;
+      background:var(--cream);
+      border-bottom:1px solid var(--line);
+      flex-direction:column;
+      align-items:flex-start;
+      padding:18px 24px;
+      gap:16px;
+    }
+    nav.site-nav.open{display:flex;}
+    nav.site-nav a.nav-cta{order:-1;}
+    .menu-toggle{display:block;}
+    .hero{padding:44px 20px 36px;}
+    main{padding:6px 18px 80px;}
+    .floating-cta{
+      left:16px;right:16px;bottom:16px;text-align:center;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">🔒 Legal · Data Privacy</span>
+    <h1>Privacy <em>Policy</em></h1>
+    <p>This page explains what personal information I collect through Facebook and Instagram lead ads, Messenger, the free assessment, and this website — and how that information is used, stored, and protected.</p>
+  </div>
+</div>
+
+<main>
+
+  <div class="notice">
+    <strong>Quick summary</strong>
+    When you send a message, fill out a Facebook/Instagram lead form, or take the free assessment on this site, you're sharing some personal details (like your name, contact number, and general insurance needs) so I can respond to you personally, prepare relevant information, and — only if you choose to move forward — discuss insurance or HMO options with you. I don't sell your information, and filling out a form does not mean you've purchased or been approved for anything.
+  </div>
+
+  <nav class="toc" aria-label="Table of contents">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#who-we-are">Who this policy covers</a></li>
+      <li><a href="#info-we-collect">Information we collect</a></li>
+      <li><a href="#how-we-collect">How we collect information</a></li>
+      <li><a href="#why-we-collect">Why we collect it</a></li>
+      <li><a href="#how-we-use">How we use your information</a></li>
+      <li><a href="#assessment-vs-application">Assessment vs. an actual application</a></li>
+      <li><a href="#sharing">How information may be shared</a></li>
+      <li><a href="#storage-security">Storage and security</a></li>
+      <li><a href="#retention">How long we keep information</a></li>
+      <li><a href="#your-rights">Your rights under the Data Privacy Act</a></li>
+      <li><a href="#exercising-rights">Requesting access, correction, or deletion</a></li>
+      <li><a href="#cookies">Cookies and website analytics</a></li>
+      <li><a href="#children">Children's privacy</a></li>
+      <li><a href="#updates">Updates to this policy</a></li>
+      <li><a href="#contact">Contact us about your data</a></li>
+    </ol>
+  </nav>
+
+  <section class="policy-section" id="who-we-are">
+    <h2><span class="num">01</span> Who this policy covers</h2>
+    <p>
+      This Privacy Policy applies to <strong>Insurance Made Simple by Engr. Suzeth A. Malit</strong> ("I," "me," or "my"), an individual, independently licensed Financial and Insurance Advisor operating in the Philippines under
+      <span class="placeholder">[PARTNER FIRM, e.g., Top Global Summit LIA]</span> and <span class="placeholder">[INSURANCE COMPANY, e.g., Pru Life UK]</span>, License No. <span class="placeholder">[INSURANCE COMMISSION LICENSE NUMBER]</span>.
+    </p>
+    <p>
+      I operate as an individual advisor, not as a corporation. I am the sole person responsible for handling the personal information described in this policy, and I take that responsibility seriously under the Philippine <strong>Data Privacy Act of 2012 (Republic Act No. 10173)</strong> and its Implementing Rules and Regulations.
+    </p>
+    <p>
+      This policy applies to information collected through my website (<a href="https://insurancebyengrzeth.com/" target="_blank" rel="noopener">insurancebyengrzeth.com</a>), my Facebook Page and Instagram profile, Meta Lead Ads / Instant Forms, Messenger conversations, and the free financial assessment linked from my ads or website.
+    </p>
+  </section>
+
+  <section class="policy-section" id="info-we-collect">
+    <h2><span class="num">02</span> Information we collect</h2>
+    <p>Depending on how you reach out — a Facebook/Instagram lead ad, a Messenger chat, the assessment, or a direct message — I may collect some or all of the following:</p>
+    <table class="info-table">
+      <tr><th>Category</th><th>Examples</th></tr>
+      <tr><td>Contact details</td><td>Full name, mobile number, email address</td></tr>
+      <tr><td>Basic personal details</td><td>Age or date of birth, occupation</td></tr>
+      <tr><td>Financial planning details</td><td>Budget or preferred premium range, financial goals or priorities</td></tr>
+      <tr><td>Insurance-related details</td><td>Insurance needs or preferences, existing insurance coverage, HMO needs</td></tr>
+      <tr><td>Voluntary information</td><td>Anything else you choose to share in conversation, such as your family situation or reason for inquiring</td></tr>
+    </table>
+    <p>
+      I only ask for what I reasonably need to understand your situation — for example, to build your <em>Coverage Snapshot</em> — and give you relevant, useful information. I do <strong>not</strong> ask for sensitive information (such as detailed medical history, government ID numbers, or financial account numbers) through lead forms, Messenger, or the free assessment. If a formal insurance or HMO application later requires that kind of information, it is collected separately and directly by the relevant insurance company or HMO provider through their own official application and underwriting process.
+    </p>
+  </section>
+
+  <section class="policy-section" id="how-we-collect">
+    <h2><span class="num">03</span> How we collect information</h2>
+    <ul>
+      <li><strong>Meta Lead Ads / Instant Forms:</strong> When you tap "Submit" on a Facebook or Instagram lead ad, the details you enter (often pre-filled by Facebook/Instagram, plus any answers you type) are shared with me through Meta's platform.</li>
+      <li><strong>Messenger conversations:</strong> When you message my Facebook Page or reply to an automated greeting, I (or an automated reply, where used) may collect the details of that conversation, including anything you choose to share.</li>
+      <li><strong>The free assessment and website forms:</strong> When you take the assessment or fill out a form on <a href="https://insurancebyengrzeth.com/" target="_blank" rel="noopener">insurancebyengrzeth.com</a>, your answers are sent to me and used to generate your personalized Coverage Snapshot by email.</li>
+      <li><strong>Direct communication:</strong> Information you provide through email, WhatsApp, phone calls, or in-person or online meetings — including a booked Clarity Call.</li>
+    </ul>
+  </section>
+
+  <section class="policy-section" id="why-we-collect">
+    <h2><span class="num">04</span> Why we collect this information</h2>
+    <ul>
+      <li>To respond to your inquiry and identify you correctly across our conversation.</li>
+      <li>To understand your general insurance or HMO needs and financial goals, so anything I share is actually relevant to you.</li>
+      <li>To prepare and send your personalized Coverage Snapshot, quotation, or assessment result.</li>
+      <li>To follow up, schedule a Clarity Call, or answer your questions.</li>
+      <li>To keep recordkeeping practices reasonably expected of a licensed financial/insurance advisor.</li>
+    </ul>
+    <p>My legal basis for processing this information is your <strong>consent</strong> — given when you voluntarily submit a lead form, send a Messenger message, or complete the assessment — and, where applicable, my <strong>legitimate interest</strong> in responding to inquiries directed at my business.</p>
+  </section>
+
+  <section class="policy-section" id="how-we-use">
+    <h2><span class="num">05</span> How we use your information</h2>
+    <ul>
+      <li>Reply to you personally — by Messenger, email, SMS, or phone/WhatsApp — about your inquiry.</li>
+      <li>Prepare general insurance or HMO information, illustrations, or quotations relevant to what you've shared.</li>
+      <li>Generate and send your free Coverage Snapshot, where you've requested one.</li>
+      <li>Improve how I explain and present options to you.</li>
+      <li>Keep basic records of client and prospect communications, consistent with standard advisor practice.</li>
+    </ul>
+    <p>I do not use your information for purposes unrelated to your inquiry, and I do not sell your personal information to third parties.</p>
+  </section>
+
+  <section class="policy-section" id="assessment-vs-application">
+    <h2><span class="num">06</span> Free assessment vs. an actual insurance application</h2>
+    <p>
+      Submitting your information through a Meta lead form, Messenger, a website form, or the free assessment is an <strong>inquiry</strong> — it lets me understand your situation and get in touch with you. It is <strong>not</strong> an insurance application, and it does not mean:
+    </p>
+    <ul>
+      <li>that you have purchased any insurance or HMO product;</li>
+      <li>that you have been approved, accepted, or enrolled by any insurance company or HMO provider; or</li>
+      <li>that any coverage is currently in effect.</li>
+    </ul>
+    <p>
+      An actual insurance or HMO application is a separate, formal process that happens only if you decide to proceed, and it is subject to the underwriting, approval, and documentation requirements of the relevant insurance company or HMO provider. I do not promise or guarantee approval, coverage terms, or acceptance on behalf of any insurer or HMO provider.
+    </p>
+  </section>
+
+  <section class="policy-section" id="sharing">
+    <h2><span class="num">07</span> How information may be shared</h2>
+    <ul>
+      <li><strong>Meta Platforms, Inc. (Facebook/Instagram):</strong> When you submit a Meta Lead Ad or message my Page, your information is necessarily handled by Meta's platform to deliver it to me, subject to Meta's own <a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener">Data Policy</a>.</li>
+      <li><strong>Insurance company / HMO provider:</strong> Only if you decide to move forward with a specific product, and only to prepare a formal quotation or application — for example, with <span class="placeholder">[Pru Life UK]</span> or an HMO provider you've chosen to explore.</li>
+      <li><strong>Service providers:</strong> Tools I use to run my business, such as email delivery services (to send your Coverage Snapshot) or scheduling tools (to book your Clarity Call), which process information only on my behalf.</li>
+      <li><strong>Legal or regulatory bodies:</strong> If required by law, regulation, or a lawful order from a competent authority (such as the Insurance Commission or the National Privacy Commission).</li>
+    </ul>
+    <p>I do not sell, rent, or trade your personal information to third parties for their own marketing purposes.</p>
+  </section>
+
+  <section class="policy-section" id="storage-security">
+    <h2><span class="num">08</span> How information is stored and protected</h2>
+    <p>
+      I store your information using reasonably secure means, such as password-protected devices and accounts, and reputable third-party platforms (Meta's Lead Ads system, email service providers, and scheduling tools) that have their own security measures. I limit access to your information to myself and, where applicable, service providers who need it to operate a specific tool.
+    </p>
+    <p>
+      While I take reasonable steps to protect your information, no method of storage or transmission over the internet is 100% secure, and I cannot guarantee absolute security.
+    </p>
+  </section>
+
+  <section class="policy-section" id="retention">
+    <h2><span class="num">09</span> How long we keep your information</h2>
+    <p>
+      I keep your information only for as long as reasonably necessary to fulfill the purposes described in this policy — generally, for the duration of our client or prospect relationship, plus a reasonable period afterward for recordkeeping and any applicable legal, tax, or regulatory requirements. If you ask me to delete your information and there is no legal or contractual reason to keep it, I will do so within a reasonable time.
+    </p>
+  </section>
+
+  <section class="policy-section" id="your-rights">
+    <h2><span class="num">10</span> Your rights under the Data Privacy Act</h2>
+    <p>As a data subject under the Philippine Data Privacy Act of 2012 (RA 10173), you have the right to:</p>
+    <ul>
+      <li><strong>Be informed</strong> that your personal information will be, is being, or has been processed.</li>
+      <li><strong>Access</strong> your personal information that I hold.</li>
+      <li><strong>Correct</strong> any inaccurate or outdated personal information.</li>
+      <li><strong>Object</strong> to the processing of your information, including for direct marketing.</li>
+      <li><strong>Erasure or blocking</strong> of your personal information under certain conditions.</li>
+      <li><strong>Data portability</strong>, where technically feasible.</li>
+      <li><strong>Damages</strong>, for any harm from inaccurate, unlawfully obtained, or unauthorized use of your personal information.</li>
+      <li><strong>File a complaint</strong> with the <a href="https://privacy.gov.ph/" target="_blank" rel="noopener">National Privacy Commission (NPC)</a> if you believe your rights have been violated.</li>
+    </ul>
+  </section>
+
+  <section class="policy-section" id="exercising-rights">
+    <h2><span class="num">11</span> Requesting access, correction, or deletion — and withdrawing consent</h2>
+    <p>
+      You can ask me to access, correct, or delete your personal information, or withdraw your consent to further processing, at any time. Simply message me on Facebook or send an email using the details below — I personally answer inquiries within 24 business hours.
+    </p>
+    <p>
+      Withdrawing consent may limit my ability to respond to your inquiry or continue assisting you, and it does not affect the lawfulness of any processing already carried out before withdrawal.
+    </p>
+  </section>
+
+  <section class="policy-section" id="cookies">
+    <h2><span class="num">12</span> Cookies and website analytics</h2>
+    <p>
+      My website may use cookies or similar technologies (for example, from website hosting or analytics tools, and the Meta Pixel if used) to understand how visitors use the site and to measure the performance of my Facebook/Instagram ads. These tools may collect general, non-identifying technical information such as browser type, device type, and pages visited.
+    </p>
+    <p>You can usually control or disable cookies through your browser settings; disabling cookies may affect some site features.</p>
+    <p class="placeholder">[List the specific tools you use here — e.g., Meta Pixel, Google Analytics, or your website builder's built-in analytics — so this section is fully accurate.]</p>
+  </section>
+
+  <section class="policy-section" id="children">
+    <h2><span class="num">13</span> Children's privacy</h2>
+    <p>
+      My services are intended for adults capable of entering into insurance or financial planning discussions. I do not knowingly collect personal information from children. If you believe a child has provided personal information to me, please contact me so I can delete it.
+    </p>
+  </section>
+
+  <section class="policy-section" id="updates">
+    <h2><span class="num">14</span> Updates to this policy</h2>
+    <p>
+      I may update this Privacy Policy from time to time — for example, to reflect changes in how I collect information, or updates to the Data Privacy Act and its regulations. Any changes will be posted here with a revised "Effective date" above.
+    </p>
+  </section>
+
+  <section class="policy-section" id="contact">
+    <h2><span class="num">15</span> Contact us about your data</h2>
+    <p>If you have questions about this Privacy Policy, want to access or correct your information, or wish to withdraw your consent, reach me directly — same as any other inquiry:</p>
+    <div class="contact-card">
+      <p><strong>Engr. Suzeth A. Malit</strong> — Financial &amp; Insurance Advisor</p>
+      <p>Email: <a href="mailto:plukferrysuzethmalit@gmail.com">plukferrysuzethmalit@gmail.com</a></p>
+      <p>Facebook Page: <a href="https://www.facebook.com/pruengrsuzeth/" target="_blank" rel="noopener">facebook.com/pruengrsuzeth</a></p>
+      <p>Office: BGC, Taguig, National Capital Region, Philippines</p>
+    </div>
+    <a class="cta-pill" href="https://www.facebook.com/pruengrsuzeth" target="_blank" rel="noopener">💬 Message me on Facebook →</a>
+    <p style="margin-top:24px;">
+      If you feel your concern hasn't been addressed, you may also contact the <a href="https://privacy.gov.ph/" target="_blank" rel="noopener">National Privacy Commission</a>, the Philippine government agency responsible for administering and implementing the Data Privacy Act of 2012.
+    </p>
+  </section>
+
+  <p style="text-align:center;color:var(--ink-soft);font-size:13px;margin-top:20px;">
+    © 2026 Insurance Made Simple by Engr. Suzeth A. Malit. This page is provided for general informational purposes and does not constitute legal advice.
+  </p>
+
+</main>
+
+</body>
+</html>
