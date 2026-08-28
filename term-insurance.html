@@ -402,6 +402,7 @@ button.ghost:hover{border-color:var(--black);}
     <div class="nav-links" id="siteNavLinks">
       <a href="index.html">Home</a>
       <a href="assessment.html" class="nav-highlight">Assessment</a>
+      <a href="#" class="nav-highlight" id="navGetQuoteBtn">Get a Quote</a>
       <a href="booking.html" class="nav-cta">Book a Free Clarity Call</a>
       <a href="about.html">About</a>
       <a href="stories.html">Stories</a>
@@ -870,6 +871,348 @@ document.getElementById('siteNavToggle').addEventListener('click', ()=>{
   Talk to Suzeth Live
 </a>
 
+<script src="quote-data.js"></script>
+<script src="quote-engine.js"></script>
 <script src="enhance.js"></script>
+
+<!-- ============================================================
+     GET A QUOTE / FREE ASSESSMENT MODAL
+     Trigger from anywhere with: openQuoteModal()
+     Or add class="js-open-quote-modal" to any link/button.
+     Data-driven by quote-data.js + quote-engine.js (loaded above).
+     ============================================================ -->
+<style>
+  .qm-overlay{
+    position:fixed; inset:0; z-index:9999;
+    background:rgba(24,16,12,0.55);
+    display:none; align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .qm-overlay.qm-open{ display:flex; }
+  .qm-modal{
+    width:100%; max-width:480px; max-height:88vh; overflow-y:auto;
+    background:var(--card, #fff);
+    border-radius:20px;
+    box-shadow:0 30px 80px rgba(20,20,20,0.35);
+    animation:qmPop .22s ease;
+  }
+  @keyframes qmPop{ from{ opacity:0; transform:translateY(14px) scale(.98);} to{ opacity:1; transform:translateY(0) scale(1);} }
+  .qm-header{
+    position:relative;
+    background:linear-gradient(135deg, var(--maroon,#7D0C1F), var(--tan-deep,#a8632c));
+    color:#fff; padding:22px 50px 20px 26px;
+    border-radius:20px 20px 0 0;
+  }
+  .qm-header-eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.1em;
+    text-transform:uppercase; opacity:.85; margin-bottom:6px;
+  }
+  .qm-header h3{ font-family:'Fraunces',serif; font-size:23px; margin:0; color:#fff; line-height:1.25; }
+  .qm-close{
+    position:absolute; top:16px; right:16px;
+    width:30px; height:30px; border-radius:50%;
+    background:rgba(255,255,255,.15); border:none; color:#fff;
+    font-size:18px; line-height:1; cursor:pointer;
+  }
+  .qm-close:hover{ background:rgba(255,255,255,.28); }
+  .qm-body{ padding:26px; }
+  .qm-lede{ font-size:14.5px; color:var(--ink-soft,#5b5b5b); margin:0 0 18px 0; }
+
+  .qm-choice-grid{ display:grid; gap:14px; }
+  .qm-choice-card{
+    display:block; width:100%; text-align:left;
+    border:1.5px solid var(--line,#e6ddd6); background:var(--cream-2,#faf5f0);
+    border-radius:14px; padding:18px; cursor:pointer;
+    font-family:inherit; transition:border-color .15s, transform .15s;
+  }
+  .qm-choice-card:hover{ border-color:var(--tan,#c99a63); transform:translateY(-2px); }
+  .qm-choice-card-alt{ background:var(--card,#fff); }
+  .qm-choice-icon{
+    width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, var(--tan,#c99a63), var(--tan-deep,#a8632c));
+    color:#fff; font-size:14px; margin-bottom:10px;
+  }
+  .qm-choice-title{ font-family:'Fraunces',serif; font-weight:600; font-size:16.5px; color:var(--ink,#222); margin-bottom:4px; }
+  .qm-choice-sub{ font-size:13px; color:var(--slate,#78716c); margin:0; }
+
+  .qm-field{ display:block; margin-bottom:16px; }
+  .qm-field span{ display:block; font-size:12.5px; font-weight:600; color:var(--ink,#222); margin-bottom:6px; }
+  .qm-field input, .qm-field select{
+    width:100%; padding:11px 13px; border:1.5px solid var(--line,#e6ddd6); border-radius:10px;
+    font-size:14.5px; font-family:inherit; color:var(--ink,#222); background:#fff;
+    box-sizing:border-box;
+  }
+  .qm-field input:focus, .qm-field select:focus{ outline:none; border-color:var(--tan-deep,#a8632c); }
+  .qm-field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  .qm-btn-primary{
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    width:100%; padding:13px 20px; border:none; border-radius:100px;
+    background:linear-gradient(135deg, var(--tan,#c99a63), var(--tan-deep,#a8632c));
+    color:#fff; font-weight:700; font-size:14.5px; cursor:pointer;
+    text-decoration:none; margin-top:4px; box-sizing:border-box;
+  }
+  .qm-btn-primary:hover{ filter:brightness(1.06); }
+
+  .qm-back{
+    display:block; margin:14px auto 0 auto; background:none; border:none;
+    color:var(--slate,#78716c); font-size:13px; cursor:pointer; text-decoration:underline;
+    padding:4px;
+  }
+
+  .qm-result-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+    margin-bottom:14px; flex-wrap:wrap;
+  }
+  .qm-result-product{ font-family:'Fraunces',serif; font-weight:600; font-size:16px; color:var(--maroon,#7D0C1F); }
+  .qm-result-premium{ font-size:13px; color:var(--slate,#78716c); }
+  .qm-result-premium b{ color:var(--ink,#222); font-size:15px; }
+
+  .qm-coverage-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+  .qm-cov-item{ border:1px solid var(--line,#e6ddd6); border-radius:12px; padding:13px 12px; }
+  .qm-cov-label{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--slate,#78716c); margin-bottom:6px;
+  }
+  .qm-cov-value{ font-family:'Fraunces',serif; font-weight:600; font-size:15px; color:var(--ink,#222); }
+
+  .qm-fund-box{
+    background:var(--cream-2,#faf5f0); border:1px solid var(--tan,#c99a63);
+    border-radius:12px; padding:14px; margin-bottom:16px; text-align:center;
+  }
+  .qm-fund-label{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--tan-deep,#a8632c); margin-bottom:6px;
+  }
+  .qm-fund-value{ font-family:'Fraunces',serif; font-weight:600; font-size:19px; color:var(--tan-deep,#a8632c); }
+  .qm-fund-sub{ font-size:11px; color:var(--slate,#78716c); margin-top:3px; }
+
+  .qm-disclaimer{ font-size:11.5px; color:var(--slate,#78716c); font-style:italic; line-height:1.5; margin:0 0 18px 0; }
+  .qm-cta-block{ text-align:center; background:var(--cream-2,#faf5f0); border-radius:14px; padding:18px; margin-bottom:4px; }
+  .qm-cta-line{ font-size:13px; font-weight:600; color:var(--ink,#222); margin:0 0 12px 0; }
+
+  @media (max-width:480px){
+    .qm-header h3{ font-size:20px; }
+    .qm-body{ padding:20px; }
+    .qm-coverage-grid{ grid-template-columns:1fr; }
+  }
+</style>
+
+<div class="qm-overlay" id="qmOverlay" aria-hidden="true">
+  <div class="qm-modal" role="dialog" aria-modal="true" aria-labelledby="qmTitle">
+
+    <div class="qm-header">
+      <div class="qm-header-eyebrow">Insurance Made Simple · by Engr. Zeth</div>
+      <h3 id="qmTitle">Let's Get You Started</h3>
+      <button class="qm-close" id="qmClose" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="qm-body">
+
+      <!-- STEP 1: choose path -->
+      <div class="qm-step" id="qmStep1">
+        <p class="qm-lede">How would you like to begin?</p>
+        <div class="qm-choice-grid">
+          <button type="button" class="qm-choice-card" id="qmChooseAssessment">
+            <div class="qm-choice-icon">✓</div>
+            <div class="qm-choice-title">Free Assessment</div>
+            <p class="qm-choice-sub">Discover your protection gap in 2 minutes — free &amp; personalized.</p>
+          </button>
+          <button type="button" class="qm-choice-card qm-choice-card-alt" id="qmChooseQuote">
+            <div class="qm-choice-icon">₱</div>
+            <div class="qm-choice-title">Get a Quote</div>
+            <p class="qm-choice-sub">See real sample coverage &amp; premiums based on your age and budget.</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: quote form -->
+      <div class="qm-step" id="qmStep2" hidden>
+        <p class="qm-lede">Tell us a bit about you.</p>
+        <form id="qmForm" novalidate>
+          <label class="qm-field">
+            <span>Your Name</span>
+            <input type="text" id="qmName" required placeholder="e.g. Juan Dela Cruz">
+          </label>
+          <div class="qm-field-row">
+            <label class="qm-field">
+              <span>Age</span>
+              <input type="number" id="qmAge" min="18" max="75" required placeholder="e.g. 30">
+            </label>
+            <label class="qm-field">
+              <span>Monthly Budget</span>
+              <select id="qmBudget" required>
+                <option value="" disabled selected>Select</option>
+                <option value="1500">₱1,000–2,000</option>
+                <option value="3500">₱2,000–5,000</option>
+                <option value="7500">₱5,000–10,000</option>
+                <option value="15000">₱10,000–20,000</option>
+                <option value="25000">₱20,000+</option>
+              </select>
+            </label>
+          </div>
+          <label class="qm-field">
+            <span>Type of Insurance</span>
+            <select id="qmType" required>
+              <option value="" disabled selected>Select insurance type</option>
+              <option value="term">Term Insurance</option>
+              <option value="whole">Whole Life Insurance</option>
+              <option value="vul">VUL (Variable Universal Life)</option>
+            </select>
+          </label>
+          <button type="submit" class="qm-btn-primary">Quote</button>
+        </form>
+        <button type="button" class="qm-back" id="qmBackTo1">← Back</button>
+      </div>
+
+      <!-- STEP 3: sample quote result -->
+      <div class="qm-step" id="qmStep3" hidden>
+        <p class="qm-lede" id="qmResultLede">Here's your sample quotation:</p>
+
+        <div class="qm-result-head">
+          <span class="qm-result-product" id="qmResultProduct">—</span>
+          <span class="qm-result-premium">Annual premium <b id="qmResultPremium">—</b></span>
+        </div>
+
+        <div class="qm-coverage-grid">
+          <div class="qm-cov-item">
+            <div class="qm-cov-label">Life Insurance</div>
+            <div class="qm-cov-value" id="qmCovLife">—</div>
+          </div>
+          <div class="qm-cov-item">
+            <div class="qm-cov-label">Critical Illness</div>
+            <div class="qm-cov-value" id="qmCovCI">—</div>
+          </div>
+          <div class="qm-cov-item">
+            <div class="qm-cov-label">Disability</div>
+            <div class="qm-cov-value" id="qmCovDisability">—</div>
+          </div>
+          <div class="qm-cov-item">
+            <div class="qm-cov-label">Accident Only</div>
+            <div class="qm-cov-value" id="qmCovAccident">—</div>
+          </div>
+        </div>
+
+        <div class="qm-fund-box" id="qmFundBox" hidden>
+          <div class="qm-fund-label">Highest Fund / Cash Value</div>
+          <div class="qm-fund-value" id="qmFundValue">—</div>
+          <div class="qm-fund-sub">Projected value across the plan's saving years</div>
+        </div>
+
+        <p class="qm-disclaimer">Figures are pulled from real sample proposal data closest to your age and budget, for illustration only. Your actual plan, coverage, and premium will be tailored to you by Engr. Zeth upon underwriting.</p>
+
+        <div class="qm-cta-block">
+          <p class="qm-cta-line">Click the button below to be prioritized for contacting by an advisor.</p>
+          <a href="booking.html" class="qm-btn-primary" id="qmTalkAdvisor">I'm Ready to Talk to an Advisor</a>
+        </div>
+
+        <button type="button" class="qm-back" id="qmBackTo2">← Recompute</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var overlay = document.getElementById('qmOverlay');
+  var step1 = document.getElementById('qmStep1');
+  var step2 = document.getElementById('qmStep2');
+  var step3 = document.getElementById('qmStep3');
+
+  function showStep(step){
+    [step1, step2, step3].forEach(function(s){ s.hidden = true; });
+    step.hidden = false;
+  }
+
+  window.openQuoteModal = function(){
+    overlay.classList.add('qm-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    showStep(step1);
+  };
+
+  function closeQuoteModal(){
+    overlay.classList.remove('qm-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('qmClose').addEventListener('click', closeQuoteModal);
+  overlay.addEventListener('click', function(e){
+    if (e.target === overlay) closeQuoteModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && overlay.classList.contains('qm-open')) closeQuoteModal();
+  });
+
+  // Any element with class="js-open-quote-modal" also opens the modal
+  document.querySelectorAll('.js-open-quote-modal, #navGetQuoteBtn, #heroGetQuoteBtn').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      window.openQuoteModal();
+    });
+  });
+
+  document.getElementById('qmChooseAssessment').addEventListener('click', function(){
+    window.location.href = 'assessment.html';
+  });
+  document.getElementById('qmChooseQuote').addEventListener('click', function(){
+    showStep(step2);
+  });
+  document.getElementById('qmBackTo1').addEventListener('click', function(){ showStep(step1); });
+  document.getElementById('qmBackTo2').addEventListener('click', function(){ showStep(step2); });
+
+  function formatPeso(n){
+    if (n === null || n === undefined) return '—';
+    return '₱' + Math.round(n).toLocaleString('en-PH');
+  }
+
+  document.getElementById('qmForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    var name = document.getElementById('qmName').value.trim() || 'there';
+    var age = parseInt(document.getElementById('qmAge').value, 10);
+    var monthly = parseInt(document.getElementById('qmBudget').value, 10);
+    var type = document.getElementById('qmType').value;
+
+    if (!age || !monthly || !type) return;
+
+    var result = (typeof qeBuildQuote === 'function') ? qeBuildQuote(type, age, monthly) : null;
+
+    if (!result) {
+      document.getElementById('qmResultLede').textContent = 'Sorry ' + name + ', we could not find a matching sample for that combination — an advisor will follow up with exact figures.';
+      document.getElementById('qmResultProduct').textContent = '—';
+      document.getElementById('qmResultPremium').textContent = '—';
+      document.getElementById('qmCovLife').textContent = '—';
+      document.getElementById('qmCovCI').textContent = '—';
+      document.getElementById('qmCovDisability').textContent = '—';
+      document.getElementById('qmCovAccident').textContent = '—';
+      document.getElementById('qmFundBox').hidden = true;
+      showStep(step3);
+      return;
+    }
+
+    document.getElementById('qmResultLede').textContent = 'Hi ' + name + ', here\'s your sample quotation:';
+    document.getElementById('qmResultProduct').textContent = result.productLabel;
+    document.getElementById('qmResultPremium').textContent = formatPeso(result.premiumAnnual);
+    document.getElementById('qmCovLife').textContent = formatPeso(result.life);
+    document.getElementById('qmCovCI').textContent = result.ci ? formatPeso(result.ci) : 'Not included';
+    document.getElementById('qmCovDisability').textContent = result.disability ? formatPeso(result.disability) : 'Not included';
+    document.getElementById('qmCovAccident').textContent = result.accident ? formatPeso(result.accident) : 'Not included';
+
+    var fundBox = document.getElementById('qmFundBox');
+    if (result.fundValue !== null && result.fundValue !== undefined) {
+      fundBox.hidden = false;
+      document.getElementById('qmFundValue').textContent = formatPeso(result.fundValue);
+    } else {
+      fundBox.hidden = true;
+    }
+
+    showStep(step3);
+  });
+})();
+</script>
+
 </body>
 </html>
