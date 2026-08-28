@@ -562,7 +562,7 @@
   }
 </style>
 </head>
-<body id="index-body">
+<body id="index-body" data-auto-quote-modal>
 
 <div class="intro-preloader" id="introPreloader">
   <div class="intro-glow"></div>
@@ -1101,11 +1101,15 @@ document.addEventListener('DOMContentLoaded', function(){
   Talk to Suzeth Live
 </a>
 
+<script src="quote-data.js"></script>
+<script src="quote-engine.js"></script>
 <script src="enhance.js"></script>
+
 <!-- ============================================================
      GET A QUOTE / FREE ASSESSMENT MODAL
      Trigger from anywhere with: openQuoteModal()
      Or add class="js-open-quote-modal" to any link/button.
+     Data-driven by quote-data.js + quote-engine.js (loaded above).
      ============================================================ -->
 <style>
   .qm-overlay{
@@ -1116,7 +1120,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   .qm-overlay.qm-open{ display:flex; }
   .qm-modal{
-    width:100%; max-width:460px; max-height:88vh; overflow-y:auto;
+    width:100%; max-width:480px; max-height:88vh; overflow-y:auto;
     background:var(--card, #fff);
     border-radius:20px;
     box-shadow:0 30px 80px rgba(20,20,20,0.35);
@@ -1169,6 +1173,7 @@ document.addEventListener('DOMContentLoaded', function(){
     box-sizing:border-box;
   }
   .qm-field input:focus, .qm-field select:focus{ outline:none; border-color:var(--tan-deep,#a8632c); }
+  .qm-field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 
   .qm-btn-primary{
     display:flex; align-items:center; justify-content:center; gap:6px;
@@ -1185,26 +1190,41 @@ document.addEventListener('DOMContentLoaded', function(){
     padding:4px;
   }
 
-  .qm-quote-table{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
-  .qm-quote-col{ border:1px solid var(--line,#e6ddd6); border-radius:12px; padding:14px 8px; text-align:center; }
-  .qm-quote-col-highlight{ background:var(--cream-2,#faf5f0); border-color:var(--tan,#c99a63); }
-  .qm-quote-label{
-    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.06em;
-    text-transform:uppercase; color:var(--slate,#78716c); margin-bottom:8px;
+  .qm-result-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+    margin-bottom:14px; flex-wrap:wrap;
   }
-  .qm-quote-value{ font-family:'Fraunces',serif; font-weight:600; font-size:14px; color:var(--ink,#222); word-break:break-word; }
-  .qm-quote-value-lg{ font-size:15.5px; color:var(--maroon,#7D0C1F); }
-  .qm-quote-value-gold{ font-size:16.5px; color:var(--tan-deep,#a8632c); }
-  .qm-quote-sub{ font-size:11px; color:var(--slate,#78716c); margin-top:2px; }
+  .qm-result-product{ font-family:'Fraunces',serif; font-weight:600; font-size:16px; color:var(--maroon,#7D0C1F); }
+  .qm-result-premium{ font-size:13px; color:var(--slate,#78716c); }
+  .qm-result-premium b{ color:var(--ink,#222); font-size:15px; }
+
+  .qm-coverage-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+  .qm-cov-item{ border:1px solid var(--line,#e6ddd6); border-radius:12px; padding:13px 12px; }
+  .qm-cov-label{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--slate,#78716c); margin-bottom:6px;
+  }
+  .qm-cov-value{ font-family:'Fraunces',serif; font-weight:600; font-size:15px; color:var(--ink,#222); }
+
+  .qm-fund-box{
+    background:var(--cream-2,#faf5f0); border:1px solid var(--tan,#c99a63);
+    border-radius:12px; padding:14px; margin-bottom:16px; text-align:center;
+  }
+  .qm-fund-label{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--tan-deep,#a8632c); margin-bottom:6px;
+  }
+  .qm-fund-value{ font-family:'Fraunces',serif; font-weight:600; font-size:19px; color:var(--tan-deep,#a8632c); }
+  .qm-fund-sub{ font-size:11px; color:var(--slate,#78716c); margin-top:3px; }
 
   .qm-disclaimer{ font-size:11.5px; color:var(--slate,#78716c); font-style:italic; line-height:1.5; margin:0 0 18px 0; }
   .qm-cta-block{ text-align:center; background:var(--cream-2,#faf5f0); border-radius:14px; padding:18px; margin-bottom:4px; }
   .qm-cta-line{ font-size:13px; font-weight:600; color:var(--ink,#222); margin:0 0 12px 0; }
 
   @media (max-width:480px){
-    .qm-quote-table{ grid-template-columns:1fr; }
     .qm-header h3{ font-size:20px; }
     .qm-body{ padding:20px; }
+    .qm-coverage-grid{ grid-template-columns:1fr; }
   }
 </style>
 
@@ -1231,7 +1251,7 @@ document.addEventListener('DOMContentLoaded', function(){
           <button type="button" class="qm-choice-card qm-choice-card-alt" id="qmChooseQuote">
             <div class="qm-choice-icon">₱</div>
             <div class="qm-choice-title">Get a Quote</div>
-            <p class="qm-choice-sub">See a sample premium and coverage based on your budget.</p>
+            <p class="qm-choice-sub">See real sample coverage &amp; premiums based on your age and budget.</p>
           </button>
         </div>
       </div>
@@ -1244,17 +1264,23 @@ document.addEventListener('DOMContentLoaded', function(){
             <span>Your Name</span>
             <input type="text" id="qmName" required placeholder="e.g. Juan Dela Cruz">
           </label>
-          <label class="qm-field">
-            <span>Monthly Budget</span>
-            <select id="qmBudget" required>
-              <option value="" disabled selected>Select your budget</option>
-              <option value="1500">₱1,000 – ₱2,000 / month</option>
-              <option value="3500">₱2,000 – ₱5,000 / month</option>
-              <option value="7500">₱5,000 – ₱10,000 / month</option>
-              <option value="15000">₱10,000 – ₱20,000 / month</option>
-              <option value="25000">₱20,000+ / month</option>
-            </select>
-          </label>
+          <div class="qm-field-row">
+            <label class="qm-field">
+              <span>Age</span>
+              <input type="number" id="qmAge" min="18" max="75" required placeholder="e.g. 30">
+            </label>
+            <label class="qm-field">
+              <span>Monthly Budget</span>
+              <select id="qmBudget" required>
+                <option value="" disabled selected>Select</option>
+                <option value="1500">₱1,000–2,000</option>
+                <option value="3500">₱2,000–5,000</option>
+                <option value="7500">₱5,000–10,000</option>
+                <option value="15000">₱10,000–20,000</option>
+                <option value="25000">₱20,000+</option>
+              </select>
+            </label>
+          </div>
           <label class="qm-field">
             <span>Type of Insurance</span>
             <select id="qmType" required>
@@ -1273,24 +1299,37 @@ document.addEventListener('DOMContentLoaded', function(){
       <div class="qm-step" id="qmStep3" hidden>
         <p class="qm-lede" id="qmResultLede">Here's your sample quotation:</p>
 
-        <div class="qm-quote-table">
-          <div class="qm-quote-col">
-            <div class="qm-quote-label">Provided Details</div>
-            <div class="qm-quote-value" id="qmResultName">—</div>
-            <div class="qm-quote-sub" id="qmResultType">—</div>
+        <div class="qm-result-head">
+          <span class="qm-result-product" id="qmResultProduct">—</span>
+          <span class="qm-result-premium">Annual premium <b id="qmResultPremium">—</b></span>
+        </div>
+
+        <div class="qm-coverage-grid">
+          <div class="qm-cov-item">
+            <div class="qm-cov-label">Life Insurance</div>
+            <div class="qm-cov-value" id="qmCovLife">—</div>
           </div>
-          <div class="qm-quote-col qm-quote-col-highlight">
-            <div class="qm-quote-label">Est. Coverage</div>
-            <div class="qm-quote-value qm-quote-value-lg" id="qmResultCoverage">—</div>
+          <div class="qm-cov-item">
+            <div class="qm-cov-label">Critical Illness</div>
+            <div class="qm-cov-value" id="qmCovCI">—</div>
           </div>
-          <div class="qm-quote-col">
-            <div class="qm-quote-label">Sample Premium</div>
-            <div class="qm-quote-value qm-quote-value-gold" id="qmResultPremium">—</div>
-            <div class="qm-quote-sub">/year</div>
+          <div class="qm-cov-item">
+            <div class="qm-cov-label">Disability</div>
+            <div class="qm-cov-value" id="qmCovDisability">—</div>
+          </div>
+          <div class="qm-cov-item">
+            <div class="qm-cov-label">Accident Only</div>
+            <div class="qm-cov-value" id="qmCovAccident">—</div>
           </div>
         </div>
 
-        <p class="qm-disclaimer">This is only a sample illustration based on general data and assumes standard rates. Your actual plan, coverage, and premium will be tailored to you by Engr. Zeth.</p>
+        <div class="qm-fund-box" id="qmFundBox" hidden>
+          <div class="qm-fund-label">Highest Fund / Cash Value</div>
+          <div class="qm-fund-value" id="qmFundValue">—</div>
+          <div class="qm-fund-sub">Projected value across the plan's saving years</div>
+        </div>
+
+        <p class="qm-disclaimer">Figures are pulled from real sample proposal data closest to your age and budget, for illustration only. Your actual plan, coverage, and premium will be tailored to you by Engr. Zeth upon underwriting.</p>
 
         <div class="qm-cta-block">
           <p class="qm-cta-line">Click the button below to be prioritized for contacting by an advisor.</p>
@@ -1354,15 +1393,14 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('qmBackTo1').addEventListener('click', function(){ showStep(step1); });
   document.getElementById('qmBackTo2').addEventListener('click', function(){ showStep(step2); });
 
-  var typeLabels = {
-    term: 'Term Insurance',
-    whole: 'Whole Life Insurance',
-    vul: 'VUL (Variable Universal Life)'
-  };
-  // Rough illustrative multiplier: coverage ≈ annual premium × multiplier
-  var typeMultiplier = { term: 150, whole: 60, vul: 90 };
+  // Auto-open on the homepage only, once per session.
+  if (document.body.hasAttribute('data-auto-quote-modal') && !sessionStorage.getItem('qmAutoShown')) {
+    sessionStorage.setItem('qmAutoShown', '1');
+    setTimeout(function(){ window.openQuoteModal(); }, 800);
+  }
 
   function formatPeso(n){
+    if (n === null || n === undefined) return '—';
     return '₱' + Math.round(n).toLocaleString('en-PH');
   }
 
@@ -1370,26 +1408,47 @@ document.addEventListener('DOMContentLoaded', function(){
     e.preventDefault();
 
     var name = document.getElementById('qmName').value.trim() || 'there';
+    var age = parseInt(document.getElementById('qmAge').value, 10);
     var monthly = parseInt(document.getElementById('qmBudget').value, 10);
     var type = document.getElementById('qmType').value;
 
-    if (!monthly || !type) return;
+    if (!age || !monthly || !type) return;
 
-    var annualPremium = monthly * 12;
-    var rawCoverage = annualPremium * typeMultiplier[type];
-    var coverage = Math.round(rawCoverage / 100000) * 100000;
+    var result = (typeof qeBuildQuote === 'function') ? qeBuildQuote(type, age, monthly) : null;
+
+    if (!result) {
+      document.getElementById('qmResultLede').textContent = 'Sorry ' + name + ', we could not find a matching sample for that combination — an advisor will follow up with exact figures.';
+      document.getElementById('qmResultProduct').textContent = '—';
+      document.getElementById('qmResultPremium').textContent = '—';
+      document.getElementById('qmCovLife').textContent = '—';
+      document.getElementById('qmCovCI').textContent = '—';
+      document.getElementById('qmCovDisability').textContent = '—';
+      document.getElementById('qmCovAccident').textContent = '—';
+      document.getElementById('qmFundBox').hidden = true;
+      showStep(step3);
+      return;
+    }
 
     document.getElementById('qmResultLede').textContent = 'Hi ' + name + ', here\'s your sample quotation:';
-    document.getElementById('qmResultName').textContent = name;
-    document.getElementById('qmResultType').textContent = typeLabels[type];
-    document.getElementById('qmResultCoverage').textContent = formatPeso(coverage);
-    document.getElementById('qmResultPremium').textContent = formatPeso(annualPremium);
+    document.getElementById('qmResultProduct').textContent = result.productLabel;
+    document.getElementById('qmResultPremium').textContent = formatPeso(result.premiumAnnual);
+    document.getElementById('qmCovLife').textContent = formatPeso(result.life);
+    document.getElementById('qmCovCI').textContent = result.ci ? formatPeso(result.ci) : 'Not included';
+    document.getElementById('qmCovDisability').textContent = result.disability ? formatPeso(result.disability) : 'Not included';
+    document.getElementById('qmCovAccident').textContent = result.accident ? formatPeso(result.accident) : 'Not included';
+
+    var fundBox = document.getElementById('qmFundBox');
+    if (result.fundValue !== null && result.fundValue !== undefined) {
+      fundBox.hidden = false;
+      document.getElementById('qmFundValue').textContent = formatPeso(result.fundValue);
+    } else {
+      fundBox.hidden = true;
+    }
 
     showStep(step3);
   });
 })();
 </script>
-
 
 </body>
 </html>
