@@ -1395,9 +1395,8 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('qmBackTo1').addEventListener('click', function(){ showStep(step1); });
   document.getElementById('qmBackTo2').addEventListener('click', function(){ showStep(step2); });
 
-  // Auto-open on the homepage only, once per session.
-  if (document.body.hasAttribute('data-auto-quote-modal') && !sessionStorage.getItem('qmAutoShown')) {
-    sessionStorage.setItem('qmAutoShown', '1');
+  // Auto-open on the homepage, every time it loads.
+  if (document.body.hasAttribute('data-auto-quote-modal')) {
     setTimeout(function(){ window.openQuoteModal(); }, 800);
   }
 
