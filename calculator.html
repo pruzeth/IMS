@@ -718,6 +718,7 @@ function renderPanel(){
   if(need)h=h.replace('</h2>',`</h2><div class="incrow"><label class="inc"><input type="checkbox" id="incbox"${included(need.id)?' checked':''}> Include in summary${(need.id in S.include)?'':(suggested(need.id)&&S.profile.length?' <span>(swak sa situation mo)</span>':'')}</label><button type="button" class="clearpage" id="clearpage">Clear this calculator</button></div>`);
   if(need)h+=`<div class="closing">${need.close}<br><a href="booking.html">Book a Free Clarity Call</a></div><section class="plan"><h3>Your next steps</h3><p class="phint">Base sa numbers sa taas. Nag-a-update habang nagta-type ka.</p><ol class="steps" id="steps"></ol></section>`;
   P.innerHTML=h;
+  if(typeof setEnterHints==='function')setTimeout(setEnterHints,0);
   document.getElementById('quote').textContent=QUOTES[current]||'';
   bind(P);update();
 }
@@ -944,6 +945,21 @@ ca.addEventListener('input',()=>{S.clientAge=ca.value;update()});
 if(LIVE){document.body.classList.add('is-live');document.getElementById('client').placeholder='First name only'}
 document.getElementById('hook1').textContent=HOOK[0];document.getElementById('hook2').textContent=HOOK[1];
 renderChips();renderTabs();renderPanel();syncTabs();
+/* Enter = compute and jump to the next field (like a spreadsheet) */
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter'||e.shiftKey)return;
+  const el=e.target;if(!(el instanceof HTMLInputElement)||el.type==='checkbox'||el.closest('.lf'))return;
+  e.preventDefault();
+  if(el.dataset.path)set(el.dataset.path,el.value);
+  if(el.hasAttribute('data-money'))el.value=fmtInput(el.value);
+  update();
+  const all=[...document.querySelectorAll('header input[type=text], #panel input:not([type=checkbox]), #panel select')].filter(x=>x.offsetParent!==null);
+  const i=all.indexOf(el),next=all[i+1];
+  if(next){next.focus();if(next.select)try{next.select()}catch(_){};next.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})}
+  else{el.blur();const res=document.querySelector('#panel .step.result');if(res)res.scrollIntoView({block:'center',behavior:'smooth'})}
+});
+function setEnterHints(){document.querySelectorAll('header input[type=text], #panel input:not([type=checkbox])').forEach(x=>x.setAttribute('enterkeyhint','next'))}
+setEnterHints();
 document.getElementById('clearall').onclick=clearAll;
 </script>
 </body>
