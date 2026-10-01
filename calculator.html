@@ -413,22 +413,22 @@ body:not(.is-live) .sx-comment{display:none}
   .sx-arrow{transform:rotate(90deg);justify-self:center}
   .sx-bottom{grid-template-columns:1fr}
 }
-/* Live mode: the sheet is the whole screen */
-.is-live{background:#16171B}
-.is-live header.top,.is-live .profile,.is-live .navlabel,.is-live #sticky,.is-live footer,.is-live .phead,.is-live .full{display:none!important}
-.is-live .livebar{display:flex;align-items:flex-end;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;max-width:1000px;margin:0 auto;padding:16px 10px 8px;color:#fff}
-.is-live .livebar b{font-size:clamp(1.4rem,3.2vw,2rem);font-weight:800;letter-spacing:-.01em;border-bottom:4px solid #E11D2E;line-height:1.2}
-.is-live .livebar span{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:.95rem;font-weight:700}
-.is-live .livebar em{flex:1 1 100%;font-style:normal;font-size:.8rem;color:#FFB4BB;font-weight:600}
-.is-live .sx-top{display:none}
-.is-live .wrap{max-width:1040px;padding-bottom:0}
-.is-live nav.needs{background:transparent;border:0;justify-content:flex-start;padding:2px 10px 10px;position:static}
-.is-live .tab{background:#23252B;border-color:#2F323A;color:#cfd1d6;padding:3px 10px}
-.is-live .tab .t{font-size:.72rem}
-.is-live .tab.off{opacity:.45}
-.is-live .tab[aria-selected="true"]{background:#E11D2E;border-color:#E11D2E;color:#fff}
-.is-live main.panel{padding:0}
-.is-live .sx{box-shadow:0 20px 40px -20px rgba(0,0,0,.6);border:0}
+/* Title bar (both modes) + live extras */
+.livebar{display:flex;align-items:flex-end;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;margin:16px 0 2px}
+.livebar b{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:800;letter-spacing:-.01em;line-height:1.2;color:var(--ink);border-bottom:4px solid var(--red)}
+.livebar span{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:.95rem;font-weight:700;color:var(--ink)}
+.livebar kbd{background:var(--red)!important;color:#fff!important;box-shadow:0 2px 0 rgba(0,0,0,.15)!important}
+.livebar em{flex:1 1 100%;font-style:normal;font-size:.85rem;color:var(--red);font-weight:700}
+body:not(.is-live) .livebar span,body:not(.is-live) .livebar em{display:none}
+.sx-top{display:none}
+.sx-comment{display:none!important}
+.phead h2,.phead .lede{display:none}
+.phead{justify-content:flex-end;margin:0 0 6px}
+.phead .incrow{order:1;flex:1 1 auto;justify-content:flex-start;gap:10px}
+.phead .tipsbtn{order:2;margin-left:0}
+.panel > h2,.panel > .lede{display:none}
+.sx{max-width:none;margin:4px 0 12px}
+.navlabel{margin-top:6px}
 </style>
 </head>
 <body>
@@ -448,13 +448,13 @@ body:not(.is-live) .sx-comment{display:none}
   </section>
 </div></header>
 
-<div class="livebar" id="liveTitle"><b>Retirement Planning</b><span></span><em>📩 Want your own plan? Link sa bio! · Insurance Made Simple by Engr. Zeth</em></div>
 <div class="wrap">
   <details class="profile" id="profile">
     <summary><h2 id="profh">What's the client's situation?</h2><span class="picked" id="picked"></span></summary>
     <p class="phint">Tap all that apply. Only the calculators na fit sa situation mo ang papasok sa summary.</p>
     <div class="chips" id="chips"></div>
   </details>
+  <div class="livebar" id="liveTitle"><b>Starting Out</b><span></span><em>📩 Want your own plan? Link sa bio!</em></div>
   <p class="navlabel">Calculators <span>(faded ones are not in the summary)</span></p>
   <nav class="needs" id="tabs" role="tablist" aria-label="Needs"></nav>
   <main class="panel" id="panel" role="tabpanel"></main>
@@ -1314,7 +1314,7 @@ function sheetHTML(id){
 }
 function syncSheet(R){
   const el=document.querySelector('.sx');
-  if(!el){const lt=document.getElementById('liveTitle');if(lt&&current==='summary'){lt.querySelector('b').textContent='Your financial plan summary';lt.querySelector('span').textContent=''}return}
+  if(!el){const lt=document.getElementById('liveTitle');if(lt&&current==='summary'){lt.querySelector('b').textContent='Your Financial Plan Summary';lt.querySelector('span').textContent=''}return}
   const id=el.dataset.sheet,c=SHEETS[id],q=k=>el.querySelector(`[data-sh="${k}"]`);
   c.cells.forEach((x,i)=>{if(!x.p){const b=q('cell'+i);if(b)b.textContent=x.v(R)}});
   q('black').textContent=c.black[1](R);
