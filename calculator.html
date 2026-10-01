@@ -180,12 +180,6 @@ body{padding-bottom:70px}
 .live-cta p{margin:4px 0}.live-cta .lc-small{opacity:.9;font-size:.9rem}
 .why{display:block;margin-top:6px;padding:7px 10px;background:var(--soft);border-radius:8px;color:var(--ink);font-size:.82rem;line-height:1.45;font-weight:400}
 .why b{color:var(--red);font-weight:700;margin-right:2px}
-.moneycheck{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
-.moneycheck h2{font-size:1.05rem}
-.mc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.mc-grid label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:.88rem}
-.mc-grid small{font-weight:400;color:var(--muted)}
-.mc-grid .field input{background:#fff}
 .ready{margin-top:24px;border-radius:14px;padding:16px 18px;border:1.5px solid var(--line);font-size:.92rem;line-height:1.55}
 .ready p{margin:6px 0}
 .ready ul{margin:6px 0;padding-left:20px}
@@ -256,15 +250,6 @@ footer p{margin:6px 0}
     <h2 id="profh">What's the client's situation?</h2>
     <p class="phint">I-tap lahat ng swak. Yung mga calculator lang na bagay sa situation mo ang papasok sa summary.</p>
     <div class="chips" id="chips"></div>
-    <div class="moneycheck">
-      <h2>Money check</h2>
-      <p class="phint">Para malaman natin kung kaya at sustainable ang insurance ngayon. Estimate lang, okay lang kung hindi exact.</p>
-      <div class="mc-grid">
-        <label>Monthly take-home income<span class="field peso"><input class="num" inputmode="decimal" data-mpath="money.income" data-money placeholder="0"></span></label>
-        <label>Monthly expenses <small>(kasama ang hulog sa utang)</small><span class="field peso"><input class="num" inputmode="decimal" data-mpath="money.expenses" data-money placeholder="0"></span></label>
-        <label>Current savings<span class="field peso"><input class="num" inputmode="decimal" data-mpath="money.savings" data-money placeholder="0"></span></label>
-      </div>
-    </div>
   </section>
   <p class="navlabel">Calculators <span>(yung malabo, hindi kasama sa summary)</span></p>
   <nav class="needs" id="tabs" role="tablist" aria-label="Needs"></nav>
@@ -333,7 +318,7 @@ const QUOTES={
   estate:'Leave your family a legacy, not a burden.',
   summary:'Small steps today, big peace of mind tomorrow.'
 };
-const blank=()=>({money:{income:'',expenses:'',savings:''},client:'',profile:[],include:{},clientAge:'',inflation:'4',diyRate:'0',
+const blank=()=>({client:'',profile:[],include:{},clientAge:'',inflation:'4',diyRate:'0',
   protection:{monthly:'',years:'',provision:'',premium:'',childAge:'',parentAge:'',spouseAge:'',spouseMode:'65'},
   education:{children:[{name:'Child 1',school:'',age:'',five:false,provision:''}],premium:''},
   young:{hmo:'',illness:'appendix',illCost:'150000',expenses:'',savings:'',tier:'3000',premium:''},
@@ -913,24 +898,37 @@ function renderSticky(total){
   const g=document.getElementById('stickyGo');if(g)g.onclick=()=>{current='summary';renderPanel();syncTabs();setTimeout(()=>{const lc=document.getElementById('leadcard');if(lc)lc.scrollIntoView({behavior:'smooth',block:'start'})},50)};
 }
 /* ---------- Insurance readiness ---------- */
-function readiness(){
-  const m=S.money,inc=n(m.income),exp=n(m.expenses),sav=n(m.savings);
-  if(!(inc>0)||!(exp>0))return {status:'unknown'};
-  const free=inc-exp,efm=sav/exp;
-  const dItems=S.debt.items.map(x=>({bal:n(x.bal),rate:n(x.rate),pay:n(x.pay)})).filter(x=>x.bal>0);
-  const debtPay=dItems.reduce((s,x)=>s+x.pay,0),dti=debtPay/inc;
-  const stuck=dItems.some(x=>!isFinite(payoffMonths(x.bal,x.rate,x.pay)));
+/* Safety net (months of expenses covered) from the calculator's own numbers */
+function safetyNet(id){
+  const m=(sav,exp)=>exp>0&&String(sav).trim()!==''?n(sav)/exp:null;
+  let v=null;
+  if(id==='young')v=m(S.young.savings,n(S.young.expenses));
+  if(id==='breadwinner')v=m(S.breadwinner.provision,n(S.breadwinner.personal)+n(S.breadwinner.support));
+  if(id==='ofw')v=m(S.ofw.provision,n(S.ofw.monthly));
+  if(v==null)v=m(S.young.savings,n(S.young.expenses)); // fall back to Starting out, if filled in
+  return v;
+}
+function readiness(capOverride){
+  const id=current;
+  const capRaw=capOverride!=null?String(capOverride):String(S[id]?.premium??'');
+  if(capOverride==null&&capRaw.trim()==='')return {status:'unknown'};
+  if(capOverride!=null&&!(capOverride>0))return {status:'unknown'};
+  const cap=n(capRaw);
+  const efm=safetyNet(id);
+  const dItems=S.debt.items.map(x=>({type:x.type,bal:n(x.bal),rate:n(x.rate),pay:n(x.pay)})).filter(x=>x.bal>0);
+  const stuck=dItems.filter(x=>!isFinite(payoffMonths(x.bal,x.rate,x.pay)));
+  const hiDebt=dItems.filter(x=>x.rate>=2);
   const reasons=[];
-  if(free<=0)reasons.push(free<0?`mas malaki ang gastos (${peso(exp)}) kaysa income (${peso(inc)}) kada buwan`:'sakto lang ang income sa gastos, walang natitira');
-  if(dti>0.4)reasons.push(`${Math.round(dti*100)}% ng income ang napupunta sa utang (target: below 40%)`);
-  if(stuck)reasons.push('may utang na hindi pa nababawasan dahil kulang ang hulog sa interest');
-  if(reasons.length)return {status:'red',inc,exp,sav,free,efm,dti,reasons};
+  if(!(cap>0))reasons.push('wala pang natitirang maitatabi kada buwan');
+  if(efm!=null&&efm<1)reasons.push(efm>0?`${efm.toFixed(1)} buwan pa lang ng gastos ang kaya ng ipon mo, kaya wala pang sapat na safety net`:'wala pang ipon na pang-emergency');
+  if(stuck.length)reasons.push(`kulang pa ang hulog sa ${stuck.map(x=>x.type).join(', ')} para mabawasan ang utang`);
+  if(reasons.length)return {status:'red',efm,reasons,cap};
   const soft=[];
-  if(efm<3)soft.push(`${efm.toFixed(1)} buwan pa lang ang kaya ng ipon (target: at least 3)`);
-  if(dti>0.2)soft.push(`${Math.round(dti*100)}% ng income ang napupunta sa utang`);
-  if(free<inc*0.1)soft.push(`maliit pa ang natitira kada buwan (${peso(free)})`);
-  if(soft.length)return {status:'yellow',inc,exp,sav,free,efm,dti,reasons:soft,budget:Math.max(0,Math.min(inc*0.05,free*0.3))};
-  return {status:'green',inc,exp,sav,free,efm,dti,budget:Math.max(0,Math.min(inc*0.10,free*0.5))};
+  if(efm==null)soft.push('hindi pa natin alam kung may emergency fund ka');
+  else if(efm<3)soft.push(`${efm.toFixed(1)} buwan pa lang ng gastos ang kaya ng ipon (target: at least 3)`);
+  if(hiDebt.length)soft.push(`may utang na mataas ang interest (${hiDebt.map(x=>x.type).join(', ')})`);
+  if(soft.length)return {status:'yellow',efm,savKnown:efm!=null,reasons:soft,cap,budget:cap*0.3};
+  return {status:'green',efm,cap,budget:cap*0.5};
 }
 const NEED_FIT={
   young:{g:'Unahin ang health o critical illness coverage, tapos basic term life. Mas mura habang bata at healthy.',y:'Health o critical illness coverage muna, maliit na halaga lang, habang binubuo ang emergency fund.'},
@@ -943,35 +941,40 @@ const NEED_FIT={
   summary:{g:'Unahin ang protection gaps (life, health, disability) bago ang mga plan na may savings o investment component.',y:'Isang maliit na protection plan muna para sa pinakamalaking gap mo, tapos dagdagan pag lumuwag ang budget.'},
   estate:{g:'Life insurance na may named beneficiaries ang pinaka-direktang pambayad ng estate tax.',y:'Maliit na coverage muna para sa bahagi ng estate tax, tapos dagdagan habang lumalaki ang assets.'}
 };
+function budgetLine(r,share){
+  if(!(r.cap>0))return '<p class="rd-b">Lagay ang <b>DIY saving</b> mo sa taas (kung magkano ang kaya mong itabi kada buwan) para makita ang suggested premium budget.</p>';
+  return `<p class="rd-b">Suggested premium budget: up to <b>${peso(r.budget)}</b> kada buwan <small>(${share} ng ${peso(r.cap)} na kaya mong itabi; ang natitira, diretso sa ipon)</small></p>`;
+}
+document.addEventListener('click',e=>{const a=e.target.closest('#goYoung');if(!a)return;e.preventDefault();current='young';renderPanel();syncTabs();setTimeout(()=>{const f=document.querySelector('[data-path="young.savings"]');if(f){f.scrollIntoView({block:'center'});f.focus()}},50)});
 function renderReady(){
   const box=document.getElementById('ready');if(!box)return;
-  const r=readiness(),id=current;
+  const r=current==='summary'?readiness(NEEDS.filter(x=>included(x.id)).reduce((s,x)=>s+n(S[x.id].premium),0)):readiness(),id=current;
   const cta='<p class="rd-cta">Libre pa rin ang clarity call. Puwede kitang tulungang ayusin ang budget, walang benta. <a href="booking.html">Book a free call</a></p>';
   if(id==='goals'){box.className='ready rd-info';box.innerHTML=`<p class="rd-t">ℹ️ Insurance isn't the tool for this one</p><p>Para sa YOLO goals, ipon o investments ang tamang paraan, hindi insurance. ${r.status==='red'?'Pero ayusin muna ang cash flow bago mag-ipon para sa goals.':r.status==='unknown'?'':'Basta may emergency fund at covered ka na sa basic protection, go lang!'}</p>`;return}
-  if(r.status==='unknown'){box.className='ready rd-unknown';box.innerHTML='<p class="rd-t">Is insurance right for you now?</p><p>Lagay ang monthly income at expenses sa <b>Money check</b> sa taas para malaman natin kung kaya at sustainable ang insurance ngayon.</p>';return}
+  if(r.status==='unknown'){box.className='ready rd-unknown';box.innerHTML=`<p class="rd-t">Is insurance right for you now?</p><p>${id==='summary'?'Lagay ang <b>DIY saving</b> sa mga calculator':'Lagay ang <b>DIY saving</b> sa taas (magkano ang kaya mong itabi kada buwan, kahit ₱0)'} para ma-assess natin kung kaya at sustainable ang insurance ngayon.</p>`;return}
   if(id==='debt'){
     if(r.status==='red'){box.className='ready rd-red';box.innerHTML=`<p class="rd-t">🔴 Not yet. Focus on the debt first</p><p>Ngayon, ${r.reasons.join('; ')}. Kung magdadagdag pa ng premium, baka hindi mo ma-sustain at ma-lapse lang ang policy.</p><ul><li>Bayaran muna ang may pinakamataas na interest.</li><li>Kausapin ang lenders tungkol sa restructuring kung kailangan.</li><li>Balikan natin ito in 3 to 6 months.</li></ul>${cta}`;return}
-    box.className='ready rd-'+r.status;box.innerHTML=`<p class="rd-t">${r.status==='green'?'🟢':'🟡'} Check your loan insurance first</p><p>I-check muna kung may loan insurance na ang housing o car loan mo. Kung wala at may umaasa sa iyo, puwedeng i-consider ang term coverage na kasing-laki ng balance${r.budget?`, hanggang mga <b>${peso(r.budget)}</b> kada buwan`:''}.</p>`;return}
+    box.className='ready rd-'+r.status;box.innerHTML=`<p class="rd-t">${r.status==='green'?'🟢':'🟡'} Check your loan insurance first</p><p>I-check muna kung may loan insurance na ang housing o car loan mo. Kung wala at may umaasa sa iyo, puwedeng i-consider ang term coverage na kasing-laki ng balance${r.budget?`, hanggang mga <b>${peso(r.budget)}</b> kada buwan mula sa DIY saving mo`:''}.</p>`;return}
   const fit=NEED_FIT[id]||{g:'',y:''};
   if(r.status==='red'){
     box.className='ready rd-red';
-    box.innerHTML=`<p class="rd-t">🔴 Not yet. Let's fix the cash flow first</p>
+    box.innerHTML=`<p class="rd-t">🔴 Not yet. Let's build your safety net first</p>
     <p>Hindi muna namin ine-encourage ang bagong insurance ngayon, kasi ${r.reasons.join('; ')}. Kapag hindi kaya ang premium, madalas ma-lapse ang policy at sayang ang naibayad.</p>
-    <ul><li>Bawasan ang gastos o dagdagan ang income hanggang may matira kada buwan.</li><li>Bayaran muna ang utang na may mataas na interest.</li><li>Mag-ipon ng kahit isang buwan na emergency fund.</li><li>Kung may umaasa sa iyo, i-check ang SSS, PhilHealth at company benefits na meron ka na.</li></ul>
+    <ul><li>Mag-ipon muna ng kahit isang buwan na gastos bilang emergency fund.</li><li>Bayaran muna ang utang na may mataas na interest.</li><li>Hanapan ng paraan na may matira kada buwan, kahit maliit.</li><li>Kung may umaasa sa iyo, i-check ang SSS, PhilHealth at company benefits na meron ka na.</li></ul>
     <p>Balikan natin ito in 3 to 6 months. Hindi ka nahuhuli, inaayos lang natin ang pundasyon. 💛</p>${cta}`;return}
   if(r.status==='yellow'){
     box.className='ready rd-yellow';
     box.innerHTML=`<p class="rd-t">🟡 Yes, but start small</p>
-    <p>May natitira kada buwan, pero ${r.reasons.join('; ')}. Kaya puwede, basta maliit at sigurado mong kaya buwan-buwan.</p>
+    <p>${r.savKnown?'May ipon ka na, pero ':'Okay ang lagay mo sa ngayon, pero '}${r.reasons.join('; ')}. Kaya puwede, basta maliit at sigurado mong kaya buwan-buwan.</p>${r.savKnown?'':`<p class="rd-b">Para mas sigurado ang advice, sagutan ang <b>Current savings</b> sa <a href="#" class="inl" id="goYoung">Starting out</a>. Doon natin makikita kung sapat na ang emergency fund mo.</p>`}
     <p>${fit.y}</p>
-    <p class="rd-b">Suggested premium budget: up to <b>${peso(r.budget)}</b> kada buwan <small>(around 5% ng income, hindi lalampas sa 30% ng natitira mo)</small></p>
+    ${budgetLine(r,'30%')}
     <p>Sabay buuin ang emergency fund hanggang 3 to 6 buwan ng gastos, tapos dagdagan ang coverage pag lumuwag na.</p>`;return}
   box.className='ready rd-green';
   box.innerHTML=`<p class="rd-t">🟢 Yes, you're in a good spot for this</p>
-  <p>Positive ang cash flow (${peso(r.free)} natitira kada buwan), may ${r.efm.toFixed(1)} buwan na emergency fund, at manageable ang utang. Kaya mong i-sustain ang premium.</p>
+  <p>May ${r.efm.toFixed(1)} buwan na emergency fund ka na, at walang mabigat na utang. Nasa magandang posisyon ka para ma-sustain ang premium.</p>
   <p>${fit.g}</p>
-  <p class="rd-b">Suggested premium budget: up to <b>${peso(r.budget)}</b> kada buwan <small>(around 10% ng income, hindi lalampas sa kalahati ng natitira mo)</small></p>
-  <p>Ito ang total para sa lahat ng policies mo, hindi per calculator.</p>`;
+  ${budgetLine(r,'kalahati')}
+  <p>Iisang budget lang ito para sa lahat ng policies mo. Huwag i-doble kung may DIY saving ka rin sa ibang calculators.</p>`;
 }
 function renderWaiting(){
   const box=document.getElementById('waiting');if(!box)return;
@@ -1006,7 +1009,7 @@ function confirmTap(btn,ask,action){
   btn.dataset.label=btn.textContent;btn.dataset.armed='1';btn.textContent=ask;btn.classList.add('armed');
   btn._t=setTimeout(()=>{btn.dataset.armed='';btn.textContent=btn.dataset.label;btn.classList.remove('armed')},4000);
 }
-function doClearAll(){S=blank();save();renderMoney();document.getElementById('client').value='';document.getElementById('clientAge').value='';current='young';renderChips();renderTabs();renderPanel();syncTabs();window.scrollTo(0,0)}
+function doClearAll(){S=blank();save();document.getElementById('client').value='';document.getElementById('clientAge').value='';current='young';renderChips();renderTabs();renderPanel();syncTabs();window.scrollTo(0,0)}
 function clearAll(ev){confirmTap(ev.currentTarget,'Tap again to clear everything',doClearAll)}
 function bind(P){
   P.querySelectorAll('[data-path]').forEach(el=>{
@@ -1038,13 +1041,6 @@ const ca=document.getElementById('clientAge');ca.value=S.clientAge||'';
 ca.addEventListener('input',()=>{S.clientAge=ca.value;update()});
 if(LIVE){document.body.classList.add('is-live');document.getElementById('client').placeholder='First name only'}
 document.getElementById('hook1').textContent=HOOK[0];document.getElementById('hook2').textContent=HOOK[1];
-function renderMoney(){document.querySelectorAll('[data-mpath]').forEach(el=>{el.value=fmtInput(get(el.dataset.mpath))})}
-document.querySelectorAll('[data-mpath]').forEach(el=>{
-  el.addEventListener('input',()=>{set(el.dataset.mpath,el.value);update()});
-  el.addEventListener('blur',()=>{el.value=fmtInput(el.value)});
-  el.addEventListener('focus',()=>{el.value=String(el.value).replace(/,/g,'')});
-});
-renderMoney();
 renderChips();renderTabs();renderPanel();syncTabs();
 /* Enter = compute and jump to the next field (like a spreadsheet) */
 document.addEventListener('keydown',e=>{
@@ -1052,15 +1048,14 @@ document.addEventListener('keydown',e=>{
   const el=e.target;if(!(el instanceof HTMLInputElement)||el.type==='checkbox'||el.closest('.lf'))return;
   e.preventDefault();
   if(el.dataset.path)set(el.dataset.path,el.value);
-  if(el.dataset.mpath)set(el.dataset.mpath,el.value);
   if(el.hasAttribute('data-money'))el.value=fmtInput(el.value);
   update();
-  const all=[...document.querySelectorAll('header input[type=text], .moneycheck input, #panel input:not([type=checkbox]), #panel select')].filter(x=>x.offsetParent!==null);
+  const all=[...document.querySelectorAll('header input[type=text], #panel input:not([type=checkbox]), #panel select')].filter(x=>x.offsetParent!==null);
   const i=all.indexOf(el),next=all[i+1];
   if(next){next.focus();if(next.select)try{next.select()}catch(_){};next.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})}
   else{el.blur();const res=document.querySelector('#panel .step.result');if(res)res.scrollIntoView({block:'center',behavior:'smooth'})}
 });
-function setEnterHints(){document.querySelectorAll('header input[type=text], .moneycheck input, #panel input:not([type=checkbox])').forEach(x=>x.setAttribute('enterkeyhint','next'))}
+function setEnterHints(){document.querySelectorAll('header input[type=text], #panel input:not([type=checkbox])').forEach(x=>x.setAttribute('enterkeyhint','next'))}
 setEnterHints();
 document.getElementById('clearall').onclick=clearAll;
 </script>
