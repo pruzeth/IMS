@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Financial Needs Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFFFF; --panel:#FFFFFF; --ink:#1B1B1B; --muted:#6E6E6E; --line:#ECECEC; --soft:#FFF2F2;
+  --red:#E11D2E; --red-dark:#B3121F; --gap:#E11D2E; --ok:#1F8A4C; --gold:#E11D2E;
+  --c1:#E11D2E; --c2:#B3121F; --c3:#F0606C; --c4:#7A0C16; --c5:#F59AA1; --c6:#FFC9CD;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:#fff;color:var(--ink);font:400 16px/1.5 "Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-weight:700;letter-spacing:-.01em;margin:0}
+.num{font-variant-numeric:tabular-nums}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+
+/* Header */
+.top{background:var(--red);color:#fff}
+.top-in{max-width:760px;margin:0 auto;padding:22px 20px 26px}
+.brandrow{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.brandrow h1{font-size:1.25rem;font-weight:700}
+.clientbox{display:flex;flex-direction:column;gap:8px}
+.client{display:flex;align-items:center;gap:8px;font-size:.9rem;color:rgba(255,255,255,.85)}
+.client input{border:0;border-radius:8px;background:rgba(255,255,255,.18);padding:7px 10px;min-width:0;width:180px;color:#fff;font-weight:600}
+.client input::placeholder{color:rgba(255,255,255,.7)}
+.client input:focus{outline:2px solid #fff;outline-offset:1px}
+.client input.age{width:58px;text-align:center}
+.ledger{margin-top:22px}
+.ledger .big{font-weight:800;font-size:clamp(2.6rem,11vw,4rem);line-height:1;letter-spacing:-.03em}
+.ledger .cap{color:rgba(255,255,255,.88);margin-top:6px;font-size:.95rem}
+.bar{display:flex;height:12px;margin-top:18px;border-radius:99px;overflow:hidden;background:rgba(255,255,255,.25)}
+.bar span{display:block;height:100%;background:#fff!important;transition:flex-grow .45s ease}
+.bar span+span{border-left:2px solid var(--red)}
+.bar span:nth-child(even){opacity:.7}
+.legend{display:none}
+
+/* Layout */
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 24px}
+nav.needs{position:sticky;top:0;z-index:5;background:#fff;display:flex;gap:8px;overflow-x:auto;padding:14px 0 12px;margin:0 -20px;padding-left:20px;padding-right:20px;scrollbar-width:none;border-bottom:1px solid var(--line)}
+nav.needs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:8px 16px;cursor:pointer;color:var(--ink);display:block}
+.tab .sw{display:none}
+.tab .t{font-weight:600;font-size:.9rem;white-space:nowrap}
+.tab .v{display:none}
+.tab:hover{border-color:var(--red)}
+.tab[aria-selected="true"]{background:var(--red);border-color:var(--red);color:#fff}
+
+main.panel{padding:26px 0 10px;min-width:0}
+.panel h2{font-size:clamp(1.6rem,6vw,2rem);line-height:1.15}
+.panel .lede{color:var(--muted);margin:6px 0 20px}
+
+.step{display:grid;grid-template-columns:30px 1fr minmax(160px,220px);gap:6px 14px;align-items:start;padding:14px 0;border-top:1px solid var(--line)}
+.step .k{font-weight:800;color:var(--red);font-size:1.05rem;padding-top:8px}
+.step label,.step .lbl{font-weight:600;display:block;padding-top:8px}
+.step .hint{display:block;font-size:.83rem;color:var(--muted);font-weight:400;margin-top:2px}
+.step.calc .val{padding-top:8px;text-align:right;font-weight:700}
+.step.result{border-top:0;background:var(--soft);border-radius:14px;padding:16px;margin:10px 0;grid-template-columns:30px 1fr minmax(160px,220px)}
+.step.result .val{font-size:1.6rem;font-weight:800;line-height:1.1}
+.val.short{color:var(--red)} .val.covered{color:var(--ok)}
+.field{position:relative}
+.field input,.field select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;text-align:right;font-weight:600}
+.field select{text-align:left;font-weight:500}
+.field input:focus,.field select:focus{border-color:var(--red);outline:none}
+.field.peso input{padding-left:28px}
+.field.peso::before{content:"₱";position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.field .unit{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:.85rem}
+.field.has-unit input{padding-right:84px}
+.ratefield .field.has-unit input{padding-right:24px;padding-top:6px;padding-bottom:6px}
+.field input.text{text-align:left}
+
+.helper{grid-column:2 / -1;background:#FAFAFA;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:4px;font-size:.9rem}
+.helper .row{display:grid;grid-template-columns:1fr 90px 70px;gap:10px;align-items:center;padding:4px 0}
+.helper .row .yrs{text-align:right;color:var(--muted)}
+.helper input,.helper select{width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:#fff;text-align:right}
+.helper select{text-align:left}
+.helper .foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px;flex-wrap:wrap}
+.ratefield{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ratefield input{width:72px!important}
+.diyout{margin:10px 0 0;line-height:1.55}
+.diyout strong{font-size:1.15rem;font-weight:800;color:var(--red)}
+.diyout .late{color:var(--red);font-weight:600}
+.diyout .ontime{color:var(--ok);font-weight:600}
+.linkbtn{background:none;border:0;padding:0;color:var(--red);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-weight:600;font-size:.9rem}
+.btn{border:1.5px solid var(--red);background:var(--red);color:#fff;border-radius:99px;padding:10px 18px;font-weight:600;cursor:pointer;font-size:.9rem}
+.btn.ghost{background:#fff;color:var(--red)}
+.btn:disabled{opacity:.4;cursor:default}
+
+.child{border:1.5px solid var(--line);border-radius:14px;padding:4px 16px 8px;margin-bottom:14px}
+.child-head{display:flex;justify-content:space-between;align-items:center;padding:10px 0 4px;gap:10px}
+.child-head input{border:0;border-bottom:1.5px dashed var(--line);background:transparent;font-weight:700;font-size:1.1rem;padding:2px 0;min-width:0;flex:1}
+.child-head input:focus{outline:none;border-bottom-color:var(--red)}
+.check{display:flex;gap:8px;align-items:center;font-size:.9rem;color:var(--muted);margin-top:6px;cursor:pointer;accent-color:var(--red)}
+.closing{margin-top:24px;padding:18px 20px;background:var(--red);color:#fff;border-radius:14px;font-size:1.1rem;font-weight:600;text-align:center}
+
+table.sum{width:100%;border-collapse:collapse;margin-top:6px}
+.sum th,.sum td{padding:12px 8px;border-bottom:1px solid var(--line);text-align:right}
+.sum th:first-child,.sum td:first-child{text-align:left}
+.sum thead th{font-size:.8rem;color:var(--muted);font-weight:500}
+.sum tfoot td{border-bottom:0;font-weight:800;font-size:1.15rem;color:var(--red)}
+.sum td i{display:none}
+.tablewrap{overflow-x:auto}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+
+footer{max-width:760px;margin:0 auto;padding:8px 20px 36px;color:var(--muted);font-size:.78rem;line-height:1.5}
+footer p{margin:6px 0}
+
+@media (max-width:640px){
+  .step,.step.result{grid-template-columns:26px 1fr}
+  .step > .field,.step > .val{grid-column:2}
+  .step.calc .val,.step.result .val{text-align:left}
+  .helper{grid-column:1 / -1}
+  .client input{width:150px}
+}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+@media print{nav.needs,.actions,.noprint{display:none!important}.top{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div class="brandrow">
+    <h1>Financial Needs Calculator</h1>
+    <div class="clientbox">
+      <label class="client">Prepared for <input id="client" type="text" placeholder="Client name" autocomplete="off"></label>
+      <label class="client">Current age <input id="clientAge" class="age num" type="text" inputmode="numeric" placeholder="—" autocomplete="off"> <span>years old</span></label>
+    </div>
+  </div>
+  <section class="ledger" aria-live="polite">
+    <div class="figure">
+      <div class="big num" id="total">₱0</div>
+      <div class="cap" id="totalcap">Total shortfall across all needs. Fill in each calculator to see where the gap is.</div>
+    </div>
+    <div class="bar" id="bar" role="img" aria-label="Shortfall by need"></div>
+    <ul class="legend" id="legend"></ul>
+  </section>
+</div></header>
+
+<div class="wrap">
+  <nav class="needs" id="tabs" role="tablist" aria-label="Needs"></nav>
+  <main class="panel" id="panel" role="tabpanel"></main>
+</div>
+
+<footer>
+  <p>Education projections use the K-12 education model with tuition and related costs rising 10% a year. All figures are in Philippine pesos. Tuition source: finduniversity.ph.</p>
+  <p>This calculator gives estimates for planning conversations only. It is not a quotation or a guarantee of coverage.</p>
+</footer>
+
+<script>
+const TUITION={"AMA Computer College":[2429239,2208399,2007636,1825123,1659203,1508366,1371242,1246584,1133258,1030235,936577,851433,774030,703664,639695],"Assumption College":[3522397,3202179,2911072,2646429,2405844,2187131,1988301,1807546,1643224,1493840,1358036,1234579,1122344,1020313,927557],"Ateneo de Davao University":[2044610,1858736,1689760,1536145,1396496,1269542,1154129,1049208,953825,867114,788285,716623,651476,592251,538410],"Ateneo de Manila University":[3846295,3496632,3178756,2889779,2627071,2388247,2171133,1973758,1794325,1631205,1482913,1348103,1225548,1114135,1012850],"Colegio de San Juan de Letran":[2226802,2024366,1840333,1673030,1520936,1382669,1256972,1142702,1038820,944382,858529,780481,709528,645025,586387],"College of the Holy Spirit (Manila)":[2166072,1969156,1790142,1627402,1479456,1344960,1222691,1111537,1010488,918626,835114,759195,690177,627434,570394],"De La Salle University":[4656042,4232765,3847968,3498153,3180139,2891035,2628214,2389286,2172078,1974616,1795106,1631914,1483558,1348689,1226081],"Far Eastern University":[3259229,2962936,2693578,2448707,2226097,2023725,1839750,1672500,1520454,1382231,1256574,1142340,1038491,944083,858257],"Lyceum of the Philippines":[2692407,2447642,2225129,2022845,1838950,1671773,1519793,1381630,1256028,1141843,1038039,943672,857884,779894,708995],"Mapua Institute of Technology":[3785564,3441422,3128565,2844150,2585591,2350538,2136852,1942593,1765994,1605449,1459499,1326817,1206197,1096543,996857],"Miriam College":[3785564,3441422,3128565,2844150,2585591,2350538,2136852,1942593,1765994,1605449,1459499,1326817,1206197,1096543,996857],"Philippine Women's University":[3259229,2962936,2693578,2448707,2226097,2023725,1839750,1672500,1520454,1382231,1256574,1142340,1038491,944083,858257],"San Beda College":[4190437,3809489,3463171,3148338,2862125,2601932,2365393,2150357,1954870,1777155,1615595,1468723,1335202,1213820,1103473],"San Sebastian College":[2692407,2447642,2225129,2022845,1838950,1671773,1519793,1381630,1256028,1141843,1038039,943672,857884,779894,708995],"Silliman University":[1963635,1785123,1622839,1475308,1341189,1219263,1108421,1007655,916050,832773,757066,688242,625675,568795,517086],"St. Paul University Quezon City":[2429239,2208399,2007636,1825123,1659203,1508366,1371242,1246584,1133258,1030235,936577,851433,774030,703664,639695],"St. Scholastica's College":[3198498,2907726,2643387,2403079,2184617,1986016,1805469,1641335,1492123,1356475,1233159,1121054,1019140,926491,842265],"Trinity University of Asia":[2166072,1969156,1790142,1627402,1479456,1344960,1222691,1111537,1010488,918626,835114,759195,690177,627434,570394],"University of Asia and the Pacific":[3846295,3496632,3178756,2889779,2627071,2388247,2171133,1973758,1794325,1631205,1482913,1348103,1225548,1114135,1012850],"University of San Carlos":[2024366,1840333,1673030,1520936,1382669,1256972,1142702,1038820,944382,858529,780481,709528,645025,586387,533079],"University of Sto Tomas":[3036549,2760499,2509544,2281404,2074004,1885458,1714053,1558230,1416572,1287793,1170721,1064292,967538,879580,799618],"University of the East":[2166072,1969156,1790142,1627402,1479456,1344960,1222691,1111537,1010488,918626,835114,759195,690177,627434,570394],"University of the Philippines":[1012183,920166,836515,760468,691335,628486,571351,519410,472191,429264,390240,354764,322513,293193,266539],"University of Visayas (Cebu)":[1111377,1010343,918493,834994,759085,690078,627343,570312,518466,471332,428484,389531,354119,321926,292660]};
+const SCHOOLS=Object.keys(TUITION);
+const ESTATE_TAX=0.06;
+
+const NEEDS=[
+  {id:'protection',name:'Family protection',color:'--c1',close:"I can help you ensure your and your family's protection."},
+  {id:'education',name:"Children's education",color:'--c2',close:"I can help you fund your child's university education."},
+  {id:'retirement',name:'Retirement',color:'--c3',close:'I can help you achieve a financially secure future after retirement.'},
+  {id:'goals',name:'Medium- to long-term goals',color:'--c4',close:'I can help you build wealth for your future goals.'},
+  {id:'ci',name:'Critical illness & hospitalization',color:'--c5',close:'I can help you fund your medical bills.'},
+  {id:'estate',name:'Estate conservation',color:'--c6',close:'I can help you conserve your estate so you can leave it as a legacy to your loved ones.'}
+];
+
+const blank=()=>({client:'',clientAge:'',inflation:'4',diyRate:'0',
+  protection:{monthly:'',years:'',provision:'',premium:'',childAge:'',parentAge:'',spouseAge:'',spouseMode:'65'},
+  education:{children:[{name:'Child 1',school:'',age:'',five:false,provision:''}],premium:''},
+  retirement:{age:'',monthly:'',years:'',provision:'',premium:''},
+  goals:{goal:'',year:'',amount:'',provision:'',premium:''},
+  ci:{amount:'',provision:'',premium:''},
+  estate:{value:'',provision:'',premium:''}
+});
+const KEY='needs-calc-v1';
+let S;
+try{S=JSON.parse(localStorage.getItem(KEY))||blank()}catch(e){S=blank()}
+S=Object.assign(blank(),S);
+let current='protection';
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+const n=v=>{const x=parseFloat(String(v??'').replace(/[^0-9.\-]/g,''));return isFinite(x)?x:0};
+const peso=v=>(v<0?'−':'')+'₱'+Math.round(Math.abs(v)).toLocaleString('en-PH');
+const fmtInput=v=>{if(String(v).trim()==='')return '';const x=n(v);return x.toLocaleString('en-PH',{maximumFractionDigits:2})};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- Calculations ---------- */
+function tuitionFor(c){
+  if(!c.school||String(c.age).trim()==='')return 0;
+  const row=TUITION[c.school];let a=Math.round(n(c.age));
+  if(a<0||a>14)return 0;
+  if(c.five){a-=1; if(a<0)return Math.round(row[0]*1.1);}
+  return row[a];
+}
+function yearsHelper(p){
+  const out=[];
+  if(String(p.childAge).trim()!=='')out.push(Math.max(0,23-n(p.childAge)));
+  if(String(p.parentAge).trim()!=='')out.push(Math.max(0,80-n(p.parentAge)));
+  if(String(p.spouseAge).trim()!=='')out.push(Math.max(0,n(p.spouseMode)-n(p.spouseAge)));
+  return out.length?Math.max(...out):null;
+}
+function calc(){
+  const p=S.protection,r=S.retirement,g=S.goals,c=S.ci,e=S.estate;
+  const R={};
+  const annual=n(p.monthly)*12, pneed=annual*n(p.years);
+  R.protection={annual,need:pneed,gap:pneed-n(p.provision)};
+  const kids=S.education.children.map(k=>{const cost=tuitionFor(k);return{cost,gap:cost-n(k.provision)}});
+  R.education={kids,gap:kids.reduce((s,k)=>s+k.gap,0)};
+  const ageKnown=String(S.clientAge).trim()!==''&&String(r.age).trim()!=='';
+  const yrsToRet=ageKnown?Math.max(0,n(r.age)-n(S.clientAge)):null;
+  const projected=n(r.monthly)*Math.pow(1+n(S.inflation)/100,yrsToRet??0);
+  const rneed=projected*12*n(r.years);
+  R.retirement={projected,yrsToRet,need:rneed,gap:rneed-n(r.provision)};
+  R.goals={gap:n(g.amount)-n(g.provision)};
+  R.ci={gap:n(c.amount)-n(c.provision)};
+  const tax=n(e.value)*ESTATE_TAX;
+  R.estate={tax,gap:tax-n(e.provision)};
+  // time available before each need is due (years), when known
+  const kidYrs=S.education.children.filter(k=>k.school&&String(k.age).trim()!=='').map(k=>Math.max(0,19-n(k.age)));
+  R.education.due=kidYrs.length?Math.min(...kidYrs):null;
+  R.retirement.due=yrsToRet;
+  R.goals.due=String(g.year).trim()!==''?Math.max(0,n(g.year)-new Date().getFullYear()):null;
+  return R;
+}
+/* DIY saving: months to reach target with monthly compounding */
+function diyMonths(gap,pmt,rate){const r=rate/1200;if(pmt<=0)return null;return r>0?Math.log(1+gap*r/pmt)/Math.log(1+r):gap/pmt}
+function diyNeeded(gap,months,rate){const r=rate/1200;if(months<=0)return null;return r>0?gap*r/(Math.pow(1+r,months)-1):gap/months}
+const ym=m=>{const t=Math.ceil(m),y=Math.floor(t/12),mo=t%12;return [y?`${y} year${y>1?'s':''}`:'',mo?`${mo} month${mo>1?'s':''}`:''].filter(Boolean).join(' and ')||'less than a month'};
+function diyText(id,R){
+  const gap=R[id].gap,pmt=n(S[id].premium),rate=n(S.diyRate),due=R[id].due,age=String(S.clientAge).trim()!==''?n(S.clientAge):null;
+  if(gap<=0)return 'No shortfall to save for.';
+  const need=due?diyNeeded(gap,due*12,rate):null;
+  const needLine=need?` To close the gap in the ${due} year${due>1?'s':''} available, save about <strong class="num">${peso(need)}</strong> a month.`:'';
+  if(pmt<=0)return `Enter a monthly amount to see how long it takes to save ${peso(gap)}.`+needLine;
+  const m=diyMonths(gap,pmt,rate);
+  let t=`At ${peso(pmt)} a month, it takes <strong class="num">${ym(m)}</strong> to save ${peso(gap)}`;
+  if(age!=null)t+=`, reached at about age ${Math.floor(age+m/12)}`;
+  t+='.';
+  if(due!=null){t+=m/12<=due?` <span class="ontime">That's within the ${due} years available.</span>`:` <span class="late">That's ${ym(m-due*12)} past the ${due}-year deadline.</span>`+needLine}
+  return t;
+}
+
+/* ---------- Ledger + tabs ---------- */
+function renderTabs(){
+  const t=document.getElementById('tabs');
+  t.innerHTML=NEEDS.map(x=>`<button class="tab" role="tab" data-id="${x.id}" style="--accent:var(${x.color})"><span class="sw"></span><span><span class="t">${x.name}</span><span class="v num" data-tabval="${x.id}"></span></span></button>`).join('')+
+  `<button class="tab summary" role="tab" data-id="summary" style="--accent:var(--gold)"><span class="sw"></span><span><span class="t">Summary</span><span class="v">All needs on one page</span></span></button>`;
+  t.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{current=b.dataset.id;renderPanel();syncTabs();
+    if(window.innerWidth<=860)document.getElementById('panel').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'})});
+}
+function syncTabs(){document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.id===current))}
+
+function update(){
+  const R=calc();
+  let total=0,parts=[];
+  NEEDS.forEach(x=>{const g=Math.max(0,R[x.id].gap);total+=g;parts.push(g);
+    const el=document.querySelector(`[data-tabval="${x.id}"]`);
+    if(el){const v=R[x.id].gap;el.textContent=v>0?peso(v)+' short':v<0?'Covered':'Not started';el.style.color=v>0?'var(--gap)':v<0?'var(--ok)':''}
+  });
+  document.getElementById('total').textContent=peso(total);
+  document.getElementById('totalcap').textContent=total>0?`Total shortfall across all needs${S.client?' for '+S.client:''}.`:'Total shortfall across all needs. Fill in each calculator to see where the gap is.';
+  const bar=document.getElementById('bar');
+  bar.innerHTML=total>0?NEEDS.map((x,i)=>parts[i]>0?`<span title="${x.name}: ${peso(parts[i])}" style="flex-grow:${parts[i]};background:var(${x.color})"></span>`:'').join(''):'';
+  document.getElementById('legend').innerHTML=NEEDS.filter((x,i)=>parts[i]>0).map(x=>{const i=NEEDS.indexOf(x);return `<li><i style="background:var(${x.color})"></i>${x.name} <span class="num">${Math.round(parts[i]/total*100)}%</span></li>`}).join('');
+  // panel outputs
+  document.querySelectorAll('[data-out]').forEach(el=>{
+    const path=el.dataset.out.split('.');let v=R;for(const k of path)v=v?.[k];
+    v=v||0;el.textContent=peso(v);
+    if(el.classList.contains('gapval')){el.classList.toggle('short',v>0);el.classList.toggle('covered',v<0);
+      const note=el.parentElement.querySelector('.surplus');if(note)note.textContent=v<0?'Existing provisions already exceed this need.':''}
+  });
+  document.querySelectorAll('[data-diy]').forEach(el=>el.innerHTML=diyText(el.dataset.diy,R));
+  const pl=document.getElementById('projlbl');
+  if(pl){const y=R.retirement.yrsToRet;pl.textContent=y==null?"Enter the client's current age (top of page) and the retirement age to project this.":`B grown at ${n(S.inflation)}% inflation a year for ${y} year${y===1?'':'s'}, until age ${n(S.retirement.age)}.`}
+  if(current==='summary')renderSummaryTable(R);
+  if(current==='protection'){const y=yearsHelper(S.protection);const yo=document.getElementById('yh');const ub=document.getElementById('useyrs');
+    if(yo){yo.textContent=y==null?'Enter at least one age':`Longest period: ${y} years`;ub.disabled=y==null;ub.dataset.y=y??''}
+    document.querySelectorAll('[data-yr]').forEach(el=>{const k=el.dataset.yr,p=S.protection;let v=null;
+      if(k==='c'&&String(p.childAge).trim()!=='')v=Math.max(0,23-n(p.childAge));
+      if(k==='p'&&String(p.parentAge).trim()!=='')v=Math.max(0,80-n(p.parentAge));
+      if(k==='s'&&String(p.spouseAge).trim()!=='')v=Math.max(0,n(p.spouseMode)-n(p.spouseAge));
+      el.textContent=v==null?'—':v+' yrs'})}
+  save();
+}
+
+/* ---------- Form builders ---------- */
+const money=(path,label,hint='',k='')=>step(k,label,hint,`<div class="field peso"><input class="num" inputmode="decimal" data-path="${path}" data-money value="${esc(fmtInput(get(path)))}" aria-label="${esc(label)}" placeholder="0"></div>`);
+const number=(path,label,hint,k,unit)=>step(k,label,hint,`<div class="field has-unit"><input class="num" inputmode="numeric" data-path="${path}" value="${esc(get(path))}" aria-label="${esc(label)}" placeholder="0"><span class="unit">${unit}</span></div>`);
+const calcRow=(k,label,hint,out,result=false)=>`<div class="step calc${result?' result':''}"><span class="k">${k}</span><span><span class="lbl">${label}</span>${hint?`<span class="hint">${hint}</span>`:''}${result?'<span class="hint surplus"></span>':''}</span><span class="val num${result?' gapval':''}" data-out="${out}">₱0</span></div>`;
+function step(k,label,hint,control){return `<div class="step"><span class="k">${k}</span><span><span class="lbl">${label}</span>${hint?`<span class="hint">${hint}</span>`:''}</span>${control}</div>`}
+const premium=(id)=>money(id+'.premium','DIY saving','How much the client could set aside on their own each month.','')+
+  `<div class="step" style="border:0;padding-top:0"><span></span><div class="helper"><label class="ratefield">Interest earned on savings <span class="field has-unit" style="display:inline-block"><input class="num" inputmode="decimal" data-path="diyRate" value="${esc(S.diyRate)}" aria-label="Interest earned on savings, percent a year"><span class="unit">%</span></span> a year</label><p class="diyout" data-diy="${id}"></p></div></div>`;
+function get(path){return path.split('.').reduce((o,k)=>o?.[k],S)}
+function set(path,v){const ks=path.split('.');let o=S;for(let i=0;i<ks.length-1;i++)o=o[ks[i]];o[ks.at(-1)]=v}
+
+function renderPanel(){
+  const P=document.getElementById('panel');const need=NEEDS.find(x=>x.id===current);
+  P.style.setProperty('--accent',need?`var(${need.color})`:'var(--gold)');
+  let h='';
+  if(current==='protection'){
+    h=`<h2>Family protection</h2><p class="lede">How much income the family would need to keep their current lifestyle if the breadwinner were gone, and how much of that is already covered.</p>
+    ${money('protection.monthly','Monthly budget','What the family spends in a typical month.','A')}
+    ${calcRow('B','Annual budget','A × 12 months','protection.annual')}
+    ${number('protection.years','Years to protect income','Use the helper below if you are not sure.','C','years')}
+    <div class="step" style="border:0;padding-top:0"><span></span><div class="helper">
+      <div class="row"><span>Age of youngest child <span class="hint" style="display:inline">(until 23)</span></span><input inputmode="numeric" data-path="protection.childAge" value="${esc(S.protection.childAge)}" aria-label="Age of youngest child"><span class="yrs num" data-yr="c">—</span></div>
+      <div class="row"><span>Age of younger parent <span class="hint" style="display:inline">(until 80)</span></span><input inputmode="numeric" data-path="protection.parentAge" value="${esc(S.protection.parentAge)}" aria-label="Age of younger parent"><span class="yrs num" data-yr="p">—</span></div>
+      <div class="row"><span>Age of spouse, until <select data-path="protection.spouseMode" aria-label="Spouse coverage period" style="width:auto;display:inline-block;margin-left:4px"><option value="65"${S.protection.spouseMode==='65'?' selected':''}>65 (retirement)</option><option value="80"${S.protection.spouseMode==='80'?' selected':''}>80 (lifetime)</option></select></span><input inputmode="numeric" data-path="protection.spouseAge" value="${esc(S.protection.spouseAge)}" aria-label="Age of spouse"><span class="yrs num" data-yr="s">—</span></div>
+      <div class="foot"><span id="yh" class="num">Enter at least one age</span><button class="btn ghost" id="useyrs" type="button" disabled>Use these years</button></div>
+    </div></div>
+    ${calcRow('D','Family protection need','B × C','protection.need')}
+    ${money('protection.provision','Provision already made','Existing life insurance, savings and investments set aside for the family.','E')}
+    ${calcRow('F','Protection shortfall','D − E','protection.gap',true)}
+    ${premium('protection')}`;
+  }
+  else if(current==='education'){
+    h=`<h2>Children's education</h2><p class="lede">The projected cost of a four-year college degree at the school of choice, based on the child's age today.</p>`;
+    S.education.children.forEach((c,i)=>{
+      h+=`<div class="child"><div class="child-head"><input value="${esc(c.name)}" data-path="education.children.${i}.name" aria-label="Child's name">${S.education.children.length>1?`<button class="linkbtn" data-remove="${i}" type="button">Remove</button>`:''}</div>
+      ${step('A','University choice','',`<div class="field"><select data-path="education.children.${i}.school" aria-label="University choice"><option value="">Choose a school</option>${SCHOOLS.map(s=>`<option${s===c.school?' selected':''}>${esc(s)}</option>`).join('')}</select></div>`)}
+      ${step('B',"Child's age",'Ages 0 to 14 are covered by the tuition table.',`<div class="field has-unit"><input class="num" inputmode="numeric" data-path="education.children.${i}.age" value="${esc(c.age)}" aria-label="Child's age" placeholder="0"><span class="unit">years</span></div>`)}
+      <div class="step" style="border:0;padding-top:0"><span></span><label class="check"><input type="checkbox" data-path="education.children.${i}.five"${c.five?' checked':''}> Five-year course (adds one more year of costs)</label></div>
+      ${calcRow('C','Projected tuition and related costs','Total cost by the time the child enters college.',`education.kids.${i}.cost`)}
+      ${money(`education.children.${i}.provision`,'Provision already made','Educational plans, savings or investments for this child.','D')}
+      ${calcRow('E','Education shortfall','C − D',`education.kids.${i}.gap`,true)}</div>`});
+    h+=`<div class="actions" style="margin:0 0 10px"><button class="btn ghost" id="addchild" type="button">Add another child</button></div>`;
+    if(S.education.children.length>1)h+=calcRow('','Total education shortfall','All children','education.gap',true);
+    h+=premium('education');
+  }
+  else if(current==='retirement'){
+    h=`<h2>Retirement</h2><p class="lede">The fund needed to pay a monthly allowance for the whole of retirement.</p>
+    ${number('retirement.age','Desired retirement age','','A','years old')}
+    ${money('retirement.monthly','Desired monthly retirement allowance','In today\'s pesos.','B')}
+    <div class="step" style="border:0;padding-top:0"><span></span><div class="helper"><label class="ratefield">Expected inflation <span class="field has-unit" style="display:inline-block"><input class="num" inputmode="decimal" data-path="inflation" value="${esc(S.inflation)}" aria-label="Expected inflation, percent a year"><span class="unit">%</span></span> a year</label></div></div>
+    <div class="step calc"><span class="k"></span><span><span class="lbl">Monthly allowance in future pesos</span><span class="hint" id="projlbl"></span></span><span class="val num" data-out="retirement.projected">₱0</span></div>
+    ${number('retirement.years','Period to receive the allowance','How many years the allowance should last.','C','years')}
+    ${calcRow('D','Retirement need','Future monthly allowance × 12 × C','retirement.need')}
+    ${money('retirement.provision','Provision already made','Pension, SSS/GSIS, retirement funds and investments.','E')}
+    ${calcRow('F','Retirement shortfall','D − E','retirement.gap',true)}
+    ${premium('retirement')}`;
+  }
+  else if(current==='goals'){
+    h=`<h2>Medium- to long-term goals</h2><p class="lede">A house, a business, a family trip — any goal that needs money set aside over several years.</p>
+    ${step('A','Future goal','',`<div class="field"><input class="text" data-path="goals.goal" value="${esc(S.goals.goal)}" placeholder="e.g. Down payment on a house" aria-label="Future goal"></div>`)}
+    ${number('goals.year','Target year','When the money will be needed.','B','')}
+    ${money('goals.amount','Amount required','','C')}
+    ${money('goals.provision','Provision already made','Savings or investments earmarked for this goal.','D')}
+    ${calcRow('E','Goal shortfall','C − D','goals.gap',true)}
+    ${premium('goals')}`;
+  }
+  else if(current==='ci'){
+    h=`<h2>Critical illness & hospitalization</h2><p class="lede">Savings needed to pay for treatment of a serious illness without draining the family's other funds.</p>
+    ${money('ci.amount','Approximate amount needed to cover a critical illness','','A')}
+    ${money('ci.provision','Provision already made','HMO, health insurance, emergency fund.','B')}
+    ${calcRow('C','Critical illness and hospitalization shortfall','A − B','ci.gap',true)}
+    ${premium('ci')}`;
+  }
+  else if(current==='estate'){
+    h=`<h2>Estate conservation</h2><p class="lede">Cash the heirs will need to settle estate tax so the estate can pass to them intact.</p>
+    ${money('estate.value','Approximate future value of the net estate','','A')}
+    ${calcRow('B','Estimated estate tax payable','6% of A under RA 10963 (TRAIN Law)','estate.tax')}
+    ${money('estate.provision','Provision already made','Life insurance or liquid funds set aside for estate tax.','C')}
+    ${calcRow('D','Estate conservation shortfall','B − C','estate.gap',true)}
+    ${premium('estate')}`;
+  }
+  else {
+    h=`<h2>Summary${S.client?' for '+esc(S.client):''}</h2><p class="lede">Every need side by side, with what the client could save on their own and how long it would take.</p>
+    <div class="tablewrap"><table class="sum"><thead><tr><th>Need</th><th>Shortfall</th><th>DIY saving / month</th><th>Time to save</th></tr></thead><tbody id="sumbody"></tbody><tfoot><tr><td>Total</td><td class="num" id="sumgap"></td><td class="num" id="sumprem"></td><td></td></tr></tfoot></table></div>
+    <div class="actions"><button class="btn" type="button" onclick="window.print()">Print summary</button><button class="btn ghost" type="button" id="reset">Start over for a new client</button></div>`;
+  }
+  if(need)h+=`<p class="closing">${need.close}</p>`;
+  P.innerHTML=h;
+  bind(P);update();
+}
+function renderSummaryTable(R){
+  const b=document.getElementById('sumbody');if(!b)return;
+  let tg=0,tp=0;
+  b.innerHTML=NEEDS.map(x=>{const g=R[x.id].gap,p=n(S[x.id].premium);tg+=Math.max(0,g);tp+=p;
+    return `<tr><td><i style="background:var(${x.color})"></i>${x.name}</td><td class="num" style="color:${g>0?'var(--gap)':g<0?'var(--ok)':'inherit'}">${g<0?'Covered':peso(g)}</td><td class="num">${p?peso(p):'—'}</td><td class="num">${g>0&&p>0?ym(diyMonths(g,p,n(S.diyRate))):'—'}</td></tr>`}).join('');
+  document.getElementById('sumgap').textContent=peso(tg);
+  document.getElementById('sumprem').textContent=tp?peso(tp):'—';
+}
+function bind(P){
+  P.querySelectorAll('[data-path]').forEach(el=>{
+    const ev=el.tagName==='SELECT'||el.type==='checkbox'?'change':'input';
+    el.addEventListener(ev,()=>{set(el.dataset.path,el.type==='checkbox'?el.checked:el.value);update()});
+    if(el.hasAttribute('data-money')){
+      el.addEventListener('blur',()=>{el.value=fmtInput(el.value)});
+      el.addEventListener('focus',()=>{const v=String(el.value).replace(/,/g,'');el.value=v})
+    }
+  });
+  const u=P.querySelector('#useyrs');if(u)u.onclick=()=>{S.protection.years=u.dataset.y;const i=P.querySelector('[data-path="protection.years"]');i.value=u.dataset.y;update()};
+  const a=P.querySelector('#addchild');if(a)a.onclick=()=>{S.education.children.push({name:'Child '+(S.education.children.length+1),school:'',age:'',five:false,provision:''});renderPanel()};
+  P.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{S.education.children.splice(+b.dataset.remove,1);renderPanel()});
+  const r=P.querySelector('#reset');if(r)r.onclick=()=>{if(confirm('Clear every field and start over?')){S=blank();document.getElementById('client').value='';document.getElementById('clientAge').value='';current='protection';renderPanel();syncTabs()}};
+}
+
+const ci=document.getElementById('client');ci.value=S.client||'';
+ci.addEventListener('input',()=>{S.client=ci.value;update();if(current==='summary'){const h=document.querySelector('.panel h2');if(h)h.textContent='Summary'+(S.client?' for '+S.client:'')}});
+const ca=document.getElementById('clientAge');ca.value=S.clientAge||'';
+ca.addEventListener('input',()=>{S.clientAge=ca.value;update()});
+renderTabs();renderPanel();syncTabs();
+</script>
+</body>
+</html>
