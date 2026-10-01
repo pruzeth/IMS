@@ -111,19 +111,27 @@ main.panel{padding:26px 0 10px;min-width:0}
 .child-head input{border:0;border-bottom:1.5px dashed var(--line);background:transparent;font-weight:700;font-size:1.1rem;padding:2px 0;min-width:0;flex:1}
 .child-head input:focus{outline:none;border-bottom-color:var(--red)}
 .check{display:flex;gap:8px;align-items:center;font-size:.9rem;color:var(--muted);margin-top:6px;cursor:pointer;accent-color:var(--red)}
-.profile{padding:22px 0 4px}
-.profile h2{font-size:1.15rem}
+.profile{margin:22px 0 0;padding:18px 18px 14px;background:#FAFAFA;border:1px solid var(--line);border-radius:16px}
+.profile h2{font-size:1.05rem}
 .phint{margin:4px 0 12px;color:var(--muted);font-size:.88rem}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-size:.88rem;font-weight:500;cursor:pointer}
-.chip[aria-pressed="true"]{background:var(--soft);border-color:var(--red);color:var(--red);font-weight:600}
-.chip[aria-pressed="true"]::before{content:"✓ "}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:2px 16px}
+.chip{display:flex;align-items:center;gap:10px;text-align:left;border:0;background:transparent;padding:7px 2px;font-size:.92rem;font-weight:500;color:var(--ink);cursor:pointer;border-radius:6px}
+.chip::before{content:"";flex:0 0 18px;height:18px;border:1.5px solid #BDBDBD;border-radius:5px;background:#fff;box-sizing:border-box}
+.chip:hover::before{border-color:var(--red)}
+.chip[aria-pressed="true"]{font-weight:600}
+.chip[aria-pressed="true"]::before{background:var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;border-color:var(--red)}
+.navlabel{margin:24px 0 0;font-size:.85rem;font-weight:600;color:var(--muted)}
+.navlabel span{font-weight:400}
+@media (min-width:641px){
+  nav.needs{position:static;flex-wrap:wrap;overflow:visible;margin:0;padding:10px 0 16px}
+}
 .tab.off{opacity:.5;border-style:dashed}
 .tab.off[aria-selected="true"]{opacity:1}
 .inc{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-weight:600;font-size:.9rem;cursor:pointer;accent-color:var(--red)}
 .inc input{width:18px;height:18px}
 .incrow{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
-.incrow .inc{margin-top:0}
+.incrow .inc{margin-top:0;display:block}
+.incrow .inc input{vertical-align:-4px;margin:0 6px 0 0}
 .clearpage{background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:6px 14px;font-size:.85rem;font-weight:600;color:var(--muted);cursor:pointer}
 .clearpage:hover{border-color:var(--red);color:var(--red)}
 .clearall{align-self:flex-start;background:transparent;border:1.5px solid rgba(255,255,255,.7);color:#fff;border-radius:99px;padding:6px 14px;font-size:.82rem;font-weight:600;cursor:pointer}
@@ -228,6 +236,7 @@ footer p{margin:6px 0}
     <p class="phint">Tap all that apply. Only the calculators that fit go into the summary.</p>
     <div class="chips" id="chips"></div>
   </section>
+  <p class="navlabel">Calculators <span>(faded ones aren't in the summary)</span></p>
   <nav class="needs" id="tabs" role="tablist" aria-label="Needs"></nav>
   <main class="panel" id="panel" role="tabpanel"></main>
   <div class="sticky" id="sticky" hidden></div>
