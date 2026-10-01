@@ -222,6 +222,213 @@ footer p{margin:6px 0}
 }
 @media (prefers-reduced-motion:reduce){.bar span{transition:none}}
 @media print{nav.needs,.actions,.noprint{display:none!important}.top{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+/* ===== Compact one-screen layout ===== */
+.col-in,.col-out,.step > *{min-width:0}
+.field{min-width:0;width:100%}
+.field input,.field select{min-width:0;width:100%;box-sizing:border-box}
+.helper .row > *{min-width:0}
+.helper input,.helper select{min-width:0;box-sizing:border-box}
+.helper .foot{justify-content:flex-end}
+.ratefield .field{width:auto;display:inline-block}
+.ratefield .field input{width:76px!important}
+.helper .foot{margin-top:4px}
+.full[open] > summary .lbl-open{display:inline}.full > summary .lbl-open,.full[open] > summary .lbl-closed{display:none}
+.qv{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:6px 0 14px;background:#FFF6F7}
+.qv-cells{display:grid;grid-template-columns:1fr 1fr 2.2fr 1fr;gap:2px;background:#fff}
+.qv-cell{display:flex;flex-direction:column;align-items:center;gap:4px;padding:0 0 8px;background:#FFF6F7;cursor:text}
+.qv-cell input,.qv-cell b{width:100%;background:#B3121F;color:#fff;border:0;text-align:center;font:800 1.35rem/1 "Poppins",system-ui,sans-serif;padding:10px 6px}
+.qv-cell b{display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+.qv-cell input,.qv-cell b{height:52px}
+.qv-cell.wide input{text-align:right;padding-right:14px}
+.qv-cell input::placeholder{color:rgba(255,255,255,.55)}
+.qv-cell input:focus{outline:3px solid var(--gold);outline-offset:-3px}
+.qv-cell span{font-size:.78rem;color:var(--muted);font-weight:600}
+.qv-note{margin:0;padding:0 12px 8px;text-align:center;font-size:.78rem;color:var(--muted)}
+.qv-black{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#111;color:#fff;padding:9px 14px;font-weight:700;font-size:.95rem}
+.qv-black b{font-size:1.15rem}
+.qv-goal{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 14px;font-weight:700;color:#555;letter-spacing:.02em;text-transform:uppercase;font-size:.85rem}
+.qv-goal b{color:#B3121F;font-size:1.25rem}
+.qv-big{background:#B3121F;color:#fff;text-align:center;font-weight:800;font-size:clamp(1.8rem,4.5vw,2.6rem);padding:8px 10px;letter-spacing:-.01em}
+.qv-bottom{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;padding:10px 14px 14px;align-items:end}
+.qv-small{margin:0 0 6px;font-size:.7rem;color:#B3121F;text-transform:uppercase;font-weight:600;text-align:center}
+.qv-tbl{width:100%;border-collapse:collapse;font-size:.82rem;text-align:center}
+.qv-tbl th{background:#B3121F;color:#fff;padding:3px 6px;font-weight:700}
+.qv-tbl td{padding:2px 6px}
+.qv-tbl tr.on td{background:#FFE1E4;font-weight:800;color:#B3121F}
+.qv-target{border:1.5px solid #B3121F;background:#fff;text-align:center;align-self:stretch;display:flex;flex-direction:column}
+.qv-target span{background:#B3121F;color:#fff;font-weight:700;font-size:.82rem;padding:4px}
+.qv-target b{flex:1;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;color:#333;padding:10px}
+@media (max-width:640px){
+  .qv-cells{grid-template-columns:1fr 1fr}
+  .qv-cell.wide{grid-column:1 / -1;order:-1}
+  .qv-black,.qv-goal{flex-direction:column;align-items:flex-start}
+  .qv-bottom{grid-template-columns:1fr}
+}
+.helpd{grid-column:2 / -1}
+.helpd summary{cursor:pointer;font-size:.8rem;font-weight:600;color:var(--red);list-style:none;padding:2px 0}
+.helpd summary::-webkit-details-marker{display:none}
+.helpd summary::before{content:"▸ "}
+.helpd[open] summary::before{content:"▾ "}
+.trio{grid-column:1 / -1;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:4px}
+.trio .helper{margin:0}
+.step > .helper{margin-top:4px}
+
+.wrap{max-width:1240px;padding:0 20px 16px}
+.profile{margin:12px 0 0;padding:10px 14px}
+.profile summary{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;cursor:pointer;list-style:none}
+.profile summary::-webkit-details-marker{display:none}
+.profile summary::before{content:"▸";color:var(--red);font-size:.9rem;transition:transform .15s}
+.profile[open] summary::before{transform:rotate(90deg)}
+.profile h2{font-size:.95rem;display:inline}
+.picked{font-size:.82rem;color:var(--red);font-weight:600}
+.profile .phint{margin:6px 0 6px;font-size:.8rem}
+.chips{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0 12px}
+.chip{padding:4px 2px;font-size:.85rem}
+.navlabel{margin:10px 0 0;font-size:.78rem}
+nav.needs{padding:6px 0 8px;gap:6px}
+.tab{padding:5px 12px}
+.tab .t{font-size:.82rem}
+
+main.panel{padding:12px 0 6px}
+.phead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:6px}
+.phead h2{font-size:1.35rem;margin:0}
+.phead .incrow{margin:0;order:3;flex:1 1 100%}
+.phead .lede{order:4;flex:1 1 100%;margin:2px 0 0;font-size:.85rem}
+.tipsbtn{order:2;margin-left:auto;background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:4px 12px;font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer}
+.tipsbtn:hover{border-color:var(--red);color:var(--red)}
+.clearpage{padding:4px 10px;font-size:.78rem}
+.incrow .inc{font-size:.82rem}
+
+.cols{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+@media (min-width:980px){
+  .cols{grid-template-columns:minmax(0,1.35fr) minmax(300px,1fr);gap:24px;align-items:start}
+  .col-out{position:sticky;top:10px;max-height:calc(100vh - 20px);overflow:auto;padding-right:4px}
+}
+.col-out .ready{margin-top:0}
+.col-out > *+*{margin-top:12px}
+
+.step{padding:6px 0;gap:2px 12px;grid-template-columns:24px 1fr minmax(150px,200px);align-items:center}
+.step .k{padding-top:0;font-size:.95rem}
+.step label,.step .lbl{padding-top:0;font-size:.9rem}
+.step.calc .val{padding-top:0}
+.step .hint:not([id]),.step .why{display:none}
+.step.open .hint:not([id]),.step.open .why,.tips .step .hint:not([id]),.tips .step .why{display:block}
+.step .hint[id]{font-size:.78rem}
+.field input,.field select{padding:7px 10px;border-radius:8px}
+.step.result{padding:8px 12px;margin:6px 0}
+.step.result .val{font-size:1.3rem}
+.part{font-size:.95rem;margin:12px 0 0;padding-top:8px;border-top-width:1.5px}
+.part + .lede{font-size:.82rem;margin:2px 0 4px!important}
+.helper{padding:8px 12px;margin-top:2px;font-size:.84rem}
+.helper .row{padding:2px 0}
+.diyout{margin:4px 0 0;font-size:.85rem}
+.child{padding:2px 12px 6px;margin-bottom:8px}
+.info{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;margin-left:6px;border-radius:50%;border:1.5px solid var(--red);background:#fff;color:var(--red);font:italic 700 .7rem/1 Georgia,serif;cursor:pointer;vertical-align:1px;padding:0}
+.step.open .info{background:var(--red);color:#fff}
+
+.ready{padding:12px 14px;font-size:.85rem;line-height:1.5}
+.rd-t{font-size:.95rem}
+.plan{margin-top:0;border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+.plan summary{cursor:pointer;list-style:none}
+.plan summary::-webkit-details-marker{display:none}
+.plan summary h3{display:inline;font-size:1rem}
+.plan summary::after{content:" ▾";color:var(--red)}
+.plan h3{font-size:1rem}
+.steps{margin-top:8px}
+.steps li{padding:0 0 10px 38px}
+.steps li::before{width:26px;height:26px;font-size:.8rem}
+.steps li:not(:last-child)::after{left:12px;top:30px}
+.steps b{font-size:.88rem;padding-top:2px}
+.steps span{font-size:.8rem}
+.closing{margin-top:0;padding:12px 14px;font-size:.95rem}
+.closing a{margin-top:8px;padding:8px 16px;font-size:.85rem}
+.leadcard{margin-top:0;padding:14px}
+.lf{gap:8px}
+.sum th,.sum td{padding:8px 6px}
+footer{padding:4px 20px 80px;font-size:.72rem}
+@media (max-width:640px){
+  .step{grid-template-columns:22px 1fr}
+}
+
+/* ===== Sheet view (our own design) ===== */
+.sx{max-width:1000px;margin:6px auto 12px;background:#fff;border:1px solid #F1D3D6;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px -18px rgba(179,18,31,.45)}
+.sx-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px 20px;flex-wrap:wrap;padding:14px 18px 10px;background:linear-gradient(120deg,#E11D2E 0%,#B3121F 100%);color:#fff}
+.sx-kicker{margin:0;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;opacity:.85;font-weight:600}
+.sx-title{margin:2px 0 0;font-size:1.45rem;font-weight:800;letter-spacing:-.01em}
+.sx-comment{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.sx-comment kbd,.livebar kbd{font:700 .72rem "Poppins",system-ui,sans-serif;background:#fff;color:#B3121F;border-radius:6px;padding:3px 8px;box-shadow:0 2px 0 rgba(0,0,0,.25);text-transform:uppercase;letter-spacing:.02em}
+.sx-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;padding:14px 18px 6px}
+.sx-in{display:flex;flex-direction:column;gap:4px;min-width:0;cursor:text}
+.sx-in.w2{grid-column:span 2}
+.sx-in > span:first-child{font-size:.72rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:.04em}
+.sx-field{position:relative;display:block}
+.sx-field.peso::before{content:"₱";position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#E11D2E;font-weight:800;font-size:1.1rem;pointer-events:none}
+.sx-in input,.sx-in select{width:100%;box-sizing:border-box;height:48px;border:2px solid #F1D3D6;border-radius:14px;background:#FFF7F8;font:800 1.35rem/1 "Poppins",system-ui,sans-serif;color:#1b1b1b;text-align:center;padding:0 12px;transition:border-color .15s,background .15s}
+.sx-field.peso input{padding-left:28px}
+.sx-in input.txt{font-size:1rem;text-align:left}
+.sx-in select{font-size:.92rem;font-weight:700;text-align:left}
+.sx-in input:focus,.sx-in select:focus{outline:none;border-color:#E11D2E;background:#fff;box-shadow:0 0 0 4px rgba(225,29,46,.12)}
+.sx-in input::placeholder{color:#cfb3b6}
+.sx-in.calc b{height:48px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:#1b1b1b;color:#fff;font-size:1.3rem;font-weight:800}
+.sx-sub{margin:0;padding:0 18px;font-size:.75rem;color:#888}
+.sx-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1.5fr;align-items:stretch;gap:8px;padding:10px 18px}
+.sx-tile{border-radius:14px;background:#F7F7F8;padding:10px 12px;display:flex;flex-direction:column;justify-content:space-between;gap:6px}
+.sx-tile span{font-size:.72rem;font-weight:600;color:#666;line-height:1.3}
+.sx-tile b{font-size:1.2rem;font-weight:800;color:#1b1b1b}
+.sx-arrow{align-self:center;width:18px;height:18px;position:relative}
+.sx-arrow::before{content:"";position:absolute;inset:0;margin:auto;width:9px;height:9px;border-top:3px solid #E11D2E;border-right:3px solid #E11D2E;transform:rotate(45deg)}
+.sx-hero{border-radius:16px;background:#1b1b1b;color:#fff;padding:10px 14px;display:flex;align-items:center;gap:12px}
+.sx-hero span{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#FF8A93}
+.sx-hero b{display:block;font-size:clamp(1.5rem,3.6vw,2.2rem);font-weight:800;line-height:1.1;letter-spacing:-.01em}
+.sx-hero small{display:block;font-size:.72rem;color:#bbb;margin-top:2px}
+.sx-ring{width:54px;height:54px;flex:0 0 54px;transform:rotate(-90deg)}
+.sx-ring circle{fill:none;stroke-width:4.5}
+.sx-ring .bg{stroke:#3a3a3a}
+.sx-ring .fg{stroke:#2BD47D;stroke-linecap:butt;transition:stroke-dasharray .4s}
+.sx-bottom{display:grid;grid-template-columns:1.5fr 1fr;gap:10px;padding:4px 18px 16px;align-items:stretch}
+.sx-guide p{margin:0 0 6px;font-size:.78rem;color:#555}
+.sx-guide p b{color:#1b1b1b}
+.sx-guide em{display:block;font-style:normal;font-size:.7rem;color:#999}
+.sx-chips{display:flex;flex-wrap:wrap;gap:6px}
+.sx-chip{display:flex;flex-direction:column;gap:1px;border:1.5px solid #F1D3D6;border-radius:12px;padding:5px 10px;font-size:.78rem;color:#555;background:#fff}
+.sx-chip b{font-size:.74rem;color:#999;font-weight:600}
+.sx-chip.on{background:#E11D2E;border-color:#E11D2E;color:#fff;font-weight:700}
+.sx-chip.on b{color:#FFD3D7}
+.sx-chip[data-ill]{cursor:pointer}
+.sx-move{border-radius:16px;background:#FFF1F2;border:2px dashed #E11D2E;padding:10px 14px;display:flex;flex-direction:column;gap:2px;justify-content:center}
+.sx-move span{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#E11D2E}
+.sx-move small{font-size:.78rem;color:#555}
+.sx-move b{font-size:1.6rem;font-weight:800;color:#1b1b1b;line-height:1.15}
+.sx-move em{font-style:normal;font-size:.75rem;font-weight:600;color:#555}
+.full{max-width:1240px;margin:0 auto}
+.full > summary{cursor:pointer;list-style:none;text-align:center;font-size:.85rem;font-weight:700;color:var(--red);padding:6px;border:1.5px dashed #F1D3D6;border-radius:10px;margin-bottom:10px}
+.full > summary::-webkit-details-marker{display:none}
+.full[open] > summary{margin-bottom:12px}
+.livebar{display:none}
+body:not(.is-live) .sx-comment{display:none}
+@media (max-width:760px){
+  .sx-in.w2{grid-column:1 / -1}
+  .sx-flow{grid-template-columns:1fr}
+  .sx-arrow{transform:rotate(90deg);justify-self:center}
+  .sx-bottom{grid-template-columns:1fr}
+}
+/* Live mode: the sheet is the whole screen */
+.is-live{background:#16171B}
+.is-live header.top,.is-live .profile,.is-live .navlabel,.is-live #sticky,.is-live footer,.is-live .phead,.is-live .full{display:none!important}
+.is-live .livebar{display:flex;align-items:flex-end;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;max-width:1000px;margin:0 auto;padding:16px 10px 8px;color:#fff}
+.is-live .livebar b{font-size:clamp(1.4rem,3.2vw,2rem);font-weight:800;letter-spacing:-.01em;border-bottom:4px solid #E11D2E;line-height:1.2}
+.is-live .livebar span{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:.95rem;font-weight:700}
+.is-live .livebar em{flex:1 1 100%;font-style:normal;font-size:.8rem;color:#FFB4BB;font-weight:600}
+.is-live .sx-top{display:none}
+.is-live .wrap{max-width:1040px;padding-bottom:0}
+.is-live nav.needs{background:transparent;border:0;justify-content:flex-start;padding:2px 10px 10px;position:static}
+.is-live .tab{background:#23252B;border-color:#2F323A;color:#cfd1d6;padding:3px 10px}
+.is-live .tab .t{font-size:.72rem}
+.is-live .tab.off{opacity:.45}
+.is-live .tab[aria-selected="true"]{background:#E11D2E;border-color:#E11D2E;color:#fff}
+.is-live main.panel{padding:0}
+.is-live .sx{box-shadow:0 20px 40px -20px rgba(0,0,0,.6);border:0}
 </style>
 </head>
 <body>
@@ -229,11 +436,6 @@ footer p{margin:6px 0}
   <div class="hook"><span class="live">LIVE</span><p class="hook1" id="hook1"></p><p class="hook2" id="hook2"></p></div>
   <div class="brandrow">
     <div><a href="index.html" class="home">← Insurance Made Simple by Engr. Zeth</a><h1>Financial Needs Calculator</h1></div>
-    <div class="clientbox">
-      <label class="client">Prepared for <input id="client" type="text" placeholder="Client name" autocomplete="off"></label>
-      <label class="client">Current age <input id="clientAge" class="age num" type="text" inputmode="numeric" placeholder="—" autocomplete="off"> <span>years old</span></label>
-      <button type="button" class="clearall" id="clearall">✕ Clear all &amp; start a new client</button>
-    </div>
   </div>
   <p class="quote" id="quote"></p>
   <section class="ledger" aria-live="polite">
@@ -246,12 +448,13 @@ footer p{margin:6px 0}
   </section>
 </div></header>
 
+<div class="livebar" id="liveTitle"><b>Retirement Planning</b><span></span><em>📩 Want your own plan? Link sa bio! · Insurance Made Simple by Engr. Zeth</em></div>
 <div class="wrap">
-  <section class="profile" aria-labelledby="profh">
-    <h2 id="profh">What's the client's situation?</h2>
+  <details class="profile" id="profile">
+    <summary><h2 id="profh">What's the client's situation?</h2><span class="picked" id="picked"></span></summary>
     <p class="phint">Tap all that apply. Only the calculators na fit sa situation mo ang papasok sa summary.</p>
     <div class="chips" id="chips"></div>
-  </section>
+  </details>
   <p class="navlabel">Calculators <span>(faded ones are not in the summary)</span></p>
   <nav class="needs" id="tabs" role="tablist" aria-label="Needs"></nav>
   <main class="panel" id="panel" role="tabpanel"></main>
@@ -367,12 +570,18 @@ function calc(){
   const R={};
   const annual=n(p.monthly)*12, pneed=annual*n(p.years);
   R.protection={annual,need:pneed,gap:pneed-n(p.provision)};
+  if(!S.education.children.length)S.education.children.push({name:'Child 1',school:'',age:'',five:false,provision:''});
   const kids=S.education.children.map(k=>{const cost=tuitionFor(k);return{cost,gap:cost-n(k.provision)}});
   R.education={kids,gap:kids.reduce((s,k)=>s+k.gap,0)};
   const ageKnown=String(S.clientAge).trim()!==''&&String(r.age).trim()!=='';
   const yrsToRet=ageKnown?Math.max(0,n(r.age)-n(S.clientAge)):null;
   const projected=n(r.monthly)*Math.pow(1+n(S.inflation)/100,yrsToRet??0);
-  const rneed=projected*12*n(r.years);
+  const LIFESPAN=80;
+  const retYears=String(r.years).trim()!==''?n(r.years):(n(r.age)>0?Math.max(0,LIFESPAN-n(r.age)):0);
+  const rneed=projected*12*retYears;
+  const ageNow=String(S.clientAge).trim()!==''?n(S.clientAge):null;
+  const savePct=ageNow==null?null:ageNow<=25?0.10:ageNow<=35?0.12:ageNow<=40?0.15:0.20;
+  const targetMin=savePct!=null?n(r.monthly)*savePct:0;
   // SSS: contribution -> monthly salary credit (2025 rates: employee share 5%, voluntary/self-employed/OFW 15%)
   const retAge=n(r.age), cur=String(S.clientAge).trim()!==''?n(S.clientAge):null;
   const contrib=n(r.sssContrib), share=r.sssType==='vol'?0.15:0.05;
@@ -388,13 +597,13 @@ function calc(){
       sssNote=`Salary credit ${peso(msc)}${msc>20000?' (only the first ₱20,000 counts for pension)':''}, ${cys} years of contributions by age ${retAge}.`}
   }
   const sssMonthly=sssCalc;
-  const sssValue=sssMonthly*13*n(r.years);
+  const sssValue=sssMonthly*13*retYears;
   // MP2: monthly savings only, renewed every 5 years until retirement, dividends compounded
   const yrs=yrsToRet??0,ra=n(r.mp2Rate)/100,rm=Math.pow(1+ra,1/12)-1;
   const mp2Value=rm>0?n(r.mp2Monthly)*(Math.pow(1+rm,12*yrs)-1)/rm:n(r.mp2Monthly)*12*yrs;
   const mp2In=n(r.mp2Monthly)*12*yrs;
   const rprov=sssValue+mp2Value+n(r.provision);
-  R.retirement={projected,yrsToRet,need:rneed,sssCalc,sssMonthly,sssNote,sssValue,mp2Value,mp2Div:mp2Value-mp2In,provision:rprov,gap:rneed-rprov};
+  R.retirement={projected,yrsToRet,retYears,savePct,targetMin,need:rneed,sssCalc,sssMonthly,sssNote,sssValue,mp2Value,mp2Div:mp2Value-mp2In,provision:rprov,gap:rneed-rprov};
   // Starting out
   const y=S.young;
   const yStarted=[y.hmo,y.expenses,S.efund].some(v=>String(v).trim()!=='');
@@ -405,6 +614,7 @@ function calc(){
   const yneed=efTarget+illGap;
   R.young={illGap,efTarget,ymonths,afterBill,need:yneed,gap:yneed-n(S.efund)};
   // Debt
+  if(!S.debt.items.length)S.debt.items.push({type:'Credit card',bal:'',rate:'',pay:''});
   const dItems=S.debt.items.map(x=>({type:x.type,bal:n(x.bal),rate:n(x.rate),pay:n(x.pay)}));
   const dRows=dItems.map(x=>{const m=payoffMonths(x.bal,x.rate,x.pay);return{...x,months:m,interest:isFinite(m)?Math.max(0,x.pay*m-x.bal):Infinity}});
   const dTotal=dItems.reduce((s,x)=>s+x.bal,0),dPay=dItems.reduce((s,x)=>s+x.pay,0);
@@ -430,7 +640,7 @@ function calc(){
   const mustSell=Math.max(0,tax-n(e.liquid)-n(e.provision));
   R.estate={total:estTotal,tax,mustSell,gap:tax-n(e.provision)};
   const bz=S.business;
-  const keyFund=n(bz.fixed)*n(bz.months), buyout=bz.partners?n(bz.share):0;
+  const keyFund=n(bz.fixed)*n(bz.months), buyout=(bz.partners||n(bz.share)>0)?n(bz.share):0;
   const bneed=n(bz.debts)+keyFund+buyout;
   R.business={keyFund,buyout,need:bneed,gap:bneed-n(bz.provision)};
   // time available before each need is due (years), when known
@@ -460,6 +670,9 @@ function diyText(id,R){
 
 /* ---------- Ledger + tabs ---------- */
 function renderChips(){
+  const pf=document.getElementById('profile'),pk=document.getElementById('picked');
+  if(pf&&!pf.dataset.init){pf.open=!S.profile.length;pf.dataset.init='1'}
+  if(pk)pk.textContent=S.profile.length?PROFILE.filter(p=>S.profile.includes(p.id)).map(p=>p.label).join(' · '):'Tap to choose';
   const c=document.getElementById('chips');
   c.innerHTML=PROFILE.map(p=>`<button type="button" class="chip" aria-pressed="${S.profile.includes(p.id)}" data-p="${p.id}">${p.label}</button>`).join('');
   c.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{const id=b.dataset.p;
@@ -516,6 +729,7 @@ function update(){
     if(el)el.textContent=y==null?"Enter your age (top of page) and the age in C para ma-compute ito.":`A with ${n(S.inflation)}% inflation a year, for ${y} more years abroad.`}
   if(current==='breadwinner'){const ub=document.getElementById('usebw'),a=S.breadwinner.parentAge;
     if(ub){const y=String(a).trim()!==''?Math.max(0,80-n(a)):null;ub.disabled=y==null;ub.dataset.y=y??'';ub.textContent=y==null?'Use parent\'s lifetime':`Use ${y} years (until 80)`}}
+  syncSheet(R);
   if(current!=='summary')renderSteps(R);
   renderReady();
   if(current==='summary'){renderSummaryTable(R);renderMasterPlan(R)}
@@ -549,12 +763,12 @@ function renderPanel(){
     ${money('protection.monthly','Monthly budget','Your family’s spending in a typical month.','A')}
     ${calcRow('B','Annual budget','A × 12 months','protection.annual')}
     ${number('protection.years','Years to protect income','Not sure? Use the helper below.'+W('So we know how long your family needs your support, usually until the youngest graduates or your spouse retires.'),'C','years')}
-    <div class="step" style="border:0;padding-top:0"><span></span><div class="helper">
+    <div class="step" style="border:0;padding-top:0"><span></span><details class="helpd"${[S.protection.childAge,S.protection.parentAge,S.protection.spouseAge].some(v=>String(v).trim()!=='')?' open':''}><summary>Not sure? Compute the years</summary><div class="helper">
       <div class="row"><span>Age of youngest child <span class="hint" style="display:inline">(until 23)</span></span><input inputmode="numeric" data-path="protection.childAge" value="${esc(S.protection.childAge)}" aria-label="Age of youngest child"><span class="yrs num" data-yr="c">—</span></div>
       <div class="row"><span>Age of younger parent <span class="hint" style="display:inline">(until 80)</span></span><input inputmode="numeric" data-path="protection.parentAge" value="${esc(S.protection.parentAge)}" aria-label="Age of younger parent"><span class="yrs num" data-yr="p">—</span></div>
       <div class="row"><span>Age of spouse, until <select data-path="protection.spouseMode" aria-label="Spouse coverage period" style="width:auto;display:inline-block;margin-left:4px"><option value="65"${S.protection.spouseMode==='65'?' selected':''}>65 (retirement)</option><option value="80"${S.protection.spouseMode==='80'?' selected':''}>80 (lifetime)</option></select></span><input inputmode="numeric" data-path="protection.spouseAge" value="${esc(S.protection.spouseAge)}" aria-label="Age of spouse"><span class="yrs num" data-yr="s">—</span></div>
       <div class="foot"><span id="yh" class="num">Enter at least one age</span><button class="btn ghost" id="useyrs" type="button" disabled>Use these years</button></div>
-    </div></div>
+    </div></details></div>
     ${calcRow('D','Family protection need','B × C'+W('This is the total income your family loses kung biglang tumigil ang sweldo mo. Ito ang kailangang ma-replace para tuloy ang life nila.'),'protection.need')}
     ${money('protection.provision','Provision already made','Life insurance, savings and investments already set aside for the family.'+W('We subtract what you already have, para ang lalabas ay yung real gap lang.'),'E')}
     ${calcRow('F','Protection shortfall','D − E','protection.gap',true)}
@@ -651,10 +865,10 @@ function renderPanel(){
     ${money('retirement.monthly','Desired monthly retirement allowance','In today\'s pesos.','B')}
     <div class="step" style="border:0;padding-top:0"><span></span><div class="helper"><label class="ratefield">Expected inflation <span class="field has-unit" style="display:inline-block"><input class="num" inputmode="decimal" data-path="inflation" value="${esc(S.inflation)}" aria-label="Expected inflation, percent a year"><span class="unit">%</span></span> a year</label></div></div>
     <div class="step calc"><span class="k"></span><span><span class="lbl">Monthly allowance in future pesos</span><span class="hint" id="projlbl"></span>${W('Because of inflation, prices go up. Para sa same lifestyle when you retire, you’ll need more than today.')}</span><span class="val num" data-out="retirement.projected">₱0</span></div>
-    ${number('retirement.years','Period to receive the allowance','How many years the allowance should last.','C','years')}
+    ${number('retirement.years','Period to receive the allowance','How many years the allowance should last. Blank = until age 80 (average lifespan).','C','years')}
     ${calcRow('D','Retirement need','Future monthly allowance × 12 × C'+W('This is the total fund para may monthly allowance ka until the end of retirement.'),'retirement.need')}
     <div class="step"><span class="k">E</span><span><span class="lbl">Provision already made</span><span class="hint">Fill in what applies below. Skip mo na kung wala.</span>${W('SSS and MP2 are included kasi part sila ng retirement income mo, so mas accurate ang gap.')}</span><span></span>
-      <div class="helper">
+      <div class="trio"><div class="helper">
         <p class="subhead">SSS pension</p>
         <div class="row r2"><span>Monthly SSS contribution</span><input inputmode="decimal" data-path="retirement.sssContrib" value="${esc(S.retirement.sssContrib)}" aria-label="Monthly SSS contribution" placeholder="₱"></div>
         <div class="row r2"><span>Paid as</span><select data-path="retirement.sssType" aria-label="SSS membership type"><option value="emp"${S.retirement.sssType!=='vol'?' selected':''}>Employee</option><option value="vol"${S.retirement.sssType==='vol'?' selected':''}>Voluntary / OFW</option></select></div>
@@ -672,7 +886,7 @@ function renderPanel(){
       <div class="helper">
         <p class="subhead">Other retirement savings</p>
         <div class="row r2"><span>GSIS, company retirement fund, investments</span><input inputmode="decimal" data-path="retirement.provision" value="${esc(S.retirement.provision)}" aria-label="Other retirement savings" placeholder="₱"></div>
-      </div>
+      </div></div>
     </div>
     ${calcRow('','Total provision','SSS + MP2 + other savings','retirement.provision')}
     ${calcRow('F','Retirement shortfall','D − E','retirement.gap',true)}
@@ -718,8 +932,10 @@ function renderPanel(){
   }
   else {
     h=`<h2>Summary${S.client?' for '+esc(S.client):''}</h2><p class="lede">All your needs in one view, with how much you can set aside and how long it takes.</p>
-    <div class="tablewrap"><table class="sum"><thead><tr><th>Need</th><th>Shortfall</th><th>DIY saving / month</th><th>Time to save</th></tr></thead><tbody id="sumbody"></tbody><tfoot><tr><td>Total</td><td class="num" id="sumgap"></td><td class="num" id="sumprem"></td><td></td></tr></tfoot></table></div>
+    <div class="cols"><div class="col-in"><div class="tablewrap"><table class="sum"><thead><tr><th>Need</th><th>Shortfall</th><th>DIY saving / month</th><th>Time to save</th></tr></thead><tbody id="sumbody"></tbody><tfoot><tr><td>Total</td><td class="num" id="sumgap"></td><td class="num" id="sumprem"></td><td></td></tr></tfoot></table></div>
     <p class="note sumoff" id="sumoff"></p>
+    <div class="actions"><button class="btn" type="button" onclick="window.print()">Print summary</button><button class="btn ghost" type="button" id="reset">Start over for a new client</button></div>
+    </div><aside class="col-out">
     <section class="ready" id="ready"></section>
     <section class="plan"><h3>Where to start</h3><p class="phint">Your gaps in the order to tackle them: safety net first, then protection, then long-term goals.</p><div id="masterplan"></div></section>
     ${LIVE?`<section class="leadcard live-cta"><p class="lc-big">Gusto mo ng sarili mong plan? 🙋</p><p>Free clarity call with me, no pressure. Link sa bio ko! 👆</p><p class="lc-small">Or comment <b>PLAN</b> and I’ll message you.</p></section>`:`<section class="leadcard" id="leadcard">
@@ -732,11 +948,23 @@ function renderPanel(){
       <p class="lfmsg" id="lfMsg" role="status"></p></div>
       <p class="phint" style="margin-top:14px">Ready to talk? <a href="booking.html" class="inl">Book a Free Clarity Call</a></p>
     </section>`}
-    <div class="actions"><button class="btn" type="button" onclick="window.print()">Print summary</button><button class="btn ghost" type="button" id="reset">Start over for a new client</button></div>`;
+    </aside></div>`;
   }
   if(need)h=h.replace('</h2>',`</h2><div class="incrow"><label class="inc"><input type="checkbox" id="incbox"${included(need.id)?' checked':''}> Include in summary${(need.id in S.include)?'':(suggested(need.id)&&S.profile.length?' <span>(fits your situation)</span>':'')}</label><button type="button" class="clearpage" id="clearpage">Clear this calculator</button></div>`);
-  if(need)h+=`<section class="ready" id="ready"></section><div class="closing">${need.close}<br><a href="booking.html">Book a Free Clarity Call</a></div><section class="plan"><h3>Your next steps</h3><p class="phint">Based on your numbers above. Auto-updates habang nagta-type ka.</p><ol class="steps" id="steps"></ol></section>`;
+  if(need){
+    const m=h.match(/^\s*<h2>[\s\S]*?<\/h2>(?:<div class="incrow">[\s\S]*?<\/div>)?\s*<p class="lede"[^>]*>[\s\S]*?<\/p>/);
+    const head=m?m[0]:'',body=m?h.slice(m[0].length):h;
+    h=`<div class="phead">${head}<button type="button" class="tipsbtn" id="tipsbtn">${tipsOn?'Hide':'Show'} all tips</button></div>
+    ${sheetHTML(current)}
+    <details class="full" id="fullcalc"${fullOpen?' open':''}><summary><span class="lbl-closed">Show full calculator, tips &amp; next steps ▾</span><span class="lbl-open">Hide full calculator ▴</span></summary>
+    <div class="cols"><div class="col-in">${body}</div>
+    <aside class="col-out"><section class="ready" id="ready"></section>
+    <details class="plan" open><summary><h3>Your next steps</h3></summary><ol class="steps" id="steps"></ol></details>
+    <div class="closing">${need.close}<br><a href="booking.html">Book a Free Clarity Call</a></div></aside></div></details>`;
+  }
   P.innerHTML=h;
+  P.classList.toggle('tips',tipsOn);
+  addInfoButtons(P);
   if(typeof setEnterHints==='function')setTimeout(setEnterHints,0);
   document.getElementById('quote').textContent=QUOTES[current]||'';
   bind(P);update();
@@ -882,7 +1110,7 @@ async function sendPlan(){
   const name=document.getElementById('lfName').value.trim(),email=document.getElementById('lfEmail').value.trim(),ok=document.getElementById('lfConsent').checked,msg=document.getElementById('lfMsg'),btn=document.getElementById('lfSend');
   if(!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.textContent='Please enter your first name and a valid email.';msg.className='lfmsg err';return}
   if(!ok){msg.textContent='Please tick the consent box para ma-send namin ang plan mo.';msg.className='lfmsg err';return}
-  if(!S.client){S.client=name;document.getElementById('client').value=name;save()}
+  if(!S.client){S.client=name;save()}
   btn.disabled=true;btn.textContent='Sending…';msg.textContent='';
   const link=shareLink();
   try{const res=await fetch('/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,resultLink:link,answersLink:link})});
@@ -980,6 +1208,131 @@ function renderReady(){
   ${budgetLine(r,'half')}
   <p>This is one budget for all your policies. Don\'t double it kung may DIY saving ka rin sa other calculators.</p>`;
 }
+/* ---------- Sheet view (compact, live-friendly) ---------- */
+const pc=v=>v==null||!isFinite(v)?'—':peso(v);
+const SHEETS={
+  young:{title:'Starting Out',comment:'AGE | MONTHLY EXPENSES | SAVINGS | HMO LIMIT',
+    cells:[{p:'clientAge',l:'Age',t:'num'},{p:'young.expenses',l:'Monthly expenses',t:'money',w:1},{p:'efund',l:'Emergency savings',t:'money',w:1},{p:'young.hmo',l:'HMO limit',t:'money',w:1}],
+    black:['Months your savings can last',R=>R.young.ymonths==null?'—':R.young.ymonths.toFixed(1)+' months'],
+    goal:['Emergency fund target + hospital gap',R=>'6 MOS'],big:R=>R.young.gap,
+    note:'Based on '+'typical private hospital costs (estimates)',
+    head:['If you get sick with','Typical cost'],rows:R=>Object.entries(ILLNESS).map(([k,v])=>({c:[v[0],peso(v[1])],on:S.young.illness===k,click:k})),
+    target:['Save monthly to finish in 1 year',R=>R.young.gap>0?R.young.gap/12:0]},
+  protection:{title:'Family Protection',comment:'MONTHLY BUDGET | YEARS TO PROTECT | EXISTING COVERAGE',
+    cells:[{p:'protection.monthly',l:'Monthly family budget',t:'money',w:1},{p:'protection.years',l:'Years to protect',t:'num'},{p:'protection.provision',l:'Existing coverage',t:'money',w:1},{l:'Annual budget',v:R=>peso(R.protection.annual)}],
+    black:['Family protection need',R=>peso(R.protection.need)],
+    goal:['Years your family needs support',R=>(n(S.protection.years)||'—')+' YRS'],big:R=>R.protection.gap,
+    note:'Common guide for how long to protect income',
+    head:['Who depends on you','Protect until'],rows:R=>[{c:['Youngest child','Age 23 (graduates)']},{c:['Parents','Age 80']},{c:['Spouse','Age 65 or 80']}],
+    target:['Annual budget to replace',R=>R.protection.annual]},
+  breadwinner:{title:'Breadwinner Support',comment:'OWN EXPENSES | FAMILY SUPPORT | YEARS OF SUPPORT',
+    cells:[{p:'breadwinner.personal',l:'Own monthly expenses',t:'money',w:1},{p:'breadwinner.support',l:'Monthly family support',t:'money',w:1},{p:'breadwinner.years',l:'Years of support',t:'num'},{p:'breadwinner.provision',l:'Existing savings / coverage',t:'money',w:1}],
+    black:['Emergency fund need ('+'months below'+')',R=>peso(R.breadwinner.efund)],
+    goal:['Family support need',R=>peso(R.breadwinner.fsupport)],big:R=>R.breadwinner.gap,
+    note:'Emergency fund guide',
+    head:['Income type','Emergency fund'],rows:R=>[{c:['Regular job','6 months'],on:n(S.breadwinner.months)<=6},{c:['Freelance / OFW / seafarer','12 months'],on:n(S.breadwinner.months)>=12}],
+    target:['Total breadwinner need',R=>R.breadwinner.need]},
+  debt:{title:'Debt-Free Plan',comment:'BALANCE | INTEREST PER MONTH | MONTHLY PAYMENT',
+    cells:[{p:'debt.items.0.bal',l:'Debt balance',t:'money',w:1},{p:'debt.items.0.rate',l:'Interest % / month',t:'dec'},{p:'debt.items.0.pay',l:'Monthly payment',t:'money',w:1},{p:'debt.extra',l:'Extra payment',t:'money',w:1}],
+    black:['Debt-free in',R=>{const v=R.debt.rows.filter(x=>x.bal>0);return !v.length?'—':isFinite(R.debt.months)?ym(R.debt.months):'Payment too low'}],
+    goal:['Total interest you will pay',R=>isFinite(R.debt.interest)?peso(R.debt.interest):'—'],big:R=>R.debt.total,bigLabel:'Total debt',
+    note:'Which debt to pay first',
+    head:['Interest per month','Priority'],rows:R=>{const t=Math.max(0,...R.debt.rows.filter(x=>x.bal>0).map(x=>x.rate));return[{c:['3% and up (cards, apps)','Pay first'],on:t>=3},{c:['2% – 3%','High'],on:t>=2&&t<3},{c:['Below 2%','Normal'],on:t>0&&t<2}]},
+    target:['With extra payment, debt-free in',R=>R.debt.extra&&isFinite(R.debt.extra.months)?ym(R.debt.extra.months):'—']},
+  ofw:{title:'OFW & Seafarer',comment:'MONTHLY PADALA | MONTHS WITHOUT PAY | AGE TO COME HOME',
+    cells:[{p:'clientAge',l:'Age',t:'num'},{p:'ofw.monthly',l:'Monthly padala',t:'money',w:1},{p:'ofw.gapMonths',l:'Months without pay',t:'num'},{p:'ofw.homeAge',l:'Age to come home',t:'num'}],
+    black:['Contract gap fund (per year)',R=>peso(R.ofw.gapFund)],
+    goal:['Homecoming fund ('+'years below'+')',R=>peso(R.ofw.homeFund)],big:R=>R.ofw.gap,
+    note:'Your OFW plan',
+    head:['Fund','Amount'],rows:R=>[{c:['Contract gap fund',peso(R.ofw.gapFund)]},{c:['Homecoming fund',peso(R.ofw.homeFund)]},{c:['Business / house fund',peso(n(S.ofw.capital))]}],
+    target:['Save monthly to come home on time',R=>R.ofw.yrsAbroad?mo(Math.max(0,R.ofw.gap),R.ofw.yrsAbroad):0]},
+  education:{title:"Children's Education",comment:'CHILD AGE | SCHOOL | SAVINGS FOR COLLEGE',
+    cells:[{p:'education.children.0.age',l:"Child's age",t:'num'},{p:'education.children.0.school',l:'University',t:'school',w:2},{p:'education.children.0.provision',l:'Existing savings',t:'money',w:1}],
+    black:['Projected tuition by college',R=>peso(R.education.kids[0]?R.education.kids[0].cost:0)],
+    goal:['Years before college',R=>{const a=S.education.children[0];return a&&String(a.age).trim()!==''?Math.max(0,19-n(a.age))+' YRS':'— YRS'}],big:R=>R.education.gap,
+    note:'The earlier you start, the smaller the monthly',
+    head:['Start saving when child is','Monthly needed'],rows:R=>{const c=S.education.children[0],k=R.education.kids[0];if(!c||String(c.age).trim()===''||!k||k.gap<=0)return[{c:['—','—']}];const a=n(c.age);return[0,3,6].filter(d=>a+d<19).map((d,i)=>({c:[`Age ${a+d}${d?'':' (now)'}`,peso(mo(k.gap,19-a-d))],on:i===0}))},
+    target:['Save monthly from now',R=>{const c=S.education.children[0],k=R.education.kids[0];return c&&k&&k.gap>0&&n(c.age)<19?mo(k.gap,19-n(c.age)):0}]},
+  retirement:{title:'Retirement Planning',comment:'AGE | RETIREMENT AGE | MONTHLY INCOME',
+    cells:[{p:'clientAge',l:'Age',t:'num'},{p:'retirement.age',l:'Retirement age',t:'num'},{p:'retirement.monthly',l:'Monthly estimated expenses',t:'money',w:2},{l:'Productive years',v:R=>R.retirement.yrsToRet==null?'—':R.retirement.yrsToRet}],
+    sub:()=>`Average lifespan: 80 years old, Inflation ${esc(S.inflation)}%`,
+    black:['Projected monthly retirement income to cover expenses',R=>peso(R.retirement.projected)],
+    goal:['Retirement fund goal for entire retirement years',R=>R.retirement.retYears?R.retirement.retYears+' YRS':'— YRS'],big:R=>R.retirement.need,bigLabel:'Fund goal',
+    note:'Based on retirement planning playbook, we can allocate a percentage of income to our retirement fund',
+    head:['Age','Monthly income to save'],rows:R=>{const a=String(S.clientAge).trim()!==''?n(S.clientAge):null;return[[0,25,'18–25','10% – 12%'],[26,35,'26–35','12% – 15%'],[36,40,'36–40','15% – 20%'],[41,200,'40 above','>20%']].map(x=>({c:[x[2],x[3]],on:a!=null&&a>=x[0]&&a<=x[1]}))},
+    target:['Target savings / month minimum',R=>R.retirement.targetMin]},
+  goals:{title:'YOLO Savings Goals',comment:'GOAL | TARGET YEAR | AMOUNT NEEDED',
+    cells:[{p:'goals.goal',l:'Goal',t:'text',w:2},{p:'goals.year',l:'Target year',t:'num'},{p:'goals.amount',l:'Amount needed',t:'money',w:1},{p:'goals.provision',l:'Saved so far',t:'money',w:1}],
+    black:['Years to go',R=>R.goals.due==null?'—':R.goals.due+' yrs'],
+    goal:['Still to save',R=>''],big:R=>R.goals.gap,
+    note:'Where to keep your goal money',
+    head:['Time to goal','Keep it in'],rows:R=>{const d=R.goals.due;return[{c:['Under 3 years','Savings account'],on:d!=null&&d<3},{c:['3 – 5 years','Low-risk funds'],on:d!=null&&d>=3&&d<=5},{c:['Over 5 years','Long-term investments'],on:d!=null&&d>5}]},
+    target:['Save monthly',R=>R.goals.due&&R.goals.gap>0?mo(R.goals.gap,R.goals.due):0]},
+  business:{title:'Business Owner',comment:'BUSINESS DEBTS | MONTHLY FIXED COSTS | PARTNER SHARE',
+    cells:[{p:'business.debts',l:'Business debts',t:'money',w:1},{p:'business.fixed',l:'Monthly fixed costs',t:'money',w:1},{p:'business.months',l:'Months to recover',t:'num'},{p:'business.share',l:'Your share (if partners)',t:'money',w:1}],
+    black:['Key person fund',R=>peso(R.business.keyFund)],
+    goal:['Partner buyout fund',R=>peso(R.business.buyout)],big:R=>R.business.gap,
+    note:'What protects the business',
+    head:['Need','Amount'],rows:R=>[{c:['Business debts',peso(n(S.business.debts))]},{c:['Key person fund',peso(R.business.keyFund)]},{c:['Partner buyout',peso(R.business.buyout)]}],
+    target:['Total business need',R=>R.business.need]},
+  estate:{title:'Estate Conservation',comment:'LIQUID ASSETS | PROPERTY & SHARES | EXISTING COVERAGE',
+    cells:[{p:'estate.liquid',l:'Liquid assets',t:'money',w:1},{p:'estate.value',l:'Property & shares',t:'money',w:1},{p:'estate.provision',l:'Existing coverage',t:'money',w:1},{l:'Net estate',v:R=>peso(R.estate.total)}],
+    black:['Estate tax due (6%, TRAIN Law)',R=>peso(R.estate.tax)],
+    goal:['Cash your heirs need',R=>''],big:R=>R.estate.gap,
+    note:'Can your family pay the tax without selling?',
+    head:['Item','Amount'],rows:R=>[{c:['Estate tax',peso(R.estate.tax)]},{c:['Liquid assets',peso(n(S.estate.liquid))]},{c:['Would need to sell',peso(R.estate.mustSell)],on:R.estate.mustSell>0}],
+    target:['Property to sell if unprepared',R=>R.estate.mustSell]}
+};
+function sheetHTML(id){
+  const c=SHEETS[id];if(!c)return '';
+  const cell=(x,i)=>{
+    const span=x.w===2?' w2':'';
+    if(!x.p)return `<div class="sx-in calc${span}"><span>${x.l}</span><b class="num" data-sh="cell${i}">—</b></div>`;
+    const val=get(x.p);
+    if(x.t==='school')return `<label class="sx-in${span}"><span>${x.l}</span><select data-path="${x.p}" aria-label="${x.l}"><option value="">Choose a school</option>${SCHOOLS.map(s=>`<option${s===val?' selected':''}>${esc(s)}</option>`).join('')}</select></label>`;
+    const m=x.t==='money',im=x.t==='num'?'numeric':x.t==='text'?'text':'decimal';
+    return `<label class="sx-in${span}"><span>${x.l}</span><span class="sx-field${m?' peso':''}"><input class="num${x.t==='text'?' txt':''}" inputmode="${im}" data-path="${x.p}"${m?' data-money':''} value="${esc(m?fmtInput(val??''):(val??''))}" placeholder="${m?'0':'—'}" aria-label="${x.l}"></span></label>`;
+  };
+  return `<section class="sx" data-sheet="${id}">
+    <div class="sx-top"><div><p class="sx-kicker">Insurance Made Simple · Engr. Zeth</p><h3 class="sx-title">${c.title}</h3></div>
+      <div class="sx-comment"><span>Comment</span>${c.comment.split('|').map(t=>`<kbd>${t.trim()}</kbd>`).join('')}</div></div>
+    <div class="sx-inputs">${c.cells.map(cell).join('')}</div>
+    ${c.sub?`<p class="sx-sub">${c.sub()}</p>`:''}
+    <div class="sx-flow">
+      <div class="sx-tile"><span>${c.black[0]}</span><b class="num" data-sh="black">—</b></div>
+      <i class="sx-arrow" aria-hidden="true"></i>
+      <div class="sx-tile"><span>${c.goal[0]}</span><b class="num" data-sh="goal">—</b></div>
+      <i class="sx-arrow" aria-hidden="true"></i>
+      <div class="sx-hero"><svg class="sx-ring" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15.5" class="bg"/><circle cx="18" cy="18" r="15.5" class="fg" data-sh="ring" pathLength="100" stroke-dasharray="0 100"/></svg>
+        <div><span>${c.bigLabel||'Shortfall'}</span><b class="num" data-sh="big">₱0</b><small data-sh="cov"></small></div></div>
+    </div>
+    <div class="sx-bottom">
+      <div class="sx-guide"><p><b>${c.head[0]}</b> → ${c.head[1]}<em>${c.note}</em></p><div class="sx-chips" data-sh="rows"></div></div>
+      <div class="sx-move"><span>Your move</span><small>${c.target[0]}</small><b class="num" data-sh="target">—</b><em data-sh="ready"></em></div>
+    </div>
+  </section>`;
+}
+function syncSheet(R){
+  const el=document.querySelector('.sx');
+  if(!el){const lt=document.getElementById('liveTitle');if(lt&&current==='summary'){lt.querySelector('b').textContent='Your financial plan summary';lt.querySelector('span').textContent=''}return}
+  const id=el.dataset.sheet,c=SHEETS[id],q=k=>el.querySelector(`[data-sh="${k}"]`);
+  c.cells.forEach((x,i)=>{if(!x.p){const b=q('cell'+i);if(b)b.textContent=x.v(R)}});
+  q('black').textContent=c.black[1](R);
+  const g=c.goal[1](R);q('goal').textContent=g===''?'—':g;
+  const big=c.big(R);q('big').textContent=peso(Math.max(0,big||0));
+  const need=R[id]&&R[id].need,gap=R[id]&&R[id].gap,ring=q('ring');
+  if(need>0&&id!=='debt'&&id!=='retirement'){const cov=Math.max(0,Math.min(1,(need-Math.max(0,gap))/need));ring.setAttribute('stroke-dasharray',`${(cov*100).toFixed(1)} 100`);q('cov').textContent=`${Math.round(cov*100)}% covered`;el.querySelector('.sx-ring').style.display=''}
+  else if(id==='retirement'&&need>0){const cov=Math.max(0,Math.min(1,R.retirement.provision/need));ring.setAttribute('stroke-dasharray',`${(cov*100).toFixed(1)} 100`);q('cov').textContent=`${Math.round(cov*100)}% covered by SSS, MP2 & savings`;el.querySelector('.sx-ring').style.display=''}
+  else{ring.setAttribute('stroke-dasharray','0 100');q('cov').textContent='';el.querySelector('.sx-ring').style.display='none'}
+  q('rows').innerHTML=c.rows(R).map(r=>`<span class="sx-chip${r.on?' on':''}"${r.click?` data-ill="${r.click}" role="button" tabindex="0"`:''}><b>${r.c[0]}</b>${r.c[1]}</span>`).join('');
+  const t=c.target[1](R);q('target').textContent=typeof t==='number'?peso(t):t;
+  const rd=readiness(),badge={red:'🔴 Not yet: build your safety net first',yellow:'🟡 Insurance: yes, start small',green:'🟢 Ready for insurance',unknown:''}[rd.status]||'';
+  q('ready').textContent=id==='goals'?'':badge;
+  el.querySelectorAll('[data-ill]').forEach(tr=>tr.onclick=()=>{S.young.illness=tr.dataset.ill;S.young.illCost=String(ILLNESS[tr.dataset.ill][1]);const f=document.querySelector('#panel [data-path="young.illCost"]');if(f)f.value=fmtInput(S.young.illCost);const s=document.getElementById('illsel');if(s)s.value=tr.dataset.ill;update()});
+  el.querySelectorAll('[data-path="clientAge"]').forEach(i=>{if(document.activeElement!==i)i.value=S.clientAge||''});
+  const ha=document.getElementById('clientAge');if(ha&&document.activeElement!==ha)ha.value=S.clientAge||'';
+  const lt=document.getElementById('liveTitle');if(lt){lt.querySelector('b').textContent=c.title;lt.querySelector('span').innerHTML='Comment your '+c.comment.split('|').map(t=>`<kbd>${t.trim().toLowerCase()}</kbd>`).join('')}
+}
 function renderWaiting(){
   const box=document.getElementById('waiting');if(!box)return;
   const rows=TERM[S.young.tier]||TERM['3000'];
@@ -1013,8 +1366,21 @@ function confirmTap(btn,ask,action){
   btn.dataset.label=btn.textContent;btn.dataset.armed='1';btn.textContent=ask;btn.classList.add('armed');
   btn._t=setTimeout(()=>{btn.dataset.armed='';btn.textContent=btn.dataset.label;btn.classList.remove('armed')},4000);
 }
-function doClearAll(){S=blank();save();document.getElementById('client').value='';document.getElementById('clientAge').value='';current='young';renderChips();renderTabs();renderPanel();syncTabs();window.scrollTo(0,0)}
+function doClearAll(){S=blank();save();{const pf=document.getElementById('profile');if(pf)pf.open=true}current='young';renderChips();renderTabs();renderPanel();syncTabs();window.scrollTo(0,0)}
 function clearAll(ev){confirmTap(ev.currentTarget,'Tap again to clear everything',doClearAll)}
+let tipsOn=false,fullOpen=false;
+document.addEventListener('toggle',e=>{if(e.target.id==='fullcalc')fullOpen=e.target.open},true);
+function addInfoButtons(P){
+  P.querySelectorAll('.step').forEach(st=>{
+    const tips=st.querySelectorAll('.hint:not([id]), .why');
+    if(![...tips].some(t=>t.textContent.trim()))return;
+    const lbl=st.querySelector('.lbl, label');if(!lbl||lbl.querySelector('.info'))return;
+    const b=document.createElement('button');b.type='button';b.className='info';b.textContent='i';b.setAttribute('aria-label','Show explanation');
+    b.onclick=e=>{e.preventDefault();e.stopPropagation();st.classList.toggle('open');b.setAttribute('aria-expanded',st.classList.contains('open'))};
+    lbl.appendChild(b);
+  });
+  const tb=P.querySelector('#tipsbtn');if(tb)tb.onclick=()=>{tipsOn=!tipsOn;P.classList.toggle('tips',tipsOn);tb.textContent=(tipsOn?'Hide':'Show')+' all tips'};
+}
 function bind(P){
   P.querySelectorAll('[data-path]').forEach(el=>{
     const ev=el.tagName==='SELECT'||el.type==='checkbox'?'change':'input';
@@ -1039,11 +1405,7 @@ function bind(P){
     confirmTap(cp,'Tap again to clear',()=>{S[current]=blank()[current];save();renderPanel();renderTabs();syncTabs()})};
 }
 
-const ci=document.getElementById('client');ci.value=S.client||'';
-ci.addEventListener('input',()=>{S.client=ci.value;update();if(current==='summary'){const h=document.querySelector('.panel h2');if(h)h.textContent='Summary'+(S.client?' for '+S.client:'')}});
-const ca=document.getElementById('clientAge');ca.value=S.clientAge||'';
-ca.addEventListener('input',()=>{S.clientAge=ca.value;update()});
-if(LIVE){document.body.classList.add('is-live');document.getElementById('client').placeholder='First name only'}
+if(LIVE){document.body.classList.add('is-live')}
 document.getElementById('hook1').textContent=HOOK[0];document.getElementById('hook2').textContent=HOOK[1];
 renderChips();renderTabs();renderPanel();syncTabs();
 /* Enter = compute and jump to the next field (like a spreadsheet) */
@@ -1061,7 +1423,6 @@ document.addEventListener('keydown',e=>{
 });
 function setEnterHints(){document.querySelectorAll('header input[type=text], #panel input:not([type=checkbox])').forEach(x=>x.setAttribute('enterkeyhint','next'))}
 setEnterHints();
-document.getElementById('clearall').onclick=clearAll;
 </script>
 </body>
 </html>
