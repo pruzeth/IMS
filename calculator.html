@@ -178,6 +178,27 @@ body{padding-bottom:70px}
 .live-cta{background:var(--red);color:#fff;text-align:center}
 .live-cta .lc-big{font-size:1.5rem;font-weight:800;margin:0 0 6px}
 .live-cta p{margin:4px 0}.live-cta .lc-small{opacity:.9;font-size:.9rem}
+.why{display:block;margin-top:6px;padding:7px 10px;background:var(--soft);border-radius:8px;color:var(--ink);font-size:.82rem;line-height:1.45;font-weight:400}
+.why b{color:var(--red);font-weight:700;margin-right:2px}
+.moneycheck{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.moneycheck h2{font-size:1.05rem}
+.mc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.mc-grid label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:.88rem}
+.mc-grid small{font-weight:400;color:var(--muted)}
+.mc-grid .field input{background:#fff}
+.ready{margin-top:24px;border-radius:14px;padding:16px 18px;border:1.5px solid var(--line);font-size:.92rem;line-height:1.55}
+.ready p{margin:6px 0}
+.ready ul{margin:6px 0;padding-left:20px}
+.ready li{margin:3px 0}
+.rd-t{font-weight:800;font-size:1.05rem;margin-top:0!important}
+.rd-b{background:#fff;border-radius:10px;padding:8px 12px}
+.rd-b small{color:var(--muted)}
+.rd-red{background:#FFF4F4;border-color:#F3B7BC}
+.rd-yellow{background:#FFF9E8;border-color:#F1D58A}
+.rd-green{background:#F0F8F3;border-color:#A9D5BA}
+.rd-unknown,.rd-info{background:#FAFAFA}
+.rd-cta{font-size:.88rem;color:var(--muted)}
+.rd-cta a{color:var(--red);font-weight:700}
 .part{font-size:1.15rem;margin:30px 0 4px;padding-top:18px;border-top:2px solid var(--red);color:var(--red)}
 .wait tr.now td{font-weight:700;color:var(--red)}
 .waitmsg{background:var(--soft);border-radius:12px;padding:12px 14px;margin:12px 0 0}
@@ -235,6 +256,15 @@ footer p{margin:6px 0}
     <h2 id="profh">What's the client's situation?</h2>
     <p class="phint">I-tap lahat ng swak. Yung mga calculator lang na bagay sa situation mo ang papasok sa summary.</p>
     <div class="chips" id="chips"></div>
+    <div class="moneycheck">
+      <h2>Money check</h2>
+      <p class="phint">Para malaman natin kung kaya at sustainable ang insurance ngayon. Estimate lang, okay lang kung hindi exact.</p>
+      <div class="mc-grid">
+        <label>Monthly take-home income<span class="field peso"><input class="num" inputmode="decimal" data-mpath="money.income" data-money placeholder="0"></span></label>
+        <label>Monthly expenses <small>(kasama ang hulog sa utang)</small><span class="field peso"><input class="num" inputmode="decimal" data-mpath="money.expenses" data-money placeholder="0"></span></label>
+        <label>Current savings<span class="field peso"><input class="num" inputmode="decimal" data-mpath="money.savings" data-money placeholder="0"></span></label>
+      </div>
+    </div>
   </section>
   <p class="navlabel">Calculators <span>(yung malabo, hindi kasama sa summary)</span></p>
   <nav class="needs" id="tabs" role="tablist" aria-label="Needs"></nav>
@@ -303,7 +333,7 @@ const QUOTES={
   estate:'Leave your family a legacy, not a burden.',
   summary:'Small steps today, big peace of mind tomorrow.'
 };
-const blank=()=>({client:'',profile:[],include:{},clientAge:'',inflation:'4',diyRate:'0',
+const blank=()=>({money:{income:'',expenses:'',savings:''},client:'',profile:[],include:{},clientAge:'',inflation:'4',diyRate:'0',
   protection:{monthly:'',years:'',provision:'',premium:'',childAge:'',parentAge:'',spouseAge:'',spouseMode:'65'},
   education:{children:[{name:'Child 1',school:'',age:'',five:false,provision:''}],premium:''},
   young:{hmo:'',illness:'appendix',illCost:'150000',expenses:'',savings:'',tier:'3000',premium:''},
@@ -501,6 +531,7 @@ function update(){
   if(current==='breadwinner'){const ub=document.getElementById('usebw'),a=S.breadwinner.parentAge;
     if(ub){const y=String(a).trim()!==''?Math.max(0,80-n(a)):null;ub.disabled=y==null;ub.dataset.y=y??'';ub.textContent=y==null?'Gamitin ang lifetime ng parent':`Gamitin ang ${y} taon (hanggang 80)`}}
   if(current!=='summary')renderSteps(R);
+  renderReady();
   if(current==='summary'){renderSummaryTable(R);renderMasterPlan(R)}
   if(current==='protection'){const y=yearsHelper(S.protection);const yo=document.getElementById('yh');const ub=document.getElementById('useyrs');
     if(yo){yo.textContent=y==null?'Lagay ng kahit isang edad':`Pinakamahaba: ${y} taon`;ub.disabled=y==null;ub.dataset.y=y??''}
@@ -517,7 +548,8 @@ const money=(path,label,hint='',k='')=>step(k,label,hint,`<div class="field peso
 const number=(path,label,hint,k,unit)=>step(k,label,hint,`<div class="field has-unit"><input class="num" inputmode="numeric" data-path="${path}" value="${esc(get(path))}" aria-label="${esc(label)}" placeholder="0"><span class="unit">${unit}</span></div>`);
 const calcRow=(k,label,hint,out,result=false)=>`<div class="step calc${result?' result':''}"><span class="k">${k}</span><span><span class="lbl">${label}</span>${hint?`<span class="hint">${hint}</span>`:''}${result?'<span class="hint surplus"></span>':''}</span><span class="val num${result?' gapval':''}" data-out="${out}">₱0</span></div>`;
 function step(k,label,hint,control){return `<div class="step"><span class="k">${k}</span><span><span class="lbl">${label}</span>${hint?`<span class="hint">${hint}</span>`:''}</span>${control}</div>`}
-const premium=(id)=>money(id+'.premium','DIY saving','Magkano ang kaya mong itabi kada buwan, sa sarili mong diskarte.','')+
+const W=t=>`<span class="why"><b>Bakit?</b> ${t}</span>`;
+const premium=(id)=>money(id+'.premium','DIY saving','Magkano ang kaya mong itabi kada buwan, sa sarili mong diskarte.'+W('Para makita kung gaano katagal kung ikaw lang ang mag-iipon. Kung masyadong matagal, may ibang paraan para ma-cover ka agad habang nag-iipon.'),'')+
   `<div class="step" style="border:0;padding-top:0"><span></span><div class="helper"><label class="ratefield">Interest earned on savings <span class="field has-unit" style="display:inline-block"><input class="num" inputmode="decimal" data-path="diyRate" value="${esc(S.diyRate)}" aria-label="Interest earned on savings, percent a year"><span class="unit">%</span></span> a year</label><p class="diyout" data-diy="${id}"></p></div></div>`;
 function get(path){return path.split('.').reduce((o,k)=>o?.[k],S)}
 function set(path,v){const ks=path.split('.');let o=S;for(let i=0;i<ks.length-1;i++)o=o[ks[i]];o[ks.at(-1)]=v}
@@ -530,15 +562,15 @@ function renderPanel(){
     h=`<h2>Family protection</h2><p class="lede">Magkano ang kailangan ng pamilya para tuloy ang buhay nila kung sakaling mawala ang breadwinner, at magkano na ang naka-ready.</p>
     ${money('protection.monthly','Monthly budget','Magkano ang gastos ng pamilya sa isang normal na buwan.','A')}
     ${calcRow('B','Annual budget','A × 12 buwan','protection.annual')}
-    ${number('protection.years','Years to protect income','Hindi sure? Gamitin ang helper sa baba.','C','years')}
+    ${number('protection.years','Years to protect income','Hindi sure? Gamitin ang helper sa baba.'+W('Para alam natin hanggang kailan kailangan ng pamilya ang suporta mo, usually hanggang makatapos ang bunso o mag-retire ang asawa.'),'C','years')}
     <div class="step" style="border:0;padding-top:0"><span></span><div class="helper">
       <div class="row"><span>Age of youngest child <span class="hint" style="display:inline">(hanggang 23)</span></span><input inputmode="numeric" data-path="protection.childAge" value="${esc(S.protection.childAge)}" aria-label="Age of youngest child"><span class="yrs num" data-yr="c">—</span></div>
       <div class="row"><span>Age of younger parent <span class="hint" style="display:inline">(hanggang 80)</span></span><input inputmode="numeric" data-path="protection.parentAge" value="${esc(S.protection.parentAge)}" aria-label="Age of younger parent"><span class="yrs num" data-yr="p">—</span></div>
       <div class="row"><span>Age of spouse, until <select data-path="protection.spouseMode" aria-label="Spouse coverage period" style="width:auto;display:inline-block;margin-left:4px"><option value="65"${S.protection.spouseMode==='65'?' selected':''}>65 (retirement)</option><option value="80"${S.protection.spouseMode==='80'?' selected':''}>80 (lifetime)</option></select></span><input inputmode="numeric" data-path="protection.spouseAge" value="${esc(S.protection.spouseAge)}" aria-label="Age of spouse"><span class="yrs num" data-yr="s">—</span></div>
       <div class="foot"><span id="yh" class="num">Lagay ng kahit isang edad</span><button class="btn ghost" id="useyrs" type="button" disabled>Use these years</button></div>
     </div></div>
-    ${calcRow('D','Family protection need','B × C','protection.need')}
-    ${money('protection.provision','Provision already made','Life insurance, ipon at investments na nakalaan na para sa pamilya.','E')}
+    ${calcRow('D','Family protection need','B × C'+W('Ito ang total na income na mawawala sa pamilya kung biglang tumigil ang sweldo mo. Ito ang dapat mapalitan para tuloy ang buhay nila.'),'protection.need')}
+    ${money('protection.provision','Provision already made','Life insurance, ipon at investments na nakalaan na para sa pamilya.'+W('Binabawas natin ang meron ka na, para ang lalabas ay yung talagang kulang pa lang.'),'E')}
     ${calcRow('F','Protection shortfall','D − E','protection.gap',true)}
     ${premium('protection')}`;
   }
@@ -546,15 +578,15 @@ function renderPanel(){
     const yv=S.young;
     h=`<h2>Starting out</h2><p class="lede">Bata, healthy at single? Baka hindi mo pa kailangan ng malaking policy. Pero isang hospital bill lang, puwedeng maubos ang ilang taon mong ipon. At habang tumatagal, mas mahal ang protection.</p>
     <h3 class="part">Is your HMO enough?</h3>
-    ${money('young.hmo','HMO limit per illness','Galing sa company mo o sarili mong plan. Iwan lang blank kung wala. Heads up: nawawala ang company HMO pag umalis ka sa work.','A')}
+    ${money('young.hmo','HMO limit per illness','Galing sa company mo o sarili mong plan. Iwan lang blank kung wala. Heads up: nawawala ang company HMO pag umalis ka sa work.'+W('Para makita kung hanggang saan lang ang sagot ng HMO. Madalas, kulang ito pag malala ang sakit.'),'A')}
     ${step('B','If you got sick with','Karaniwang gastos sa private hospital. Estimate lang ito, puwede mong palitan.',`<div class="field"><select data-path="young.illness" id="illsel" aria-label="Illness">${Object.entries(ILLNESS).map(([k,v])=>`<option value="${k}"${yv.illness===k?' selected':''}>${v[0]}</option>`).join('')}</select></div>`)}
     ${money('young.illCost','Estimated cost','','')}
-    ${calcRow('C','Not covered by HMO','B − A, galing sa sariling bulsa','young.illGap')}
+    ${calcRow('C','Not covered by HMO','B − A, galing sa sariling bulsa'+W('Ito ang lalabas sa sariling bulsa mo. Kung walang nakahandang pondo, ipon o utang ang tatamaan.'),'young.illGap')}
     <h3 class="part">Can your savings handle it?</h3>
     ${money('young.expenses','Monthly expenses','Rent, pagkain, bills, pamasahe, load.','D')}
     ${money('young.savings','Current savings','','E')}
     <div class="step" style="border:0;padding-top:0"><span></span><div class="helper"><p class="diyout" id="ynote"></p></div></div>
-    ${calcRow('F','Emergency fund target','D × 6 buwan','young.efTarget')}
+    ${calcRow('F','Emergency fund target','D × 6 buwan'+W('Para may pambayad ka sa biglaang gastos, o kung mawalan ka ng work, nang hindi umuutang. Ito ang pinaka-unang safety net mo.'),'young.efTarget')}
     ${calcRow('G','Starting-out shortfall','C + F − E','young.gap',true)}
     ${premium('young')}
     <h3 class="part">What does waiting cost?</h3>
@@ -572,11 +604,11 @@ function renderPanel(){
       ${money(`debt.items.${i}.pay`,'Monthly payment','','')}</div>`});
     h+=`<div class="actions" style="margin:0 0 10px"><button class="btn ghost" id="adddebt" type="button">Add another debt</button></div>
     ${money('debt.income','Monthly income','Optional. Para makita kung gaano kalaki ng sweldo ang napupunta sa utang.','')}
-    ${money('debt.extra','Extra you could pay each month','Optional. Para makita kung gaano ka kabilis magiging debt-free.','')}
+    ${money('debt.extra','Extra you could pay each month','Optional. Para makita kung gaano ka kabilis magiging debt-free.'+W('Kahit maliit na dagdag, malaki ang natitipid sa interest at mas mabilis kang makakalaya sa utang.'),'')}
     <div id="debtinfo" class="helper" style="margin:8px 0 0"></div>
     <h3 class="part">If something happens before it's paid</h3>
     <p class="lede" style="margin-bottom:8px">Kung may mangyari sa iyo, babayaran muna ang utang mula sa maiiwan mo bago makatanggap ang pamilya.</p>
-    ${calcRow('A','Total debt','Lahat ng balance sa taas','debt.total')}
+    ${calcRow('A','Total debt','Lahat ng balance sa taas'+W('Kung may mangyari sa iyo, kukunin muna ang bayad sa utang mula sa maiiwan mo, kaya bawas ito sa matatanggap ng pamilya.'),'debt.total')}
     ${money('debt.provision','Provision already made','Loan insurance na magbabayad ng utang (madalas meron sa housing o car loan), plus ipon na nakatabi.','B')}
     ${calcRow('C','Debt protection shortfall','A − B','debt.gap',true)}
     ${premium('debt')}`;
@@ -585,11 +617,11 @@ function renderPanel(){
     h=`<h2>OFW & seafarer</h2><p class="lede">Malaki ang kita abroad, pero tigil ang sweldo sa pagitan ng contracts, at ang goal ay makauwi for good. Dito natin pagplanuhan pareho.</p>
     ${money('ofw.monthly','Family\'s monthly budget at home','Kadalasan, ito yung monthly padala.','A')}
     ${number('ofw.gapMonths','Months without pay each year','Bakasyon o hintay sa next contract. Sa seafarers, madalas 2 hanggang 4 buwan.','B','months')}
-    ${calcRow('','Contract gap fund','A × B, ipon para tuloy ang padala habang walang contract','ofw.gapFund')}
+    ${calcRow('','Contract gap fund','A × B'+W('Para tuloy ang padala kahit nasa bakasyon ka o naghihintay ng next contract, nang hindi umuutang.'),'ofw.gapFund')}
     ${number('ofw.homeAge','Age to come home for good','','C','years old')}
     <div class="step calc"><span class="k"></span><span><span class="lbl">Monthly budget when you come home</span><span class="hint" id="ofwnote"></span></span><span class="val num" data-out="ofw.homeMonthly">₱0</span></div>
     ${number('ofw.bridgeYears','Years to cover after coming home','Hanggang may negosyo, trabaho dito, o pension na susuporta sa pamilya.','D','years')}
-    ${calcRow('','Homecoming fund','Monthly budget pag-uwi × 12 × D','ofw.homeFund')}
+    ${calcRow('','Homecoming fund','Monthly budget pag-uwi × 12 × D'+W('Para pag-uwi mo for good, may panggastos ang pamilya habang nagsisimula ka ulit dito, at hindi mo na kailangang bumalik abroad.'),'ofw.homeFund')}
     ${money('ofw.capital','Business or house fund','Puhunan sa negosyo, o pang-tapos ng bahay. Iwan blank kung wala.','E')}
     ${calcRow('F','Total OFW need','Contract gap fund + homecoming fund + E','ofw.need')}
     ${money('ofw.provision','Provision already made','Ipon, investments, MP2, insurance na nakalaan dito.','G')}
@@ -601,13 +633,13 @@ function renderPanel(){
     ${money('breadwinner.personal','Your own monthly expenses','Rent, pagkain, pamasahe, bills, para sa sarili mo.','A')}
     ${money('breadwinner.support','Monthly support you give your family','Allowance nina mama at papa, tuition ng kapatid, bills sa bahay.','B')}
     ${number('breadwinner.months','Months of emergency fund','Usually 6 buwan; 12 kung pabago-bago ang income mo (freelance, OFW, seafarer).','C','months')}
-    ${calcRow('D','Emergency fund need','(A + B) × C','breadwinner.efund')}
+    ${calcRow('D','Emergency fund need','(A + B) × C'+W('Para kahit mawalan ka ng income ng ilang buwan, tuloy ang gastos mo at ang padala sa pamilya habang naghahanap ka ng bagong source.'),'breadwinner.efund')}
     ${number('breadwinner.years','Years your family will rely on your support','Hanggang makatapos ang bunso, o habambuhay nina mama at papa.','E','years')}
     <div class="step" style="border:0;padding-top:0"><span></span><div class="helper">
       <div class="row r2"><span>Age of younger parent</span><input inputmode="numeric" data-path="breadwinner.parentAge" value="${esc(S.breadwinner.parentAge)}" aria-label="Age of younger parent"></div>
       <div class="foot"><span></span><button class="btn ghost" id="usebw" type="button" disabled>Gamitin ang lifetime ng parent</button></div>
     </div></div>
-    ${calcRow('F','Family support need','B × 12 × E','breadwinner.fsupport')}
+    ${calcRow('F','Family support need','B × 12 × E'+W('Ito ang suportang mawawala sa pamilya kung hindi ka na makapagtrabaho. Ito ang kailangang mapalitan para hindi sila maipit.'),'breadwinner.fsupport')}
     ${calcRow('G','Total breadwinner need','D + F','breadwinner.need')}
     ${money('breadwinner.provision','Provision already made','Emergency savings, life insurance, income protection.','H')}
     ${calcRow('I','Breadwinner shortfall','G − H','breadwinner.gap',true)}
@@ -620,7 +652,7 @@ function renderPanel(){
       ${step('A','University choice','',`<div class="field"><select data-path="education.children.${i}.school" aria-label="University choice"><option value="">Choose a school</option>${SCHOOLS.map(s=>`<option${s===c.school?' selected':''}>${esc(s)}</option>`).join('')}</select></div>`)}
       ${step('B',"Child's age",'Edad 0 hanggang 14 ang sakop ng tuition table.',`<div class="field has-unit"><input class="num" inputmode="numeric" data-path="education.children.${i}.age" value="${esc(c.age)}" aria-label="Child's age" placeholder="0"><span class="unit">years</span></div>`)}
       <div class="step" style="border:0;padding-top:0"><span></span><label class="check"><input type="checkbox" data-path="education.children.${i}.five"${c.five?' checked':''}> Five-year course (dagdag isang taon ng gastos)</label></div>
-      ${calcRow('C','Projected tuition and related costs','Total na gastos pagdating ng college.',`education.kids.${i}.cost`)}
+      ${calcRow('C','Projected tuition and related costs','Total na gastos pagdating ng college.'+W('Tumataas ang tuition taon-taon, kaya ito ang presyo pagdating ng college, hindi ang presyo ngayon.'),`education.kids.${i}.cost`)}
       ${money(`education.children.${i}.provision`,'Provision already made','Educational plan, ipon o investments para sa batang ito.','D')}
       ${calcRow('E','Education shortfall','C − D',`education.kids.${i}.gap`,true)}</div>`});
     h+=`<div class="actions" style="margin:0 0 10px"><button class="btn ghost" id="addchild" type="button">Add another child</button></div>`;
@@ -632,10 +664,10 @@ function renderPanel(){
     ${number('retirement.age','Desired retirement age','','A','years old')}
     ${money('retirement.monthly','Desired monthly retirement allowance','Sa halaga ng piso ngayon.','B')}
     <div class="step" style="border:0;padding-top:0"><span></span><div class="helper"><label class="ratefield">Expected inflation <span class="field has-unit" style="display:inline-block"><input class="num" inputmode="decimal" data-path="inflation" value="${esc(S.inflation)}" aria-label="Expected inflation, percent a year"><span class="unit">%</span></span> a year</label></div></div>
-    <div class="step calc"><span class="k"></span><span><span class="lbl">Monthly allowance in future pesos</span><span class="hint" id="projlbl"></span></span><span class="val num" data-out="retirement.projected">₱0</span></div>
+    <div class="step calc"><span class="k"></span><span><span class="lbl">Monthly allowance in future pesos</span><span class="hint" id="projlbl"></span>${W('Dahil sa inflation, tumataas ang presyo ng bilihin. Para sa parehong lifestyle pagtanda, mas malaki ang kailangan kaysa ngayon.')}</span><span class="val num" data-out="retirement.projected">₱0</span></div>
     ${number('retirement.years','Period to receive the allowance','Ilang taon dapat tatagal ang allowance.','C','years')}
-    ${calcRow('D','Retirement need','Future monthly allowance × 12 × C','retirement.need')}
-    <div class="step"><span class="k">E</span><span><span class="lbl">Provision already made</span><span class="hint">Fill-up lang ang applicable sa baba. Skip mo na kung wala.</span></span><span></span>
+    ${calcRow('D','Retirement need','Future monthly allowance × 12 × C'+W('Ito ang kabuuang pondo para may allowance ka buwan-buwan hanggang dulo ng retirement.'),'retirement.need')}
+    <div class="step"><span class="k">E</span><span><span class="lbl">Provision already made</span><span class="hint">Fill-up lang ang applicable sa baba. Skip mo na kung wala.</span>${W('Kasama ang SSS at MP2 kasi parte sila ng retirement income mo, kaya mas totoo ang gap na lalabas.')}</span><span></span>
       <div class="helper">
         <p class="subhead">SSS pension</p>
         <div class="row r2"><span>Monthly SSS contribution</span><input inputmode="decimal" data-path="retirement.sssContrib" value="${esc(S.retirement.sssContrib)}" aria-label="Monthly SSS contribution" placeholder="₱"></div>
@@ -663,7 +695,7 @@ function renderPanel(){
   else if(current==='goals'){
     h=`<h2>YOLO savings goals</h2><p class="lede">Travel, bagong phone, kotse, kasal, negosyo. Kahit ano pa yan, ipunan natin para ma-enjoy mo nang walang utang. ✈️</p>
     ${step('A','Future goal','',`<div class="field"><input class="text" data-path="goals.goal" value="${esc(S.goals.goal)}" placeholder="e.g. Japan trip, bagong kotse, kasal" aria-label="Future goal"></div>`)}
-    ${number('goals.year','Target year','Kailan mo kailangan ang pera.','B','')}
+    ${number('goals.year','Target year','Kailan mo kailangan ang pera.'+W('Para alam natin kung magkano ang kailangang itabi kada buwan para umabot sa oras.'),'B','')}
     ${money('goals.amount','Amount required','','C')}
     ${money('goals.provision','Provision already made','Ipon o investments na nakalaan para dito.','D')}
     ${calcRow('E','Goal shortfall','C − D','goals.gap',true)}
@@ -673,15 +705,15 @@ function renderPanel(){
     const bz=S.business;
     h=`<h2>Business owner</h2><p class="lede">Kung may mangyari sa owner o magkasakit nang malala, tuloy pa ba ang negosyo? At makukuha pa ba ng pamilya ang tamang halaga nito?</p>
     <h3 class="part">Who pays the business debts?</h3>
-    ${money('business.debts','Business debts and personal guarantees','Bank loans, utang sa suppliers, at leases na personal na pinirmahan ng owner.','A')}
+    ${money('business.debts','Business debts and personal guarantees','Bank loans, utang sa suppliers, at leases na personal na pinirmahan ng owner.'+W('Kapag personal mong pinirmahan, puwedeng singilin ito sa estate mo at maipit ang pamilya.'),'A')}
     <h3 class="part">Can the business run without you?</h3>
     ${money('business.fixed','Monthly fixed costs','Sweldo ng staff, rent, utilities, hulog sa loan.','B')}
     ${number('business.months','Months to find a replacement or close properly','Usually 6 buwan; mas matagal kung ikaw ang nagdadala ng karamihan ng benta.','C','months')}
-    ${calcRow('D','Key person fund','B × C','business.keyFund')}
+    ${calcRow('D','Key person fund','B × C'+W('Para tuloy ang sweldo ng staff at bayarin habang naghahanap ng kapalit mo o inaayos ang negosyo.'),'business.keyFund')}
     <h3 class="part">Can your family be paid out?</h3>
     <div class="step" style="border-top:0"><span></span><label class="check" style="margin:0;color:var(--ink);font-weight:600"><input type="checkbox" id="bzpart" data-path="business.partners"${bz.partners?' checked':''}> The business has partners or co-owners</label></div>
     ${bz.partners?`${money('business.share','Value of the owner\'s share','Magkano ang ibabayad ng partners sa pamilya para mabili ito.','E')}
-    ${calcRow('','Buyout fund','Para may cash ang pamilya at tuloy ang negosyo sa partners','business.buyout')}`:`<p class="note" style="margin:0 0 8px;color:var(--muted);font-size:.88rem">Sole owner? Mapupunta sa pamilya ang negosyo. Isama ang value nito sa Estate conservation, kasi may estate tax din dito.</p>`}
+    ${calcRow('','Buyout fund','Para may cash ang pamilya at tuloy ang negosyo sa partners'+W('Para hindi maipit ang pamilya sa negosyong hindi nila kayang patakbuhin, at hindi rin maipit ang partners mo.'),'business.buyout')}`:`<p class="note" style="margin:0 0 8px;color:var(--muted);font-size:.88rem">Sole owner? Mapupunta sa pamilya ang negosyo. Isama ang value nito sa Estate conservation, kasi may estate tax din dito.</p>`}
     ${calcRow('F','Total business need','A + D'+(bz.partners?' + buyout':''),'business.need')}
     ${money('business.provision','Provision already made','Key person o business insurance, cash reserves.','G')}
     ${calcRow('H','Business shortfall','F − G','business.gap',true)}
@@ -692,7 +724,7 @@ function renderPanel(){
     ${money('estate.liquid','Liquid assets','Cash, bank deposits, stocks, funds, yung madaling gawing cash.','A')}
     ${money('estate.value','Assets that are hard to sell quickly','Lupa, bahay, condo, farm, business shares.','B')}
     ${calcRow('C','Net estate','A + B, bawas na ang utang','estate.total')}
-    ${calcRow('D','Estimated estate tax payable','6% ng C ayon sa RA 10963 (TRAIN Law)','estate.tax')}
+    ${calcRow('D','Estimated estate tax payable','6% ng C ayon sa RA 10963 (TRAIN Law)'+W('Kailangan itong bayaran bago mailipat sa pangalan ng heirs ang assets. Habang hindi bayad, nakabinbin ang lupa, bahay at accounts.'),'estate.tax')}
     ${money('estate.provision','Provision already made','Life insurance na nakalaan para sa estate tax.','E')}
     ${calcRow('F','Estate conservation shortfall','D − E','estate.gap',true)}
     <div class="step" style="border:0;padding-top:0"><span></span><div class="helper"><p class="diyout" id="estnote"></p></div></div>
@@ -702,6 +734,7 @@ function renderPanel(){
     h=`<h2>Summary${S.client?' for '+esc(S.client):''}</h2><p class="lede">Lahat ng needs mo sa isang tingin, kasama kung magkano ang kaya mong itabi at gaano katagal.</p>
     <div class="tablewrap"><table class="sum"><thead><tr><th>Need</th><th>Shortfall</th><th>DIY saving / month</th><th>Time to save</th></tr></thead><tbody id="sumbody"></tbody><tfoot><tr><td>Total</td><td class="num" id="sumgap"></td><td class="num" id="sumprem"></td><td></td></tr></tfoot></table></div>
     <p class="note sumoff" id="sumoff"></p>
+    <section class="ready" id="ready"></section>
     <section class="plan"><h3>Where to start</h3><p class="phint">Ang mga gap mo, ayon sa dapat unahin: safety net muna, tapos protection, tapos long-term goals.</p><div id="masterplan"></div></section>
     ${LIVE?`<section class="leadcard live-cta"><p class="lc-big">Gusto mo ng sarili mong plan? 🙋</p><p>Free clarity call with me, no pressure. Link sa bio ko! 👆</p><p class="lc-small">O i-comment ang <b>PLAN</b>, ime-message kita.</p></section>`:`<section class="leadcard" id="leadcard">
       <h3>Get your plan sent to you</h3>
@@ -716,7 +749,7 @@ function renderPanel(){
     <div class="actions"><button class="btn" type="button" onclick="window.print()">Print summary</button><button class="btn ghost" type="button" id="reset">Start over for a new client</button></div>`;
   }
   if(need)h=h.replace('</h2>',`</h2><div class="incrow"><label class="inc"><input type="checkbox" id="incbox"${included(need.id)?' checked':''}> Include in summary${(need.id in S.include)?'':(suggested(need.id)&&S.profile.length?' <span>(swak sa situation mo)</span>':'')}</label><button type="button" class="clearpage" id="clearpage">Clear this calculator</button></div>`);
-  if(need)h+=`<div class="closing">${need.close}<br><a href="booking.html">Book a Free Clarity Call</a></div><section class="plan"><h3>Your next steps</h3><p class="phint">Base sa numbers sa taas. Nag-a-update habang nagta-type ka.</p><ol class="steps" id="steps"></ol></section>`;
+  if(need)h+=`<section class="ready" id="ready"></section><div class="closing">${need.close}<br><a href="booking.html">Book a Free Clarity Call</a></div><section class="plan"><h3>Your next steps</h3><p class="phint">Base sa numbers sa taas. Nag-a-update habang nagta-type ka.</p><ol class="steps" id="steps"></ol></section>`;
   P.innerHTML=h;
   if(typeof setEnterHints==='function')setTimeout(setEnterHints,0);
   document.getElementById('quote').textContent=QUOTES[current]||'';
@@ -879,6 +912,67 @@ function renderSticky(total){
   el.innerHTML=current==='summary'?`<span>Total gap <b>${peso(total)}</b></span><a href="booking.html" class="sbtn">Book a free call</a>`:`<span>Total gap <b>${peso(total)}</b></span><button type="button" class="sbtn" id="stickyGo">Get my free plan</button>`;
   const g=document.getElementById('stickyGo');if(g)g.onclick=()=>{current='summary';renderPanel();syncTabs();setTimeout(()=>{const lc=document.getElementById('leadcard');if(lc)lc.scrollIntoView({behavior:'smooth',block:'start'})},50)};
 }
+/* ---------- Insurance readiness ---------- */
+function readiness(){
+  const m=S.money,inc=n(m.income),exp=n(m.expenses),sav=n(m.savings);
+  if(!(inc>0)||!(exp>0))return {status:'unknown'};
+  const free=inc-exp,efm=sav/exp;
+  const dItems=S.debt.items.map(x=>({bal:n(x.bal),rate:n(x.rate),pay:n(x.pay)})).filter(x=>x.bal>0);
+  const debtPay=dItems.reduce((s,x)=>s+x.pay,0),dti=debtPay/inc;
+  const stuck=dItems.some(x=>!isFinite(payoffMonths(x.bal,x.rate,x.pay)));
+  const reasons=[];
+  if(free<=0)reasons.push(free<0?`mas malaki ang gastos (${peso(exp)}) kaysa income (${peso(inc)}) kada buwan`:'sakto lang ang income sa gastos, walang natitira');
+  if(dti>0.4)reasons.push(`${Math.round(dti*100)}% ng income ang napupunta sa utang (target: below 40%)`);
+  if(stuck)reasons.push('may utang na hindi pa nababawasan dahil kulang ang hulog sa interest');
+  if(reasons.length)return {status:'red',inc,exp,sav,free,efm,dti,reasons};
+  const soft=[];
+  if(efm<3)soft.push(`${efm.toFixed(1)} buwan pa lang ang kaya ng ipon (target: at least 3)`);
+  if(dti>0.2)soft.push(`${Math.round(dti*100)}% ng income ang napupunta sa utang`);
+  if(free<inc*0.1)soft.push(`maliit pa ang natitira kada buwan (${peso(free)})`);
+  if(soft.length)return {status:'yellow',inc,exp,sav,free,efm,dti,reasons:soft,budget:Math.max(0,Math.min(inc*0.05,free*0.3))};
+  return {status:'green',inc,exp,sav,free,efm,dti,budget:Math.max(0,Math.min(inc*0.10,free*0.5))};
+}
+const NEED_FIT={
+  young:{g:'Unahin ang health o critical illness coverage, tapos basic term life. Mas mura habang bata at healthy.',y:'Health o critical illness coverage muna, maliit na halaga lang, habang binubuo ang emergency fund.'},
+  protection:{g:'Life insurance ang pangunahing sagot sa gap na ito, para covered agad ang pamilya.',y:'Basic term life muna para sa pinakamahalagang bahagi ng gap. Puwedeng dagdagan pag lumuwag ang budget.'},
+  breadwinner:{g:'Life at disability coverage para tuloy ang suporta kahit may mangyari.',y:'Basic life o disability coverage muna, maliit lang, habang inuuna ang emergency fund.'},
+  ofw:{g:'Life at accident coverage habang abroad, plus ipon para sa pag-uwi.',y:'Basic life o accident coverage muna habang abroad. Ang homecoming fund, ipon muna.'},
+  education:{g:'Puwede ang plan na may savings component para sa education, pero siguraduhing covered muna ang parent.',y:'Protection sa parent muna, para matuloy ang ipon kahit may mangyari. Ang education fund, ipon o MP2 muna.'},
+  retirement:{g:'Puwede ang plan na may long-term savings o investment component, basta covered na ang basic protection.',y:'SSS, MP2 at regular na ipon muna. Saka na ang retirement plan na may premium pag mas maluwag na ang budget.'},
+  business:{g:'Key person at business coverage ang tamang tool para sa debts, operations at buyout.',y:'Unahin ang coverage para sa business debts na personal mong pinirmahan.'},
+  summary:{g:'Unahin ang protection gaps (life, health, disability) bago ang mga plan na may savings o investment component.',y:'Isang maliit na protection plan muna para sa pinakamalaking gap mo, tapos dagdagan pag lumuwag ang budget.'},
+  estate:{g:'Life insurance na may named beneficiaries ang pinaka-direktang pambayad ng estate tax.',y:'Maliit na coverage muna para sa bahagi ng estate tax, tapos dagdagan habang lumalaki ang assets.'}
+};
+function renderReady(){
+  const box=document.getElementById('ready');if(!box)return;
+  const r=readiness(),id=current;
+  const cta='<p class="rd-cta">Libre pa rin ang clarity call. Puwede kitang tulungang ayusin ang budget, walang benta. <a href="booking.html">Book a free call</a></p>';
+  if(id==='goals'){box.className='ready rd-info';box.innerHTML=`<p class="rd-t">ℹ️ Insurance isn't the tool for this one</p><p>Para sa YOLO goals, ipon o investments ang tamang paraan, hindi insurance. ${r.status==='red'?'Pero ayusin muna ang cash flow bago mag-ipon para sa goals.':r.status==='unknown'?'':'Basta may emergency fund at covered ka na sa basic protection, go lang!'}</p>`;return}
+  if(r.status==='unknown'){box.className='ready rd-unknown';box.innerHTML='<p class="rd-t">Is insurance right for you now?</p><p>Lagay ang monthly income at expenses sa <b>Money check</b> sa taas para malaman natin kung kaya at sustainable ang insurance ngayon.</p>';return}
+  if(id==='debt'){
+    if(r.status==='red'){box.className='ready rd-red';box.innerHTML=`<p class="rd-t">🔴 Not yet. Focus on the debt first</p><p>Ngayon, ${r.reasons.join('; ')}. Kung magdadagdag pa ng premium, baka hindi mo ma-sustain at ma-lapse lang ang policy.</p><ul><li>Bayaran muna ang may pinakamataas na interest.</li><li>Kausapin ang lenders tungkol sa restructuring kung kailangan.</li><li>Balikan natin ito in 3 to 6 months.</li></ul>${cta}`;return}
+    box.className='ready rd-'+r.status;box.innerHTML=`<p class="rd-t">${r.status==='green'?'🟢':'🟡'} Check your loan insurance first</p><p>I-check muna kung may loan insurance na ang housing o car loan mo. Kung wala at may umaasa sa iyo, puwedeng i-consider ang term coverage na kasing-laki ng balance${r.budget?`, hanggang mga <b>${peso(r.budget)}</b> kada buwan`:''}.</p>`;return}
+  const fit=NEED_FIT[id]||{g:'',y:''};
+  if(r.status==='red'){
+    box.className='ready rd-red';
+    box.innerHTML=`<p class="rd-t">🔴 Not yet. Let's fix the cash flow first</p>
+    <p>Hindi muna namin ine-encourage ang bagong insurance ngayon, kasi ${r.reasons.join('; ')}. Kapag hindi kaya ang premium, madalas ma-lapse ang policy at sayang ang naibayad.</p>
+    <ul><li>Bawasan ang gastos o dagdagan ang income hanggang may matira kada buwan.</li><li>Bayaran muna ang utang na may mataas na interest.</li><li>Mag-ipon ng kahit isang buwan na emergency fund.</li><li>Kung may umaasa sa iyo, i-check ang SSS, PhilHealth at company benefits na meron ka na.</li></ul>
+    <p>Balikan natin ito in 3 to 6 months. Hindi ka nahuhuli, inaayos lang natin ang pundasyon. 💛</p>${cta}`;return}
+  if(r.status==='yellow'){
+    box.className='ready rd-yellow';
+    box.innerHTML=`<p class="rd-t">🟡 Yes, but start small</p>
+    <p>May natitira kada buwan, pero ${r.reasons.join('; ')}. Kaya puwede, basta maliit at sigurado mong kaya buwan-buwan.</p>
+    <p>${fit.y}</p>
+    <p class="rd-b">Suggested premium budget: up to <b>${peso(r.budget)}</b> kada buwan <small>(around 5% ng income, hindi lalampas sa 30% ng natitira mo)</small></p>
+    <p>Sabay buuin ang emergency fund hanggang 3 to 6 buwan ng gastos, tapos dagdagan ang coverage pag lumuwag na.</p>`;return}
+  box.className='ready rd-green';
+  box.innerHTML=`<p class="rd-t">🟢 Yes, you're in a good spot for this</p>
+  <p>Positive ang cash flow (${peso(r.free)} natitira kada buwan), may ${r.efm.toFixed(1)} buwan na emergency fund, at manageable ang utang. Kaya mong i-sustain ang premium.</p>
+  <p>${fit.g}</p>
+  <p class="rd-b">Suggested premium budget: up to <b>${peso(r.budget)}</b> kada buwan <small>(around 10% ng income, hindi lalampas sa kalahati ng natitira mo)</small></p>
+  <p>Ito ang total para sa lahat ng policies mo, hindi per calculator.</p>`;
+}
 function renderWaiting(){
   const box=document.getElementById('waiting');if(!box)return;
   const rows=TERM[S.young.tier]||TERM['3000'];
@@ -912,7 +1006,7 @@ function confirmTap(btn,ask,action){
   btn.dataset.label=btn.textContent;btn.dataset.armed='1';btn.textContent=ask;btn.classList.add('armed');
   btn._t=setTimeout(()=>{btn.dataset.armed='';btn.textContent=btn.dataset.label;btn.classList.remove('armed')},4000);
 }
-function doClearAll(){S=blank();save();document.getElementById('client').value='';document.getElementById('clientAge').value='';current='young';renderChips();renderTabs();renderPanel();syncTabs();window.scrollTo(0,0)}
+function doClearAll(){S=blank();save();renderMoney();document.getElementById('client').value='';document.getElementById('clientAge').value='';current='young';renderChips();renderTabs();renderPanel();syncTabs();window.scrollTo(0,0)}
 function clearAll(ev){confirmTap(ev.currentTarget,'Tap again to clear everything',doClearAll)}
 function bind(P){
   P.querySelectorAll('[data-path]').forEach(el=>{
@@ -944,6 +1038,13 @@ const ca=document.getElementById('clientAge');ca.value=S.clientAge||'';
 ca.addEventListener('input',()=>{S.clientAge=ca.value;update()});
 if(LIVE){document.body.classList.add('is-live');document.getElementById('client').placeholder='First name only'}
 document.getElementById('hook1').textContent=HOOK[0];document.getElementById('hook2').textContent=HOOK[1];
+function renderMoney(){document.querySelectorAll('[data-mpath]').forEach(el=>{el.value=fmtInput(get(el.dataset.mpath))})}
+document.querySelectorAll('[data-mpath]').forEach(el=>{
+  el.addEventListener('input',()=>{set(el.dataset.mpath,el.value);update()});
+  el.addEventListener('blur',()=>{el.value=fmtInput(el.value)});
+  el.addEventListener('focus',()=>{el.value=String(el.value).replace(/,/g,'')});
+});
+renderMoney();
 renderChips();renderTabs();renderPanel();syncTabs();
 /* Enter = compute and jump to the next field (like a spreadsheet) */
 document.addEventListener('keydown',e=>{
@@ -951,14 +1052,15 @@ document.addEventListener('keydown',e=>{
   const el=e.target;if(!(el instanceof HTMLInputElement)||el.type==='checkbox'||el.closest('.lf'))return;
   e.preventDefault();
   if(el.dataset.path)set(el.dataset.path,el.value);
+  if(el.dataset.mpath)set(el.dataset.mpath,el.value);
   if(el.hasAttribute('data-money'))el.value=fmtInput(el.value);
   update();
-  const all=[...document.querySelectorAll('header input[type=text], #panel input:not([type=checkbox]), #panel select')].filter(x=>x.offsetParent!==null);
+  const all=[...document.querySelectorAll('header input[type=text], .moneycheck input, #panel input:not([type=checkbox]), #panel select')].filter(x=>x.offsetParent!==null);
   const i=all.indexOf(el),next=all[i+1];
   if(next){next.focus();if(next.select)try{next.select()}catch(_){};next.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})}
   else{el.blur();const res=document.querySelector('#panel .step.result');if(res)res.scrollIntoView({block:'center',behavior:'smooth'})}
 });
-function setEnterHints(){document.querySelectorAll('header input[type=text], #panel input:not([type=checkbox])').forEach(x=>x.setAttribute('enterkeyhint','next'))}
+function setEnterHints(){document.querySelectorAll('header input[type=text], .moneycheck input, #panel input:not([type=checkbox])').forEach(x=>x.setAttribute('enterkeyhint','next'))}
 setEnterHints();
 document.getElementById('clearall').onclick=clearAll;
 </script>
