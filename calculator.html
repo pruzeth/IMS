@@ -429,6 +429,18 @@ body:not(.is-live) .livebar span,body:not(.is-live) .livebar em{display:none}
 .panel > h2,.panel > .lede{display:none}
 .sx{max-width:none;margin:4px 0 12px}
 .navlabel{margin-top:6px}
+
+.after-sheet{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px;margin:0 0 12px;align-items:start}
+.after-sheet .plan,.after-sheet .ready{margin:0}
+.after-sheet .plan h3{font-size:1rem;margin:0}
+.fullonly{max-width:820px;margin:0 auto}
+.footcta{max-width:1240px;margin:8px auto 0;padding:0 20px}
+.footcta .closing{margin:0;padding:16px 20px;font-size:1.1rem}
+@media (max-width:860px){.after-sheet{grid-template-columns:1fr}}
+
+.readycol{display:flex;flex-direction:column;gap:10px}
+.diyq{display:flex;flex-direction:column;gap:6px;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font-weight:700;font-size:.9rem}
+.diyq small{font-weight:400;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -461,6 +473,7 @@ body:not(.is-live) .livebar span,body:not(.is-live) .livebar em{display:none}
   <div class="sticky" id="sticky" hidden></div>
 </div>
 
+<div class="footcta"><div class="closing" id="closingBanner"><span id="closingText"></span><br><a href="booking.html">Book a Free Clarity Call</a></div></div>
 <footer>
   <p>Education projections use the K-12 education model with tuition and related costs rising 10% a year. All figures are in Philippine pesos. Tuition source: finduniversity.ph.</p>
   <p>This calculator gives estimates for planning conversations only. It is not a quotation or a guarantee of coverage.</p>
@@ -729,6 +742,7 @@ function update(){
     if(el)el.textContent=y==null?"Enter your age (top of page) and the age in C para ma-compute ito.":`A with ${n(S.inflation)}% inflation a year, for ${y} more years abroad.`}
   if(current==='breadwinner'){const ub=document.getElementById('usebw'),a=S.breadwinner.parentAge;
     if(ub){const y=String(a).trim()!==''?Math.max(0,80-n(a)):null;ub.disabled=y==null;ub.dataset.y=y??'';ub.textContent=y==null?'Use parent\'s lifetime':`Use ${y} years (until 80)`}}
+  document.querySelectorAll('#panel [data-path]').forEach(el=>{if(el===document.activeElement||el.type==='checkbox')return;const v=get(el.dataset.path);const s=el.hasAttribute('data-money')?fmtInput(v??''):(v??'');if(el.value!==String(s))el.value=s});
   syncSheet(R);
   if(current!=='summary')renderSteps(R);
   renderReady();
@@ -956,13 +970,12 @@ function renderPanel(){
     const head=m?m[0]:'',body=m?h.slice(m[0].length):h;
     h=`<div class="phead">${head}<button type="button" class="tipsbtn" id="tipsbtn">${tipsOn?'Hide':'Show'} all tips</button></div>
     ${sheetHTML(current)}
-    <details class="full" id="fullcalc"${fullOpen?' open':''}><summary><span class="lbl-closed">Show full calculator, tips &amp; next steps ▾</span><span class="lbl-open">Hide full calculator ▴</span></summary>
-    <div class="cols"><div class="col-in">${body}</div>
-    <aside class="col-out"><section class="ready" id="ready"></section>
-    <details class="plan" open><summary><h3>Your next steps</h3></summary><ol class="steps" id="steps"></ol></details>
-    <div class="closing">${need.close}<br><a href="booking.html">Book a Free Clarity Call</a></div></aside></div></details>`;
+    <div class="after-sheet"><section class="plan"><h3>Your next steps</h3><ol class="steps" id="steps"></ol></section><div class="readycol"><label class="diyq"><span>How much can you set aside monthly? <small>(DIY saving, kahit ₱0)</small></span><span class="field peso"><input class="num" inputmode="decimal" data-path="${current}.premium" data-money value="${esc(fmtInput(S[current].premium||''))}" placeholder="0" aria-label="DIY saving per month"></span></label><section class="ready" id="ready"></section></div></div>
+    <details class="full" id="fullcalc"${fullOpen?' open':''}><summary><span class="lbl-closed">Show full calculator (all fields &amp; explanations) ▾</span><span class="lbl-open">Hide full calculator ▴</span></summary>
+    <div class="col-in fullonly">${body}</div></details>`;
   }
   P.innerHTML=h;
+  {const ct=document.getElementById('closingText');if(ct)ct.textContent=need?need.close:'I can help you turn this summary into a real plan, step by step.'}
   P.classList.toggle('tips',tipsOn);
   addInfoButtons(P);
   if(typeof setEnterHints==='function')setTimeout(setEnterHints,0);
@@ -1177,7 +1190,7 @@ function budgetLine(r,share){
   if(!(r.cap>0))return '<p class="rd-b">Enter your <b>DIY saving</b> above (how much you can set aside monthly) para makita ang suggested premium budget.</p>';
   return `<p class="rd-b">Suggested premium budget: up to <b>${peso(r.budget)}</b> a month <small>(${share} of the ${peso(r.cap)} you can set aside; the rest goes straight to savings)</small></p>`;
 }
-document.addEventListener('click',e=>{const a=e.target.closest('#goEf');if(!a)return;e.preventDefault();if(current==='summary'){current='young';renderPanel();syncTabs()}setTimeout(()=>{const f=document.querySelector('#panel [data-path="efund"]');if(f){f.scrollIntoView({block:'center'});f.focus()}},50)});
+document.addEventListener('click',e=>{const a=e.target.closest('#goEf');if(!a)return;e.preventDefault();if(current==='summary'){current='young';renderPanel();syncTabs()}{const d=document.getElementById('fullcalc');if(d){d.open=true;fullOpen=true}}setTimeout(()=>{const f=document.querySelector('#panel [data-path="efund"]');if(f){f.scrollIntoView({block:'center'});f.focus()}},50)});
 function renderReady(){
   const box=document.getElementById('ready');if(!box)return;
   const r=current==='summary'?readiness(NEEDS.filter(x=>included(x.id)).reduce((s,x)=>s+n(S[x.id].premium),0)):readiness(),id=current;
